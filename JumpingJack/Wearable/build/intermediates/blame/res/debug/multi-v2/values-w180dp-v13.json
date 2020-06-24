@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "D:\\Android Wear Projects\\JumpingJack\\Wearable\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-w180dp-v13\\values-w180dp-v13.xml",
+            "outputFile": "D:\\Android Wear Projects\\BoldMove-master\\BoldMove\\JumpingJack\\Wearable\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-w180dp-v13\\values-w180dp-v13.xml",
             "map": [
                 {
                     "source": "C:\\Users\\jiang\\.gradle\\caches\\transforms-2\\files-2.1\\3136d2e9a522e4a18093ba3e920e5f4e\\jetified-wearable-2.7.0\\res\\values-w180dp-v13\\values.xml",

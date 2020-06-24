@@ -68,8 +68,10 @@ public class MainActivity extends FragmentActivity
     private static final float HAND_UP_GRAVITY_X_THRESHOLD = -.010f;
 
     private SensorManager mSensorManager;
-    private Sensor mSensor;
+    private Sensor mAcceleratorSensor;
+    private Sensor mGyroSensor;
     private long mLastTime = 0;
+    private int temp=0;
     private int mJumpCounter = 0;
     private boolean mHandDown = true;
 
@@ -84,9 +86,17 @@ public class MainActivity extends FragmentActivity
     private static final float POSITION_IN_BORDER = 10.0f;
     private float[] gravity= new float[3];
     private float[] linear_acceleration= new float[3];
+    private float[] gyro=new float[3];
+    private float[] accelerator=new float[3];
     private String mPosition = POSITION_UNKNOWN;
 
-    public static final String POSITION_UNKNOWN = "Unknown";
+    public static final String POSITION_UNKNOWN = "Relax...";
+    private final String POSITION_BEGIN="Start!";
+    private final String POSITION_END="End!";
+    private final String POSITION_LEFT="Left";
+    private final String POSITION_RIGHT="Right";
+    private final String POSITION_TOP="Top";
+    private final String POSITION_BOTTOM="Bottom";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,6 +117,14 @@ public class MainActivity extends FragmentActivity
         linear_acceleration[1] = 0.0f;
         linear_acceleration[2] = 0.0f;
 
+        gyro[0] = 0.0f;
+        gyro[1] = 0.0f;
+        gyro[2] = 0.0f;
+
+        accelerator[0] = 0.0f;
+        accelerator[1] = 0.0f;
+        accelerator[2] = 0.0f;
+
         mPosition = POSITION_UNKNOWN;
 
         startSensor();
@@ -116,8 +134,13 @@ public class MainActivity extends FragmentActivity
         if (mSensorManager == null) {
             mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         }
-        if (mSensor == null) {
-            mSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION);
+        if (mAcceleratorSensor == null) {
+            /**LINEAR_ACCELERATION is needed fo algorithm 2*/
+            //mSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION);
+            mAcceleratorSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        }
+        if (mGyroSensor == null) {
+            mGyroSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
         }
     }
 
@@ -167,10 +190,16 @@ public class MainActivity extends FragmentActivity
     @Override
     protected void onResume() {
         super.onResume();
-        if (mSensorManager.registerListener(this, mSensor,
+        if (mSensorManager.registerListener(this, mAcceleratorSensor,
                 SensorManager.SENSOR_DELAY_NORMAL)) {
             if (Log.isLoggable(TAG, Log.DEBUG)) {
-                Log.d(TAG, "Successfully registered for the sensor updates");
+                Log.d(TAG, "Successfully registered for the accelerator sensor updates");
+            }
+        }
+        if (mSensorManager.registerListener(this, mGyroSensor,
+                SensorManager.SENSOR_DELAY_NORMAL)) {
+            if (Log.isLoggable(TAG, Log.DEBUG)) {
+                Log.d(TAG, "Successfully registered for the gyro sensor updates");
             }
         }
     }
@@ -184,6 +213,7 @@ public class MainActivity extends FragmentActivity
         }
     }
 
+    /** Wrist gesture: https://developer.android.com/training/wearables/ui/wrist-gestures */
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         Log.e(TAG, "Test");
@@ -219,10 +249,89 @@ public class MainActivity extends FragmentActivity
 
     @Override
     public void onSensorChanged(SensorEvent event) {
-        detectJump(event.values[0], event.timestamp);
-        swipeEvent(event,event.timestamp);
+        switch(event.sensor.getType()) {
+            case Sensor.TYPE_ACCELEROMETER:
+                //Log.e(TAG, "Accelerator:   "+event.values[0]+"  "+event.values[1]+"   "+event.values[2]);
+                //detectJump(event.values[0], event.timestamp);
+                //swipeEvent(event,event.timestamp);
+                accelerator=event.values;
+                break;
+            case Sensor.TYPE_GYROSCOPE:
+                //Log.e(TAG, "Gyroscope:   "+event.values[0]+"  "+event.values[1]+"   "+event.values[2]);
+                gyro=event.values;
+                /**Distinguish begin from top*/
+                if(mPosition==POSITION_BEGIN){
+                    temp++;
+                    if(temp>=10)
+                    {
+                        inAIrSwipe(accelerator,gyro,event.timestamp);
+                    }
+                }else{
+                    temp=0;
+                    inAIrSwipe(accelerator,gyro,event.timestamp);
+                }
+
+                break;
+        }
     }
 
+    /**Algorithm 1: https://w3c.github.io/motion-sensors/#complementary-filter*/
+    private void inAIrSwipe(float[] AcceleratorValues, float[] GyroValues, long timestamp){
+        double alpha = 0;
+        double beta = 0;
+        double gamma=0;
+        float bias=0.98f;
+        long dt = (timestamp - mLastTime)/1000000;
+        //Log.e(TAG, "dt:   "+dt);
+        mLastTime = timestamp;
+        double norm = Math.sqrt(Math.pow(accelerator[0],2) + Math.pow(accelerator[1],2) + Math.pow(accelerator[2],2));
+        double scale = Math.PI / 2;
+        //alpha = alpha + gyro[2] * dt;
+        alpha = bias * (alpha + gyro[0] * dt) + (1.0 - bias) * (accelerator[0] * scale / norm);
+        beta = bias * (beta + gyro[1] * dt) + (1.0 - bias) * (accelerator[1] * scale / norm);
+        gamma = bias * (gamma + gyro[2] * dt) + (1.0 - bias) * (accelerator[2] * scale / norm);
+        Log.e(TAG, "Mulitsensors:   "+Math.round(alpha)+"  "+Math.round(beta)+"   "+Math.round(gamma));
+
+        if(Math.abs(gamma)>=Math.abs(alpha)&&Math.abs(gamma)>=Math.abs(beta))
+        {
+            if(gamma>300)
+            {
+                if(mPosition!=POSITION_UNKNOWN&&mPosition!=POSITION_END){
+                Log.e(TAG, "Left");
+                mPosition=POSITION_LEFT;}
+            }
+            else if(gamma<-300)
+            {
+                if(mPosition!=POSITION_UNKNOWN&&mPosition!=POSITION_END){
+                Log.e(TAG, "Right");
+                mPosition=POSITION_RIGHT;}
+            }
+        }else if(Math.abs(beta)>=Math.abs(alpha)&&Math.abs(beta)>=Math.abs(gamma))
+        {
+            if(beta<-300)
+            {
+                if(mPosition==POSITION_UNKNOWN||mPosition==POSITION_END){
+                    mPosition=POSITION_BEGIN;
+                }else if(mPosition!=POSITION_UNKNOWN&&mPosition!=POSITION_END){
+                Log.e(TAG, "Top");
+                mPosition=POSITION_TOP;}
+            }else if(beta>900)
+            {
+                if(mPosition!=POSITION_UNKNOWN&&mPosition!=POSITION_END){
+                    Log.e(TAG, "End");
+                    mPosition=POSITION_END;}
+            }
+            else if(beta>300)
+            {
+                if(mPosition!=POSITION_UNKNOWN&&mPosition!=POSITION_END){
+                Log.e(TAG, "Bottom");
+                mPosition=POSITION_BOTTOM;}
+            }
+        }
+        setText(mPosition);
+    }
+
+    /**Algorithm 2:http://josejuansanchez.org/android-sensors-overview/gravity_and_linear_acceleration/README.html*/
     private boolean swipeEvent(SensorEvent event, long timestamp) {
         final float alpha = 0.8f;
 
@@ -235,6 +344,8 @@ public class MainActivity extends FragmentActivity
         linear_acceleration[0] = event.values[0] - gravity[0];
         linear_acceleration[1] = event.values[1] - gravity[1];
         linear_acceleration[2] = event.values[2] - gravity[2];
+
+        Log.e(TAG, "linear_acceleration:   "+linear_acceleration[0]+"  "+linear_acceleration[1]+"   "+linear_acceleration[2]);
 
         if(Math.abs(linear_acceleration[0])>=Math.abs(linear_acceleration[1])&&Math.abs(linear_acceleration[0])>=Math.abs(linear_acceleration[2]))
         {

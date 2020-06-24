@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "D:\\Android Wear Projects\\JumpingJack\\Wearable\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-v21\\values-v21.xml",
+            "outputFile": "D:\\Android Wear Projects\\BoldMove-master\\BoldMove\\JumpingJack\\Wearable\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-v21\\values-v21.xml",
             "map": [
                 {
                     "source": "C:\\Users\\jiang\\.gradle\\caches\\transforms-2\\files-2.1\\c65c14a2cbfe75266459643a1679c2da\\media-1.0.0\\res\\values-v21\\values-v21.xml",

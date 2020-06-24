@@ -1,7 +1,7 @@
-#Thu Jun 18 19:33:04 CST 2020
-base.0=D\:\\Android Wear Projects\\JumpingJack\\Wearable\\build\\intermediates\\dex\\debug\\mergeExtDexDebug\\out\\classes.dex
+#Wed Jun 24 17:45:31 CST 2020
+base.0=D\:\\Android Wear Projects\\BoldMove-master\\BoldMove\\JumpingJack\\Wearable\\build\\intermediates\\dex\\debug\\mergeExtDexDebug\\out\\classes.dex
 path.1=classes.dex
 renamed.1=classes2.dex
 path.0=classes.dex
 renamed.0=classes.dex
-base.1=D\:\\Android Wear Projects\\JumpingJack\\Wearable\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\out\\classes.dex
+base.1=D\:\\Android Wear Projects\\BoldMove-master\\BoldMove\\JumpingJack\\Wearable\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\out\\classes.dex
