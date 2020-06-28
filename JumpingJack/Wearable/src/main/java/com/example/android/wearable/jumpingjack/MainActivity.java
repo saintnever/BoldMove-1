@@ -126,7 +126,7 @@ public class MainActivity extends FragmentActivity
         accelerator[1] = 0.0f;
         accelerator[2] = 0.0f;
 
-        mPosition = POSITION_UNKNOWN;
+        mPosition = POSITION_BEGIN;
 
         startSensor();
     }
@@ -287,19 +287,18 @@ public class MainActivity extends FragmentActivity
         mLastTime = timestamp;
         double norm = Math.sqrt(Math.pow(accelerator[0],2) + Math.pow(accelerator[1],2) + Math.pow(accelerator[2],2));
         double scale = Math.PI / 2;
-        //alpha = alpha + gyro[2] * dt;
         alpha = bias * (alpha + gyro[0] * dt) + (1.0 - bias) * (accelerator[0] * scale / norm);
         beta = bias * (beta + gyro[1] * dt) + (1.0 - bias) * (accelerator[1] * scale / norm);
         gamma = bias * (gamma + gyro[2] * dt) + (1.0 - bias) * (accelerator[2] * scale / norm);
         //Log.e(TAG, "Mulitsensors:   "+Math.round(alpha)+"  "+Math.round(beta)+"   "+Math.round(gamma));
-        Log.e(TAG, "Mulitsensors:   "+Math.sqrt(Math.pow(alpha,2)+Math.pow(beta,2)+Math.pow(gamma,2)));
 
         /**Detect hold gesture to end swipe detection*/
         if(Math.sqrt(Math.pow(alpha,2)+Math.pow(beta,2)+Math.pow(gamma,2))<20)
         {
             timer++;
-            if(timer>=5){
-            if(mPosition!=POSITION_UNKNOWN&&mPosition!=POSITION_BEGIN&&mPosition!=POSITION_END){
+            if(timer>=10){
+            if(mPosition!=POSITION_BEGIN&&mPosition!=POSITION_END){
+                setText("Result:"+mPosition);
                 mPosition=POSITION_END;
                 timer=0;
             }}
@@ -310,43 +309,47 @@ public class MainActivity extends FragmentActivity
             {
                 if(gamma>300)
                 {
-                    if(mPosition!=POSITION_UNKNOWN&&mPosition!=POSITION_END){
+                    if(mPosition!=POSITION_END){
                         Log.e(TAG, "Left");
-                        mPosition=POSITION_LEFT;}
+                        mPosition=POSITION_LEFT;
+                        setText(mPosition);
+                    }
                 }
                 else if(gamma<-300)
                 {
-                    if(mPosition!=POSITION_UNKNOWN&&mPosition!=POSITION_END){
+                    if(mPosition!=POSITION_END){
                         Log.e(TAG, "Right");
-                        mPosition=POSITION_RIGHT;}
+                        mPosition=POSITION_RIGHT;
+                        setText(mPosition);
+                    }
                 }
             }else if(Math.abs(beta)>=Math.abs(alpha)&&Math.abs(beta)>=Math.abs(gamma))
             {
                 if(beta<-300)
                 {
-                    /**Detect hand up gesture to start swipe detection*/
-                    if(mPosition==POSITION_UNKNOWN||mPosition==POSITION_END){
-                        mPosition=POSITION_BEGIN;
-                    }else if(mPosition!=POSITION_UNKNOWN&&mPosition!=POSITION_END){
+                    if(mPosition!=POSITION_END){
                         Log.e(TAG, "Top");
-                        mPosition=POSITION_TOP;}
-                }/*else if(beta>900)
-                {
-                    if(mPosition!=POSITION_UNKNOWN&&mPosition!=POSITION_END){
-                        Log.e(TAG, "End");
-                        mPosition=POSITION_END;}
-                }*/
+                        mPosition=POSITION_TOP;
+                        setText(mPosition);
+                    }
+                }
                 else if(beta>300)
                 {
-                    if(mPosition!=POSITION_UNKNOWN&&mPosition!=POSITION_END){
+                    if(mPosition!=POSITION_END){
                         Log.e(TAG, "Bottom");
-                        mPosition=POSITION_BOTTOM;}
+                        mPosition=POSITION_BOTTOM;
+                        setText(mPosition);
+                    }else{
+                        /**Detect hand down gesture to restart swipe detection*/
+                        mPosition=POSITION_BEGIN;
+                        setText(mPosition);
+                    }
                 }
             }
         }
 
 
-        setText(mPosition);
+
     }
 
     /**Algorithm 2:http://josejuansanchez.org/android-sensors-overview/gravity_and_linear_acceleration/README.html*/

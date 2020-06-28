@@ -36,7 +36,7 @@ public class SwipeDetectionFragment extends Fragment {
         mUpDrawable = getResources().getDrawable(R.drawable.jump_up_50);
         mMotionText = view.findViewById(R.id.left_swipe_counter);
         mMotionText.setCompoundDrawablesWithIntrinsicBounds(mUpDrawable, null, null, null);
-        setCounter("Let's start!");
+        setCounter("Start!");
         mHandler = new Handler();
         startAnimation();
         return view;
