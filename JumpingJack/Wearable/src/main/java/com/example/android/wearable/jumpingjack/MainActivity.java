@@ -72,6 +72,7 @@ public class MainActivity extends FragmentActivity
     private Sensor mGyroSensor;
     private long mLastTime = 0;
     private int temp=0;
+    private int timer=0;
     private int mJumpCounter = 0;
     private boolean mHandDown = true;
 
@@ -290,44 +291,61 @@ public class MainActivity extends FragmentActivity
         alpha = bias * (alpha + gyro[0] * dt) + (1.0 - bias) * (accelerator[0] * scale / norm);
         beta = bias * (beta + gyro[1] * dt) + (1.0 - bias) * (accelerator[1] * scale / norm);
         gamma = bias * (gamma + gyro[2] * dt) + (1.0 - bias) * (accelerator[2] * scale / norm);
-        Log.e(TAG, "Mulitsensors:   "+Math.round(alpha)+"  "+Math.round(beta)+"   "+Math.round(gamma));
+        //Log.e(TAG, "Mulitsensors:   "+Math.round(alpha)+"  "+Math.round(beta)+"   "+Math.round(gamma));
+        Log.e(TAG, "Mulitsensors:   "+Math.sqrt(Math.pow(alpha,2)+Math.pow(beta,2)+Math.pow(gamma,2)));
 
-        if(Math.abs(gamma)>=Math.abs(alpha)&&Math.abs(gamma)>=Math.abs(beta))
+        /**Detect hold gesture to end swipe detection*/
+        if(Math.sqrt(Math.pow(alpha,2)+Math.pow(beta,2)+Math.pow(gamma,2))<20)
         {
-            if(gamma>300)
+            timer++;
+            if(timer>=5){
+            if(mPosition!=POSITION_UNKNOWN&&mPosition!=POSITION_BEGIN&&mPosition!=POSITION_END){
+                mPosition=POSITION_END;
+                timer=0;
+            }}
+        }else{
+            timer=0;
+            /**Detect left/Right/Top/Bottom swipe gesture*/
+            if(Math.abs(gamma)>=Math.abs(alpha)&&Math.abs(gamma)>=Math.abs(beta))
             {
-                if(mPosition!=POSITION_UNKNOWN&&mPosition!=POSITION_END){
-                Log.e(TAG, "Left");
-                mPosition=POSITION_LEFT;}
-            }
-            else if(gamma<-300)
+                if(gamma>300)
+                {
+                    if(mPosition!=POSITION_UNKNOWN&&mPosition!=POSITION_END){
+                        Log.e(TAG, "Left");
+                        mPosition=POSITION_LEFT;}
+                }
+                else if(gamma<-300)
+                {
+                    if(mPosition!=POSITION_UNKNOWN&&mPosition!=POSITION_END){
+                        Log.e(TAG, "Right");
+                        mPosition=POSITION_RIGHT;}
+                }
+            }else if(Math.abs(beta)>=Math.abs(alpha)&&Math.abs(beta)>=Math.abs(gamma))
             {
-                if(mPosition!=POSITION_UNKNOWN&&mPosition!=POSITION_END){
-                Log.e(TAG, "Right");
-                mPosition=POSITION_RIGHT;}
-            }
-        }else if(Math.abs(beta)>=Math.abs(alpha)&&Math.abs(beta)>=Math.abs(gamma))
-        {
-            if(beta<-300)
-            {
-                if(mPosition==POSITION_UNKNOWN||mPosition==POSITION_END){
-                    mPosition=POSITION_BEGIN;
-                }else if(mPosition!=POSITION_UNKNOWN&&mPosition!=POSITION_END){
-                Log.e(TAG, "Top");
-                mPosition=POSITION_TOP;}
-            }else if(beta>900)
-            {
-                if(mPosition!=POSITION_UNKNOWN&&mPosition!=POSITION_END){
-                    Log.e(TAG, "End");
-                    mPosition=POSITION_END;}
-            }
-            else if(beta>300)
-            {
-                if(mPosition!=POSITION_UNKNOWN&&mPosition!=POSITION_END){
-                Log.e(TAG, "Bottom");
-                mPosition=POSITION_BOTTOM;}
+                if(beta<-300)
+                {
+                    /**Detect hand up gesture to start swipe detection*/
+                    if(mPosition==POSITION_UNKNOWN||mPosition==POSITION_END){
+                        mPosition=POSITION_BEGIN;
+                    }else if(mPosition!=POSITION_UNKNOWN&&mPosition!=POSITION_END){
+                        Log.e(TAG, "Top");
+                        mPosition=POSITION_TOP;}
+                }/*else if(beta>900)
+                {
+                    if(mPosition!=POSITION_UNKNOWN&&mPosition!=POSITION_END){
+                        Log.e(TAG, "End");
+                        mPosition=POSITION_END;}
+                }*/
+                else if(beta>300)
+                {
+                    if(mPosition!=POSITION_UNKNOWN&&mPosition!=POSITION_END){
+                        Log.e(TAG, "Bottom");
+                        mPosition=POSITION_BOTTOM;}
+                }
             }
         }
+
+
         setText(mPosition);
     }
 
