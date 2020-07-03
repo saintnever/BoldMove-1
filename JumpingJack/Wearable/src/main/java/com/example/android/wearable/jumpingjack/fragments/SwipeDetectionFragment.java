@@ -18,13 +18,7 @@ import java.util.TimerTask;
 
 public class SwipeDetectionFragment extends Fragment {
 
-    private static final long ANIMATION_INTERVAL_MS = 500; // in milliseconds
     private TextView mMotionText;
-    private Timer mAnimationTimer;
-    private Handler mHandler;
-    private TimerTask mAnimationTask;
-    private boolean up = false;
-    private Drawable mDownDrawable;
     private Drawable mUpDrawable;
 
 
@@ -32,33 +26,10 @@ public class SwipeDetectionFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.left_swipe_layout, container, false);
-        mDownDrawable = getResources().getDrawable(R.drawable.jump_down_50);
-        mUpDrawable = getResources().getDrawable(R.drawable.jump_up_50);
         mMotionText = view.findViewById(R.id.left_swipe_counter);
         mMotionText.setCompoundDrawablesWithIntrinsicBounds(mUpDrawable, null, null, null);
-        setCounter("Start!");
-        mHandler = new Handler();
-        startAnimation();
+        setCounter("Function 3");
         return view;
-    }
-
-    private void startAnimation() {
-        mAnimationTask = new TimerTask() {
-            @Override
-            public void run() {
-                mHandler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        mMotionText.setCompoundDrawablesWithIntrinsicBounds(
-                                up ? mUpDrawable : mDownDrawable, null, null, null);
-                        up = !up;
-                    }
-                });
-            }
-        };
-        mAnimationTimer = new Timer();
-        mAnimationTimer.scheduleAtFixedRate(mAnimationTask, ANIMATION_INTERVAL_MS,
-                ANIMATION_INTERVAL_MS);
     }
 
     public void setCounter(String text) {
@@ -70,7 +41,6 @@ public class SwipeDetectionFragment extends Fragment {
 
     @Override
     public void onDetach() {
-        mAnimationTimer.cancel();
         super.onDetach();
     }
 }

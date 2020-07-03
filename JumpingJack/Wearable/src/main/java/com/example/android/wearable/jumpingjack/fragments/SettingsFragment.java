@@ -18,32 +18,52 @@ package com.example.android.wearable.jumpingjack.fragments;
 
 import com.example.android.wearable.jumpingjack.MainActivity;
 import com.example.android.wearable.jumpingjack.R;
+import com.example.android.wearable.jumpingjack.Utils;
 
+import android.app.Activity;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * A simple fragment that shows a button to reset the counter
  */
 public class SettingsFragment extends Fragment {
-
+    private TextView mMotionText;
+    private Drawable mUpDrawable;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.setting_layout, container, false);
-        Button button = view.findViewById(R.id.btn);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ((MainActivity) getActivity()).resetCounter();
-            }
-        });
+        mMotionText = view.findViewById(R.id.function);
+        mMotionText.setCompoundDrawablesWithIntrinsicBounds(mUpDrawable, null, null, null);
+        setCounter("Function 2");
+        Log.e("HJJ", "ArrayListFragment **** onCreateView...");
         return view;
+
+    }
+
+    public void setCounter(String text) {
+        if(mMotionText!=null)
+        {
+            mMotionText.setText(text);
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
     }
 
 }

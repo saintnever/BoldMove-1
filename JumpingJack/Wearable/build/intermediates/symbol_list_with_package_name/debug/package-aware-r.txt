@@ -634,7 +634,6 @@ id auto
 id barrier
 id blocking
 id bottom
-id btn
 id butt
 id buttonPanel
 id cancel_action
@@ -662,6 +661,8 @@ id fill_vertical
 id fit
 id forever
 id fragment_container_view_tag
+id function
+id gesture
 id gone
 id height
 id icon
@@ -804,6 +805,7 @@ layout counter_layout
 layout custom_dialog
 layout decomposition_config_activity
 layout dismiss_overlay
+layout gesture_detection_layout
 layout jumping_jack_layout
 layout left_swipe_layout
 layout navigation_drawer_item_view

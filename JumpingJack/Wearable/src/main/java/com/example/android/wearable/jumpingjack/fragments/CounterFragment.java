@@ -16,6 +16,7 @@
 
 package com.example.android.wearable.jumpingjack.fragments;
 
+import com.example.android.wearable.jumpingjack.MainActivity;
 import com.example.android.wearable.jumpingjack.R;
 import com.example.android.wearable.jumpingjack.Utils;
 
@@ -37,59 +38,34 @@ import java.util.TimerTask;
  */
 public class CounterFragment extends Fragment {
 
-    private static final long ANIMATION_INTERVAL_MS = 500; // in milliseconds
-    private TextView mCounterText;
-    private Timer mAnimationTimer;
-    private Handler mHandler;
-    private TimerTask mAnimationTask;
-    private boolean up = false;
-    private Drawable mDownDrawable;
+    private TextView mMotionText;
     private Drawable mUpDrawable;
+    private String resultFunction;
+
+    public CounterFragment(String resultPosition)
+    {
+        resultFunction=resultPosition;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.counter_layout, container, false);
-        mDownDrawable = getResources().getDrawable(R.drawable.jump_down_50);
-        mUpDrawable = getResources().getDrawable(R.drawable.jump_up_50);
-        mCounterText = view.findViewById(R.id.counter);
-        mCounterText.setCompoundDrawablesWithIntrinsicBounds(mUpDrawable, null, null, null);
-        setCounter(Utils.getCounterFromPreference(getActivity()));
-        mHandler = new Handler();
-        startAnimation();
+        mMotionText = view.findViewById(R.id.counter);
+        mMotionText.setCompoundDrawablesWithIntrinsicBounds(mUpDrawable, null, null, null);
+        setCounter("Result:"+resultFunction+"\nFunction 1");
         return view;
     }
 
-    private void startAnimation() {
-        mAnimationTask = new TimerTask() {
-            @Override
-            public void run() {
-                mHandler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        mCounterText.setCompoundDrawablesWithIntrinsicBounds(
-                                up ? mUpDrawable : mDownDrawable, null, null, null);
-                        up = !up;
-                    }
-                });
-            }
-        };
-        mAnimationTimer = new Timer();
-        mAnimationTimer.scheduleAtFixedRate(mAnimationTask, ANIMATION_INTERVAL_MS,
-                ANIMATION_INTERVAL_MS);
-    }
-
-    private void setCounter(String text) {
-        mCounterText.setText(text);
-    }
-
-    public void setCounter(int i) {
-        setCounter(i < 0 ? "0" : String.valueOf(i));
+    public void setCounter(String text) {
+        if(mMotionText!=null)
+        {
+            mMotionText.setText(text);
+        }
     }
 
     @Override
     public void onDetach() {
-        mAnimationTimer.cancel();
         super.onDetach();
     }
 }

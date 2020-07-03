@@ -1,4 +1,4 @@
-#Sun Jun 28 20:06:05 CST 2020
+#Fri Jul 03 20:13:09 CST 2020
 base.0=D\:\\Android Wear Projects\\BoldMove-master\\BoldMove\\JumpingJack\\Wearable\\build\\intermediates\\dex\\debug\\mergeExtDexDebug\\out\\classes.dex
 path.1=classes.dex
 renamed.1=classes2.dex

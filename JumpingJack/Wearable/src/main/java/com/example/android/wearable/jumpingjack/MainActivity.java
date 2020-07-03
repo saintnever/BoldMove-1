@@ -25,6 +25,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager.widget.ViewPager;
@@ -34,6 +35,9 @@ import com.example.android.wearable.jumpingjack.fragments.CounterFragment;
 import com.example.android.wearable.jumpingjack.fragments.SwipeDetectionFragment;
 import com.example.android.wearable.jumpingjack.fragments.SettingsFragment;
 
+import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -48,33 +52,27 @@ import java.util.concurrent.TimeUnit;
 public class MainActivity extends FragmentActivity
         implements AmbientModeSupport.AmbientCallbackProvider, SensorEventListener {
 
+    public String resultPosition;
+
     private static final String TAG = "MainActivity";
-
-    // An up-down movement that takes more than 2 seconds will not be registered (in nanoseconds).
-    private static final long TIME_THRESHOLD_NS = TimeUnit.SECONDS.toNanos(2);
-
-    /**
-     * Earth gravity is around 9.8 m/s^2 but user may not completely direct his/her hand vertical
-     * during the exercise so we leave some room. Basically, if the x-component of gravity, as
-     * measured by the Gravity sensor, changes with a variation delta > 0.03 from the hand down
-     * and hand up threshold we define below, we consider that a successful count.
-     *
-     * This is a very rudimentary formula and is by no means production accurate. You will want to
-     * take into account Y and Z gravity changes to get a truly accurate jumping jack.
-     *
-     * This sample is just meant to show how to easily get sensor values and use them.
-     */
-    private static final float HAND_DOWN_GRAVITY_X_THRESHOLD = -.040f;
-    private static final float HAND_UP_GRAVITY_X_THRESHOLD = -.010f;
 
     private SensorManager mSensorManager;
     private Sensor mAcceleratorSensor;
     private Sensor mGyroSensor;
+    private Sensor mPPGSensor;
+    private int SENSOR_RATE_NORMAL = 20000;//Sensor sample rate =50Hz
     private long mLastTime = 0;
-    private int temp=0;
     private int timer=0;
+    private Timer scrollTimer;
+    private TimerTask scrollTask;
     private int mJumpCounter = 0;
     private boolean mHandDown = true;
+    private boolean isHold=false;
+    private int isTop=0;
+    private int isBottom=0;
+    private TextView gestureText;
+    private PagerAdapter adapter;
+    private int previousTime=0;
 
     private ViewPager mPager;
     private CounterFragment mCounterPage;
@@ -98,15 +96,16 @@ public class MainActivity extends FragmentActivity
     private final String POSITION_RIGHT="Right";
     private final String POSITION_TOP="Top";
     private final String POSITION_BOTTOM="Bottom";
+    private final String POSITION_FORWARD="Push";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.jumping_jack_layout);
+        setContentView(R.layout.gesture_detection_layout);
+        gestureText = findViewById(R.id.gesture);
+        gestureText.setText(POSITION_BEGIN);
 
         AmbientModeSupport.attach(this);
-
-        setupViews();
 
         mJumpCounter = Utils.getCounterFromPreference(this);
 
@@ -129,8 +128,12 @@ public class MainActivity extends FragmentActivity
         mPosition = POSITION_BEGIN;
 
         startSensor();
+
+        Timer timer = new Timer();
+        timer.scheduleAtFixedRate(task, 0,200);//Sample rate =5Hz
     }
 
+    /**Start sensors*/
     private void startSensor() {
         if (mSensorManager == null) {
             mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
@@ -143,23 +146,23 @@ public class MainActivity extends FragmentActivity
         if (mGyroSensor == null) {
             mGyroSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
         }
-    }
-
-    private void stopSensor(){
-        if (mSensorManager != null) {
-            mSensorManager = null;
+        if(mPPGSensor==null){
+            mPPGSensor=mSensorManager.getDefaultSensor(65537);
         }
+
     }
 
+    /**Scroll function list*/
     private void setupViews() {
+        setContentView(R.layout.jumping_jack_layout);
         mPager = findViewById(R.id.pager);
         mFirstIndicator = findViewById(R.id.indicator_0);
         mSecondIndicator = findViewById(R.id.indicator_1);
         mThirdIndicator=findViewById(R.id.indicator_2);
 
-        final PagerAdapter adapter = new PagerAdapter(getSupportFragmentManager());
+        adapter = new PagerAdapter(getSupportFragmentManager());
 
-        mCounterPage = new CounterFragment();
+        mCounterPage = new CounterFragment(resultPosition);
         mSettingPage = new SettingsFragment();
         mLeftSwipeCounterPage=new SwipeDetectionFragment();
 
@@ -172,10 +175,12 @@ public class MainActivity extends FragmentActivity
             @Override
             public void onPageScrolled(int i, float v, int i2) {
                 // No-op.
+                Log.d(TAG, String.valueOf(i));
             }
 
             @Override
             public void onPageSelected(int i) {
+
                 setIndicator(i);
             }
 
@@ -185,26 +190,50 @@ public class MainActivity extends FragmentActivity
             }
         });
 
+        scrollTimer = new Timer();
+
+        /**Timer: page scroll every 2s*/
+        scrollTask = new TimerTask() {
+            @Override
+            public void run() {
+                // TODO Auto-generated method stub
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        mPager.setCurrentItem(mPager.getCurrentItem()==2?0:mPager.getCurrentItem()+1);
+                    }});}
+        };
+
+        scrollTimer.schedule(scrollTask, 2000,2000);//every 2 seconds
+
         mPager.setAdapter(adapter);
     }
 
+    /**Register sensor listener*/
     @Override
     protected void onResume() {
         super.onResume();
         if (mSensorManager.registerListener(this, mAcceleratorSensor,
-                SensorManager.SENSOR_DELAY_NORMAL)) {
+                SENSOR_RATE_NORMAL)) {
             if (Log.isLoggable(TAG, Log.DEBUG)) {
                 Log.d(TAG, "Successfully registered for the accelerator sensor updates");
             }
         }
         if (mSensorManager.registerListener(this, mGyroSensor,
-                SensorManager.SENSOR_DELAY_NORMAL)) {
+                SENSOR_RATE_NORMAL)) {
+            if (Log.isLoggable(TAG, Log.DEBUG)) {
+                Log.d(TAG, "Successfully registered for the gyro sensor updates");
+            }
+        }
+        if (mSensorManager.registerListener(this, mPPGSensor,
+                SENSOR_RATE_NORMAL)) {
             if (Log.isLoggable(TAG, Log.DEBUG)) {
                 Log.d(TAG, "Successfully registered for the gyro sensor updates");
             }
         }
     }
 
+    /**Unregister sensor listener*/
     @Override
     protected void onPause() {
         super.onPause();
@@ -214,67 +243,60 @@ public class MainActivity extends FragmentActivity
         }
     }
 
-    /** Wrist gesture: https://developer.android.com/training/wearables/ui/wrist-gestures */
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        Log.e(TAG, "Test");
-        switch (keyCode) {
-            case KeyEvent.KEYCODE_NAVIGATE_NEXT:
-                // Do something that advances a user View to the next item in an ordered list.
-                Log.e(TAG, "Next");
-                return moveToNextItem();
-            case KeyEvent.KEYCODE_NAVIGATE_PREVIOUS:
-                // Do something that advances a user View to the previous item in an ordered list.
-                Log.e(TAG, "Previous");
-                return moveToPreviousItem();
-        }
-        // If you did not handle it, let it be handled by the next possible element as deemed by the Activity.
-        return super.onKeyDown(keyCode, event);
-    }
-
-    /** Shows the next item in the custom list. */
-    private boolean moveToNextItem() {
-        boolean handled = false;
-        Log.e(TAG, "Next");
-        // Return true if handled successfully, otherwise return false.
-        return handled;
-    }
-
-    /** Shows the previous item in the custom list. */
-    private boolean moveToPreviousItem() {
-        boolean handled = false;
-        Log.e(TAG, "Previous");
-        // Return true if handled successfully, otherwise return false.
-        return handled;
-    }
-
+    /**Get sensor data when data changed*/
     @Override
     public void onSensorChanged(SensorEvent event) {
         switch(event.sensor.getType()) {
             case Sensor.TYPE_ACCELEROMETER:
                 //Log.e(TAG, "Accelerator:   "+event.values[0]+"  "+event.values[1]+"   "+event.values[2]);
-                //detectJump(event.values[0], event.timestamp);
-                //swipeEvent(event,event.timestamp);
                 accelerator=event.values;
                 break;
             case Sensor.TYPE_GYROSCOPE:
                 //Log.e(TAG, "Gyroscope:   "+event.values[0]+"  "+event.values[1]+"   "+event.values[2]);
                 gyro=event.values;
-                /**Distinguish begin from top*/
-                if(mPosition==POSITION_BEGIN){
-                    temp++;
-                    if(temp>=10)
-                    {
-                        inAIrSwipe(accelerator,gyro,event.timestamp);
-                    }
-                }else{
-                    temp=0;
-                    inAIrSwipe(accelerator,gyro,event.timestamp);
-                }
-
+                inAIrSwipe(accelerator,gyro,event.timestamp);
+                break;
+            case 65537:
+                //Log.e(TAG, "PPG Data: "+(event.values[2]*1000000000000000000L*1000000000000000000L*10000L));
                 break;
         }
     }
+
+    /**Timer: Execute every 200ms for hold gesture detection*/
+    TimerTask task = new TimerTask() {
+        @Override
+        public void run() {
+            // TODO Auto-generated method stub
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    /**Detect hold gesture to end swipe detection*/
+                    if(isHold==true){
+                        timer++;
+                        /**200ms*10=2s hold 2 seconds*/
+                        if(timer>=10){
+                            if(mPosition!=POSITION_BEGIN&&mPosition!=POSITION_END){
+                                resultPosition=mPosition;
+                                Log.e(TAG, "Hold");
+                                mPosition=POSITION_END;
+                                setupViews();
+                                timer=0;
+                            }}
+                    }else{
+                        timer=0;
+                    }
+                   /* if(isTop>=2 && isBottom>=2){
+                        mPosition=POSITION_FORWARD;
+                        Log.e(TAG, "Push");
+                        setText(mPosition);
+                        isTop=0;
+                        isBottom=0;
+                    }else{
+                        isTop=0;
+                        isBottom=0;
+                    }*/
+                }});}
+    };
 
     /**Algorithm 1: https://w3c.github.io/motion-sensors/#complementary-filter*/
     private void inAIrSwipe(float[] AcceleratorValues, float[] GyroValues, long timestamp){
@@ -282,74 +304,137 @@ public class MainActivity extends FragmentActivity
         double beta = 0;
         double gamma=0;
         float bias=0.98f;
-        long dt = (timestamp - mLastTime)/1000000;
-        //Log.e(TAG, "dt:   "+dt);
+        long dt = (timestamp - mLastTime)/100000;
         mLastTime = timestamp;
         double norm = Math.sqrt(Math.pow(accelerator[0],2) + Math.pow(accelerator[1],2) + Math.pow(accelerator[2],2));
         double scale = Math.PI / 2;
         alpha = bias * (alpha + gyro[0] * dt) + (1.0 - bias) * (accelerator[0] * scale / norm);
         beta = bias * (beta + gyro[1] * dt) + (1.0 - bias) * (accelerator[1] * scale / norm);
         gamma = bias * (gamma + gyro[2] * dt) + (1.0 - bias) * (accelerator[2] * scale / norm);
-        //Log.e(TAG, "Mulitsensors:   "+Math.round(alpha)+"  "+Math.round(beta)+"   "+Math.round(gamma));
+        Log.e(TAG, "Mulitsensors:   "+Math.round(alpha)+"  "+Math.round(beta)+"   "+Math.round(gamma));
 
-        /**Detect hold gesture to end swipe detection*/
         if(Math.sqrt(Math.pow(alpha,2)+Math.pow(beta,2)+Math.pow(gamma,2))<20)
         {
-            timer++;
-            if(timer>=10){
-            if(mPosition!=POSITION_BEGIN&&mPosition!=POSITION_END){
-                setText("Result:"+mPosition);
-                mPosition=POSITION_END;
-                timer=0;
-            }}
+            isHold=true;
         }else{
-            timer=0;
-            /**Detect left/Right/Top/Bottom swipe gesture*/
-            if(Math.abs(gamma)>=Math.abs(alpha)&&Math.abs(gamma)>=Math.abs(beta))
-            {
-                if(gamma>300)
+            isHold=false;
+                /**Detect left/right/top/bottom swipe gestures*/
+                if(Math.abs(gamma)>=Math.abs(alpha)&&Math.abs(gamma)>=Math.abs(beta))
                 {
-                    if(mPosition!=POSITION_END){
-                        Log.e(TAG, "Left");
-                        mPosition=POSITION_LEFT;
-                        setText(mPosition);
+                    if(gamma>200)
+                    {
+                        if(mPosition!=POSITION_END){
+                            Log.e(TAG, "Left");
+                            mPosition=POSITION_LEFT;
+                            setText(mPosition);
+                        }
                     }
-                }
-                else if(gamma<-300)
-                {
-                    if(mPosition!=POSITION_END){
-                        Log.e(TAG, "Right");
-                        mPosition=POSITION_RIGHT;
-                        setText(mPosition);
+                    else if(gamma<-200)
+                    {
+                        if(mPosition!=POSITION_END){
+                            Log.e(TAG, "Right");
+                            mPosition=POSITION_RIGHT;
+                            setText(mPosition);
+                        }
                     }
-                }
-            }else if(Math.abs(beta)>=Math.abs(alpha)&&Math.abs(beta)>=Math.abs(gamma))
-            {
-                if(beta<-300)
+                }else if(Math.abs(beta)>=Math.abs(alpha)&&Math.abs(beta)>=Math.abs(gamma))
                 {
-                    if(mPosition!=POSITION_END){
-                        Log.e(TAG, "Top");
-                        mPosition=POSITION_TOP;
-                        setText(mPosition);
+                    /**Test:Double click gesture****************************/
+                    if((isTop==1||isBottom==1)&&previousTime!=0)
+                    {
+                        previousTime=0;
                     }
-                }
-                else if(beta>300)
-                {
-                    if(mPosition!=POSITION_END){
-                        Log.e(TAG, "Bottom");
-                        mPosition=POSITION_BOTTOM;
+                    previousTime++;
+                    if(previousTime==10)
+                    {
+                        if(isTop>=2&&isBottom>=2){
+                        Log.e(TAG, "Forward");
+                        mPosition=POSITION_FORWARD;
                         setText(mPosition);
+                        isTop=0;
+                        isBottom=0;
+                        }else{
+                            isTop=0;
+                            isBottom=0;
+                        }
+                    }
+                    if(mPosition==POSITION_FORWARD){
+                        if(previousTime>=100){
+                            if(beta<-200)
+                            {
+                                if(mPosition!=POSITION_END){
+                                    Log.e(TAG, "Top");
+                                    mPosition=POSITION_TOP;
+                                    setText(mPosition);
+                                    isTop++;
+                                }
+                            }
+                            else if(beta>200)
+                            {
+                                if(mPosition!=POSITION_END){
+                                    Log.e(TAG, "Bottom");
+                                    mPosition=POSITION_BOTTOM;
+                                    setText(mPosition);
+                                    isBottom++;
+                                }else{
+                                    /**Detect hand down gesture to restart swipe detection*/
+                                    mPosition=POSITION_BEGIN;
+                                    int currentPosition=mPager.getCurrentItem()+1;
+                                    setContentView(R.layout.gesture_detection_layout);
+                                    gestureText = findViewById(R.id.gesture);
+                                    setText("Function"+currentPosition+"\n"+mPosition);
+                                    Log.e(TAG, "Function"+currentPosition+"\n"+mPosition);
+                                    if (scrollTimer != null) {
+                                        scrollTimer.cancel();
+                                        scrollTimer = null;
+                                    }
+                                    if (scrollTask != null) {
+                                        scrollTask.cancel();
+                                        scrollTask = null;
+                                    }
+                                }
+                            }
+                        }
                     }else{
-                        /**Detect hand down gesture to restart swipe detection*/
-                        mPosition=POSITION_BEGIN;
-                        setText(mPosition);
+                        /************************************************************/
+                        if(beta<-200)
+                        {
+                            if(mPosition!=POSITION_END){
+                                Log.e(TAG, "Top");
+                                mPosition=POSITION_TOP;
+                                setText(mPosition);
+                                isTop++;
+                            }
+                        }
+                        else if(beta>200)
+                        {
+                            if(mPosition!=POSITION_END){
+                                Log.e(TAG, "Bottom");
+                                mPosition=POSITION_BOTTOM;
+                                setText(mPosition);
+                                isBottom++;
+                            }else{
+                                /**Detect hand down gesture to restart swipe detection*/
+                                mPosition=POSITION_BEGIN;
+                                int currentPosition=mPager.getCurrentItem()+1;
+                                setContentView(R.layout.gesture_detection_layout);
+                                gestureText = findViewById(R.id.gesture);
+                                setText("Function"+currentPosition+"\n"+mPosition);
+                                Log.e(TAG, "Function"+currentPosition+"\n"+mPosition);
+                                if (scrollTimer != null) {
+                                    scrollTimer.cancel();
+                                    scrollTimer = null;
+                                }
+                                if (scrollTask != null) {
+                                    scrollTask.cancel();
+                                    scrollTask = null;
+                                }
+                            }
+                        }
                     }
+
                 }
-            }
         }
-
-
-
     }
 
     /**Algorithm 2:http://josejuansanchez.org/android-sensors-overview/gravity_and_linear_acceleration/README.html*/
@@ -405,69 +490,13 @@ public class MainActivity extends FragmentActivity
 
     private void setText(String text)
     {
-        mLeftSwipeCounterPage.setCounter(text);
-    }
-
-    /**
-     * A very simple algorithm to detect a successful up-down movement of hand(s). The algorithm
-     * is based on a delta of the handing being up vs. down and taking less than TIME_THRESHOLD_NS
-     * to happen.
-     *
-     *
-     * This algorithm isn't intended to be used in production but just to show what's possible with
-     * sensors. You will want to take into account other components (y and z) and other sensors to
-     * get a more accurate reading.
-     */
-    private void detectJump(float xGravity, long timestamp) {
-
-        if ((xGravity <= HAND_DOWN_GRAVITY_X_THRESHOLD)
-                || (xGravity >= HAND_UP_GRAVITY_X_THRESHOLD)) {
-
-            if (timestamp - mLastTime < TIME_THRESHOLD_NS) {
-                // Hand is down when yValue is negative.
-                onJumpDetected(xGravity <= HAND_DOWN_GRAVITY_X_THRESHOLD);
-            }
-
-            mLastTime = timestamp;
+        if(gestureText!=null)
+        {
+            gestureText.setText(text);
         }
     }
 
-    /**
-     * Called on detection of a successful down -> up or up -> down movement of hand.
-     */
-    private void onJumpDetected(boolean handDown) {
-        if (mHandDown != handDown) {
-            mHandDown = handDown;
-
-            // Only count when the hand is down (means the hand has gone up, then down).
-            if (mHandDown) {
-                mJumpCounter++;
-                setCounter(mJumpCounter);
-            }
-        }
-    }
-
-    /**
-     * Updates the counter on UI, saves it to preferences and vibrates the watch when counter
-     * reaches a multiple of 10.
-     */
-    private void setCounter(int i) {
-        mJumpCounter = i;
-        mCounterPage.setCounter(i);
-        //mLeftSwipeCounterPage.setCounter(0);
-        Utils.saveCounterToPreference(this, i);
-        if (i > 0 && i % 10 == 0) {
-            Utils.vibrate(this, 0);
-        }
-    }
-
-    public void resetCounter() {
-        setCounter(0);
-    }
-
-    /**
-     * Sets the page indicator for the ViewPager.
-     */
+    /**Sets the page indicator for the ViewPager.*/
     private void setIndicator(int i) {
         switch (i) {
             case 0:

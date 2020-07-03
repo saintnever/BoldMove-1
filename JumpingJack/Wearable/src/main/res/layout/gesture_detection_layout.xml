@@ -5,10 +5,10 @@
     android:background="@color/white">
 
     <TextView
-        android:id="@+id/left_swipe_counter"
-        android:layout_centerInParent="true"
-        android:textSize="20sp"
+        android:id="@+id/gesture"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:textSize="50sp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
-
 </RelativeLayout>

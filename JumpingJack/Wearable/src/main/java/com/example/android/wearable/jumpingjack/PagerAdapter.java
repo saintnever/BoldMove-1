@@ -20,6 +20,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import java.util.ArrayList;
@@ -28,7 +29,7 @@ import java.util.List;
 /**
  * A simple adapter for the {@link ViewPager}
  */
-public class PagerAdapter extends FragmentPagerAdapter {
+public class PagerAdapter extends FragmentStatePagerAdapter {
 
     private List<Fragment> mFragments;
 
@@ -47,6 +48,8 @@ public class PagerAdapter extends FragmentPagerAdapter {
     public int getCount() {
         return mFragments.size();
     }
+
+    public void removeItems(){mFragments.removeAll(mFragments);}
 
     void addFragment(Fragment fragment) {
         mFragments.add(fragment);
