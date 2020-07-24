@@ -30,9 +30,9 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager.widget.ViewPager;
 import androidx.wear.ambient.AmbientModeSupport;
 
-import com.example.android.wearable.jumpingjack.fragments.CounterFragment;
-import com.example.android.wearable.jumpingjack.fragments.SwipeDetectionFragment;
-import com.example.android.wearable.jumpingjack.fragments.SettingsFragment;
+import com.example.android.wearable.jumpingjack.fragments.FunctionOneFragment;
+import com.example.android.wearable.jumpingjack.fragments.FunctionThreeFragment;
+import com.example.android.wearable.jumpingjack.fragments.FunctionTwoFragment;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -49,8 +49,6 @@ import java.util.TimerTask;
 public class MainActivity extends FragmentActivity
         implements AmbientModeSupport.AmbientCallbackProvider, SensorEventListener {
 
-    public String resultPosition;
-
     private static final String TAG = "MainActivity";
 
     private SensorManager mSensorManager;
@@ -62,8 +60,6 @@ public class MainActivity extends FragmentActivity
     private int timer=0;
     private Timer scrollTimer;
     private TimerTask scrollTask;
-    private int mJumpCounter = 0;
-    private boolean mHandDown = true;
     private boolean isHold=false;
     private int isTop=0;
     private int isBottom=0;
@@ -71,11 +67,12 @@ public class MainActivity extends FragmentActivity
     private PagerAdapter adapter;
     private int previousTime=0;
     private float roll;
+    private int i=0;
 
     private ViewPager mPager;
-    private CounterFragment mCounterPage;
-    private SwipeDetectionFragment mLeftSwipeCounterPage;
-    private SettingsFragment mSettingPage;
+    private FunctionOneFragment mCounterPage;
+    private FunctionThreeFragment mLeftSwipeCounterPage;
+    private FunctionTwoFragment mSettingPage;
     private ImageView mSecondIndicator;
     private ImageView mFirstIndicator;
     private ImageView mThirdIndicator;
@@ -98,19 +95,17 @@ public class MainActivity extends FragmentActivity
     private final String POSITION_FORWARD="Push";
     private final String STATION_DISCRETE_DETECTING="Detecting discrete gestures";
     private final String STATION_SELECTING="Selecting functions";
+    private final String STATION_CONTINUOUS_SELECTING="Selecting continuous functions";
     private final String STATION_CONTINUOUS_DETECTING="Detecting continuous gestures";
     private String mStation=STATION_DISCRETE_DETECTING;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.gesture_detection_layout);
-        gestureText = findViewById(R.id.gesture);
-        gestureText.setText(STATION_DISCRETE_DETECTING);
+
+        setupGestureViews(STATION_DISCRETE_DETECTING);
 
         AmbientModeSupport.attach(this);
-
-        mJumpCounter = Utils.getCounterFromPreference(this);
 
         gravity[0] = 0.0f;
         gravity[1] = 0.0f;
@@ -142,7 +137,7 @@ public class MainActivity extends FragmentActivity
             mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         }
         if (mAcceleratorSensor == null) {
-            /**LINEAR_ACCELERATION is needed fo algorithm 2*/
+            /**LINEAR_ACCELERATION is required for algorithm 2*/
             //mSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION);
             mAcceleratorSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         }
@@ -155,8 +150,25 @@ public class MainActivity extends FragmentActivity
 
     }
 
+    /**Real-time gesture display*/
+    private void setupGestureViews(String initialText){
+        setContentView(R.layout.gesture_detection_layout);
+        gestureText = findViewById(R.id.gesture);
+        gestureText.setText(initialText);
+
+        if (scrollTimer != null) {
+            scrollTimer.cancel();
+            scrollTimer = null;
+        }
+        if (scrollTask != null) {
+            scrollTask.cancel();
+            scrollTask = null;
+        }
+    }
+
+
     /**Scroll function list*/
-    private void setupViews() {
+    private void setupScrollViews(String function1, String function2, String function3) {
         setContentView(R.layout.jumping_jack_layout);
         mPager = findViewById(R.id.pager);
         mFirstIndicator = findViewById(R.id.indicator_0);
@@ -165,9 +177,9 @@ public class MainActivity extends FragmentActivity
 
         adapter = new PagerAdapter(getSupportFragmentManager());
 
-        mCounterPage = new CounterFragment(resultPosition);
-        mSettingPage = new SettingsFragment();
-        mLeftSwipeCounterPage=new SwipeDetectionFragment();
+        mCounterPage = new FunctionOneFragment(function1);
+        mSettingPage = new FunctionTwoFragment(function2);
+        mLeftSwipeCounterPage=new FunctionThreeFragment(function3);
 
         adapter.addFragment(mCounterPage);
         adapter.addFragment(mSettingPage);
@@ -307,18 +319,33 @@ public class MainActivity extends FragmentActivity
         switch(mStation){
             case STATION_DISCRETE_DETECTING:
                 SwipeDetection();
+                //Detect wrist rotation
                 if(gyro[0]<-5){
-                    mStation=STATION_CONTINUOUS_DETECTING;
+                    setupScrollViews("Function 1","Function 2","Function 3");
+                    i=0;
+                    mStation=STATION_CONTINUOUS_SELECTING;
                 }
                 break;
             case STATION_CONTINUOUS_DETECTING:
                 setText(Float.toString(Math.round(AO)));
-                if(Math.sqrt(Math.pow(RA[0],2)+Math.pow(RA[1],2)+Math.pow(RA[2],2))<20)
+                if(Math.sqrt(Math.pow(RA[0],2)+Math.pow(RA[1],2)+Math.pow(RA[2],2))<30)
                 {
                     isHold=true;
                 }else{
                     isHold=false;
                 }
+                break;
+            case STATION_CONTINUOUS_SELECTING:
+                //Detect wrist rotation
+               if(i>=50){
+               if(gyro[0]<-5){
+                    setupGestureViews("Result:\n"+mPager.getCurrentItem()+1);
+                    Log.e(TAG, "Function"+(mPager.getCurrentItem()+1)+"\n"+mPosition);
+                    mStation=STATION_CONTINUOUS_DETECTING;
+                    i=0;
+                }}else{
+                   i++;
+               }
                 break;
             case STATION_SELECTING:
                 ConfirmAndRestart();
@@ -329,7 +356,7 @@ public class MainActivity extends FragmentActivity
 
     /**Detect discrete swipe gestures*/
     private void SwipeDetection(){
-        if(Math.sqrt(Math.pow(RA[0],2)+Math.pow(RA[1],2)+Math.pow(RA[2],2))<20)
+        if(Math.sqrt(Math.pow(RA[0],2)+Math.pow(RA[1],2)+Math.pow(RA[2],2))<30)
         {
             isHold=true;
         }else{
@@ -415,18 +442,9 @@ public class MainActivity extends FragmentActivity
             if(RA[1]>200){
                 mStation=STATION_DISCRETE_DETECTING;
                 int currentPosition=mPager.getCurrentItem()+1;
-                setContentView(R.layout.gesture_detection_layout);
-                gestureText = findViewById(R.id.gesture);
+                setupGestureViews("Result:\n"+currentPosition);
                 //setText("Function"+currentPosition+"\n"+mPosition);
                 Log.e(TAG, "Function"+currentPosition+"\n"+mPosition);
-                if (scrollTimer != null) {
-                     scrollTimer.cancel();
-                     scrollTimer = null;
-                }
-                if (scrollTask != null) {
-                    scrollTask.cancel();
-                    scrollTask = null;
-                }
             }
         }
     }
@@ -445,9 +463,8 @@ public class MainActivity extends FragmentActivity
                         if(timer>=10){
                             timer=0;
                             if(mStation==STATION_DISCRETE_DETECTING){
-                                resultPosition=mPosition;
                                 mStation=STATION_SELECTING;
-                                setupViews();
+                                setupScrollViews(mPosition,mPosition,mPosition);
                             }else if(mStation==STATION_CONTINUOUS_DETECTING){
                                 Log.e(TAG, "Result:"+AO);
                                 mStation=STATION_DISCRETE_DETECTING;

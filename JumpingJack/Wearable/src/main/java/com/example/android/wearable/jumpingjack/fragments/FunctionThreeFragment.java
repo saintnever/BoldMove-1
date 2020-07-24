@@ -16,11 +16,16 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 
-public class SwipeDetectionFragment extends Fragment {
+public class FunctionThreeFragment extends Fragment {
 
     private TextView mMotionText;
     private Drawable mUpDrawable;
+    private String resultFunction;
 
+    public FunctionThreeFragment(String result)
+    {
+        resultFunction=result;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -28,7 +33,7 @@ public class SwipeDetectionFragment extends Fragment {
         View view = inflater.inflate(R.layout.left_swipe_layout, container, false);
         mMotionText = view.findViewById(R.id.left_swipe_counter);
         mMotionText.setCompoundDrawablesWithIntrinsicBounds(mUpDrawable, null, null, null);
-        setCounter("Function 3");
+        setCounter("Function 3\n"+resultFunction);
         return view;
     }
 

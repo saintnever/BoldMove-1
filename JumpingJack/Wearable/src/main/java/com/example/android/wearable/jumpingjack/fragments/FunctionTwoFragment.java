@@ -20,12 +20,15 @@ import com.example.android.wearable.jumpingjack.MainActivity;
 import com.example.android.wearable.jumpingjack.R;
 import com.example.android.wearable.jumpingjack.Utils;
 
+import android.app.Activity;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
@@ -34,27 +37,28 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 /**
- * A simple fragment for showing the count
+ * A simple fragment that shows a button to reset the counter
  */
-public class CounterFragment extends Fragment {
-
+public class FunctionTwoFragment extends Fragment {
     private TextView mMotionText;
     private Drawable mUpDrawable;
     private String resultFunction;
 
-    public CounterFragment(String resultPosition)
+    public FunctionTwoFragment(String result)
     {
-        resultFunction=resultPosition;
+        resultFunction=result;
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.counter_layout, container, false);
-        mMotionText = view.findViewById(R.id.counter);
+        View view = inflater.inflate(R.layout.setting_layout, container, false);
+        mMotionText = view.findViewById(R.id.function);
         mMotionText.setCompoundDrawablesWithIntrinsicBounds(mUpDrawable, null, null, null);
-        setCounter("Result:"+resultFunction+"\nFunction 1");
+        setCounter("Function 2\n"+resultFunction);
+        Log.e("HJJ", "ArrayListFragment **** onCreateView...");
         return view;
+
     }
 
     public void setCounter(String text) {
@@ -68,4 +72,5 @@ public class CounterFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
     }
+
 }
