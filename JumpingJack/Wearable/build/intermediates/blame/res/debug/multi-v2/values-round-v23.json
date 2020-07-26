@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "D:\\Android Wear Projects\\BoldMove-master\\BoldMove\\JumpingJack\\Wearable\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-round-v23\\values-round-v23.xml",
+            "outputFile": "C:\\Users\\ztxse\\Documents\\projects\\boldmove\\watch\\BoldMove\\JumpingJack\\Wearable\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-round-v23\\values-round-v23.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\jiang\\.gradle\\caches\\transforms-2\\files-2.1\\3136d2e9a522e4a18093ba3e920e5f4e\\jetified-wearable-2.7.0\\res\\values-round-v23\\values.xml",
+                    "source": "C:\\Users\\ztxse\\.gradle\\caches\\transforms-2\\files-2.1\\3136d2e9a522e4a18093ba3e920e5f4e\\jetified-wearable-2.7.0\\res\\values-round-v23\\values.xml",
                     "from": {
                         "startLines": "4,5,9,10,11,12,13,14",
                         "startColumns": "0,0,0,0,0,0,0,0",
@@ -21,7 +21,7 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\jiang\\.gradle\\caches\\transforms-2\\files-2.1\\4c38bf2f4ca935b4210f3a9b0daceebd\\wear-1.0.0\\res\\values-round-v23\\values-round-v23.xml",
+                    "source": "C:\\Users\\ztxse\\.gradle\\caches\\transforms-2\\files-2.1\\4c38bf2f4ca935b4210f3a9b0daceebd\\wear-1.0.0\\res\\values-round-v23\\values-round-v23.xml",
                     "from": {
                         "startLines": "2,3,4",
                         "startColumns": "4,4,4",
