@@ -1,9 +1,9 @@
 -- Merging decision tree log ---
 manifest
-ADDED from C:\Users\ztxse\Documents\projects\boldmove\watch\BoldMove\JumpingJack\Wearable\src\main\AndroidManifest.xml:17:1-48:12
-INJECTED from C:\Users\ztxse\Documents\projects\boldmove\watch\BoldMove\JumpingJack\Wearable\src\main\AndroidManifest.xml:17:1-48:12
-INJECTED from C:\Users\ztxse\Documents\projects\boldmove\watch\BoldMove\JumpingJack\Wearable\src\main\AndroidManifest.xml:17:1-48:12
-INJECTED from C:\Users\ztxse\Documents\projects\boldmove\watch\BoldMove\JumpingJack\Wearable\src\main\AndroidManifest.xml:17:1-48:12
+ADDED from C:\Users\ztxse\Documents\projects\boldmove\watch\BoldMove\JumpingJack\Wearable\src\main\AndroidManifest.xml:17:1-54:12
+INJECTED from C:\Users\ztxse\Documents\projects\boldmove\watch\BoldMove\JumpingJack\Wearable\src\main\AndroidManifest.xml:17:1-54:12
+INJECTED from C:\Users\ztxse\Documents\projects\boldmove\watch\BoldMove\JumpingJack\Wearable\src\main\AndroidManifest.xml:17:1-54:12
+INJECTED from C:\Users\ztxse\Documents\projects\boldmove\watch\BoldMove\JumpingJack\Wearable\src\main\AndroidManifest.xml:17:1-54:12
 MERGED from [androidx.wear:wear:1.0.0] C:\Users\ztxse\.gradle\caches\transforms-2\files-2.1\4c38bf2f4ca935b4210f3a9b0daceebd\wear-1.0.0\AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.legacy:legacy-support-v13:1.0.0] C:\Users\ztxse\.gradle\caches\transforms-2\files-2.1\7c0ec49e2bcf9da9b0a37bf48378a618\legacy-support-v13-1.0.0\AndroidManifest.xml:17:1-22:12
 MERGED from [com.google.android.support:wearable:2.7.0] C:\Users\ztxse\.gradle\caches\transforms-2\files-2.1\3136d2e9a522e4a18093ba3e920e5f4e\jetified-wearable-2.7.0\AndroidManifest.xml:2:1-15:12
@@ -42,22 +42,22 @@ MERGED from [androidx.documentfile:documentfile:1.0.0] C:\Users\ztxse\.gradle\ca
 MERGED from [androidx.localbroadcastmanager:localbroadcastmanager:1.0.0] C:\Users\ztxse\.gradle\caches\transforms-2\files-2.1\d0451c97239df5be4dc66598fdd5c551\localbroadcastmanager-1.0.0\AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.print:print:1.0.0] C:\Users\ztxse\.gradle\caches\transforms-2\files-2.1\80a24a77b2345ebb709fc7815d75c401\print-1.0.0\AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.constraintlayout:constraintlayout:1.1.0] C:\Users\ztxse\.gradle\caches\transforms-2\files-2.1\485b185282f37f0a4e3e8fb8ee029744\constraintlayout-1.1.0\AndroidManifest.xml:2:1-11:12
-INJECTED from C:\Users\ztxse\Documents\projects\boldmove\watch\BoldMove\JumpingJack\Wearable\src\main\AndroidManifest.xml:17:1-48:12
-INJECTED from C:\Users\ztxse\Documents\projects\boldmove\watch\BoldMove\JumpingJack\Wearable\src\main\AndroidManifest.xml:17:1-48:12
-INJECTED from C:\Users\ztxse\Documents\projects\boldmove\watch\BoldMove\JumpingJack\Wearable\src\main\AndroidManifest.xml:17:1-48:12
+INJECTED from C:\Users\ztxse\Documents\projects\boldmove\watch\BoldMove\JumpingJack\Wearable\src\main\AndroidManifest.xml:17:1-54:12
+INJECTED from C:\Users\ztxse\Documents\projects\boldmove\watch\BoldMove\JumpingJack\Wearable\src\main\AndroidManifest.xml:17:1-54:12
+INJECTED from C:\Users\ztxse\Documents\projects\boldmove\watch\BoldMove\JumpingJack\Wearable\src\main\AndroidManifest.xml:17:1-54:12
 	package
 		ADDED from C:\Users\ztxse\Documents\projects\boldmove\watch\BoldMove\JumpingJack\Wearable\src\main\AndroidManifest.xml:19:5-55
 		INJECTED from C:\Users\ztxse\Documents\projects\boldmove\watch\BoldMove\JumpingJack\Wearable\src\main\AndroidManifest.xml
 		INJECTED from C:\Users\ztxse\Documents\projects\boldmove\watch\BoldMove\JumpingJack\Wearable\src\main\AndroidManifest.xml
 	android:versionName
 		INJECTED from C:\Users\ztxse\Documents\projects\boldmove\watch\BoldMove\JumpingJack\Wearable\src\main\AndroidManifest.xml
-		ADDED from C:\Users\ztxse\Documents\projects\boldmove\watch\BoldMove\JumpingJack\Wearable\src\main\AndroidManifest.xml:17:1-48:12
+		ADDED from C:\Users\ztxse\Documents\projects\boldmove\watch\BoldMove\JumpingJack\Wearable\src\main\AndroidManifest.xml:17:1-54:12
 		INJECTED from C:\Users\ztxse\Documents\projects\boldmove\watch\BoldMove\JumpingJack\Wearable\src\main\AndroidManifest.xml
 	xmlns:tools
 		ADDED from C:\Users\ztxse\Documents\projects\boldmove\watch\BoldMove\JumpingJack\Wearable\src\main\AndroidManifest.xml:18:5-51
 	android:versionCode
 		INJECTED from C:\Users\ztxse\Documents\projects\boldmove\watch\BoldMove\JumpingJack\Wearable\src\main\AndroidManifest.xml
-		ADDED from C:\Users\ztxse\Documents\projects\boldmove\watch\BoldMove\JumpingJack\Wearable\src\main\AndroidManifest.xml:17:1-48:12
+		ADDED from C:\Users\ztxse\Documents\projects\boldmove\watch\BoldMove\JumpingJack\Wearable\src\main\AndroidManifest.xml:17:1-54:12
 		INJECTED from C:\Users\ztxse\Documents\projects\boldmove\watch\BoldMove\JumpingJack\Wearable\src\main\AndroidManifest.xml
 	xmlns:android
 		ADDED from C:\Users\ztxse\Documents\projects\boldmove\watch\BoldMove\JumpingJack\Wearable\src\main\AndroidManifest.xml:17:11-69
@@ -65,16 +65,34 @@ uses-feature#android.hardware.type.watch
 ADDED from C:\Users\ztxse\Documents\projects\boldmove\watch\BoldMove\JumpingJack\Wearable\src\main\AndroidManifest.xml:21:5-64
 	android:name
 		ADDED from C:\Users\ztxse\Documents\projects\boldmove\watch\BoldMove\JumpingJack\Wearable\src\main\AndroidManifest.xml:21:19-61
+uses-feature#android.hardware.bluetooth_le
+ADDED from C:\Users\ztxse\Documents\projects\boldmove\watch\BoldMove\JumpingJack\Wearable\src\main\AndroidManifest.xml:22:5-89
+	android:required
+		ADDED from C:\Users\ztxse\Documents\projects\boldmove\watch\BoldMove\JumpingJack\Wearable\src\main\AndroidManifest.xml:22:64-87
+	android:name
+		ADDED from C:\Users\ztxse\Documents\projects\boldmove\watch\BoldMove\JumpingJack\Wearable\src\main\AndroidManifest.xml:22:19-63
 uses-permission#android.permission.VIBRATE
-ADDED from C:\Users\ztxse\Documents\projects\boldmove\watch\BoldMove\JumpingJack\Wearable\src\main\AndroidManifest.xml:23:5-65
+ADDED from C:\Users\ztxse\Documents\projects\boldmove\watch\BoldMove\JumpingJack\Wearable\src\main\AndroidManifest.xml:24:5-65
 	android:name
-		ADDED from C:\Users\ztxse\Documents\projects\boldmove\watch\BoldMove\JumpingJack\Wearable\src\main\AndroidManifest.xml:23:22-63
+		ADDED from C:\Users\ztxse\Documents\projects\boldmove\watch\BoldMove\JumpingJack\Wearable\src\main\AndroidManifest.xml:24:22-63
 uses-permission#android.permission.WAKE_LOCK
-ADDED from C:\Users\ztxse\Documents\projects\boldmove\watch\BoldMove\JumpingJack\Wearable\src\main\AndroidManifest.xml:25:5-68
+ADDED from C:\Users\ztxse\Documents\projects\boldmove\watch\BoldMove\JumpingJack\Wearable\src\main\AndroidManifest.xml:26:5-68
 	android:name
-		ADDED from C:\Users\ztxse\Documents\projects\boldmove\watch\BoldMove\JumpingJack\Wearable\src\main\AndroidManifest.xml:25:22-65
+		ADDED from C:\Users\ztxse\Documents\projects\boldmove\watch\BoldMove\JumpingJack\Wearable\src\main\AndroidManifest.xml:26:22-65
+uses-permission#android.permission.BLUETOOTH
+ADDED from C:\Users\ztxse\Documents\projects\boldmove\watch\BoldMove\JumpingJack\Wearable\src\main\AndroidManifest.xml:27:5-67
+	android:name
+		ADDED from C:\Users\ztxse\Documents\projects\boldmove\watch\BoldMove\JumpingJack\Wearable\src\main\AndroidManifest.xml:27:22-65
+uses-permission#android.permission.BLUETOOTH_ADMIN
+ADDED from C:\Users\ztxse\Documents\projects\boldmove\watch\BoldMove\JumpingJack\Wearable\src\main\AndroidManifest.xml:28:5-73
+	android:name
+		ADDED from C:\Users\ztxse\Documents\projects\boldmove\watch\BoldMove\JumpingJack\Wearable\src\main\AndroidManifest.xml:28:22-71
+uses-permission#android.permission.ACCESS_FINE_LOCATION
+ADDED from C:\Users\ztxse\Documents\projects\boldmove\watch\BoldMove\JumpingJack\Wearable\src\main\AndroidManifest.xml:31:5-79
+	android:name
+		ADDED from C:\Users\ztxse\Documents\projects\boldmove\watch\BoldMove\JumpingJack\Wearable\src\main\AndroidManifest.xml:31:22-76
 application
-ADDED from C:\Users\ztxse\Documents\projects\boldmove\watch\BoldMove\JumpingJack\Wearable\src\main\AndroidManifest.xml:27:5-46:19
+ADDED from C:\Users\ztxse\Documents\projects\boldmove\watch\BoldMove\JumpingJack\Wearable\src\main\AndroidManifest.xml:33:5-52:19
 MERGED from [com.google.android.support:wearable:2.7.0] C:\Users\ztxse\.gradle\caches\transforms-2\files-2.1\3136d2e9a522e4a18093ba3e920e5f4e\jetified-wearable-2.7.0\AndroidManifest.xml:9:5-13:19
 MERGED from [com.google.android.support:wearable:2.7.0] C:\Users\ztxse\.gradle\caches\transforms-2\files-2.1\3136d2e9a522e4a18093ba3e920e5f4e\jetified-wearable-2.7.0\AndroidManifest.xml:9:5-13:19
 MERGED from [com.google.android.gms:play-services-wearable:17.0.0] C:\Users\ztxse\.gradle\caches\transforms-2\files-2.1\d114ced100ac9dcec2b79619d734fa61\jetified-play-services-wearable-17.0.0\AndroidManifest.xml:22:5-20
@@ -94,37 +112,37 @@ MERGED from [androidx.constraintlayout:constraintlayout:1.1.0] C:\Users\ztxse\.g
 	android:appComponentFactory
 		ADDED from [androidx.core:core:1.1.0] C:\Users\ztxse\.gradle\caches\transforms-2\files-2.1\da95e0dd41fd0c634661df2a0f122634\core-1.1.0\AndroidManifest.xml:24:18-86
 	android:label
-		ADDED from C:\Users\ztxse\Documents\projects\boldmove\watch\BoldMove\JumpingJack\Wearable\src\main\AndroidManifest.xml:30:13-45
+		ADDED from C:\Users\ztxse\Documents\projects\boldmove\watch\BoldMove\JumpingJack\Wearable\src\main\AndroidManifest.xml:36:13-45
 	tools:ignore
-		ADDED from C:\Users\ztxse\Documents\projects\boldmove\watch\BoldMove\JumpingJack\Wearable\src\main\AndroidManifest.xml:32:13-52
+		ADDED from C:\Users\ztxse\Documents\projects\boldmove\watch\BoldMove\JumpingJack\Wearable\src\main\AndroidManifest.xml:38:13-52
 	android:icon
-		ADDED from C:\Users\ztxse\Documents\projects\boldmove\watch\BoldMove\JumpingJack\Wearable\src\main\AndroidManifest.xml:29:13-49
+		ADDED from C:\Users\ztxse\Documents\projects\boldmove\watch\BoldMove\JumpingJack\Wearable\src\main\AndroidManifest.xml:35:13-49
 	android:allowBackup
-		ADDED from C:\Users\ztxse\Documents\projects\boldmove\watch\BoldMove\JumpingJack\Wearable\src\main\AndroidManifest.xml:28:13-39
+		ADDED from C:\Users\ztxse\Documents\projects\boldmove\watch\BoldMove\JumpingJack\Wearable\src\main\AndroidManifest.xml:34:13-39
 	android:theme
-		ADDED from C:\Users\ztxse\Documents\projects\boldmove\watch\BoldMove\JumpingJack\Wearable\src\main\AndroidManifest.xml:31:13-69
+		ADDED from C:\Users\ztxse\Documents\projects\boldmove\watch\BoldMove\JumpingJack\Wearable\src\main\AndroidManifest.xml:37:13-69
 meta-data#com.google.android.wearable.standalone
-ADDED from C:\Users\ztxse\Documents\projects\boldmove\watch\BoldMove\JumpingJack\Wearable\src\main\AndroidManifest.xml:34:9-36:36
+ADDED from C:\Users\ztxse\Documents\projects\boldmove\watch\BoldMove\JumpingJack\Wearable\src\main\AndroidManifest.xml:40:9-42:36
 	android:value
-		ADDED from C:\Users\ztxse\Documents\projects\boldmove\watch\BoldMove\JumpingJack\Wearable\src\main\AndroidManifest.xml:36:13-33
+		ADDED from C:\Users\ztxse\Documents\projects\boldmove\watch\BoldMove\JumpingJack\Wearable\src\main\AndroidManifest.xml:42:13-33
 	android:name
-		ADDED from C:\Users\ztxse\Documents\projects\boldmove\watch\BoldMove\JumpingJack\Wearable\src\main\AndroidManifest.xml:35:13-66
+		ADDED from C:\Users\ztxse\Documents\projects\boldmove\watch\BoldMove\JumpingJack\Wearable\src\main\AndroidManifest.xml:41:13-66
 activity#com.example.android.wearable.jumpingjack.MainActivity
-ADDED from C:\Users\ztxse\Documents\projects\boldmove\watch\BoldMove\JumpingJack\Wearable\src\main\AndroidManifest.xml:38:9-45:20
+ADDED from C:\Users\ztxse\Documents\projects\boldmove\watch\BoldMove\JumpingJack\Wearable\src\main\AndroidManifest.xml:44:9-51:20
 	android:label
-		ADDED from C:\Users\ztxse\Documents\projects\boldmove\watch\BoldMove\JumpingJack\Wearable\src\main\AndroidManifest.xml:40:17-49
+		ADDED from C:\Users\ztxse\Documents\projects\boldmove\watch\BoldMove\JumpingJack\Wearable\src\main\AndroidManifest.xml:46:17-49
 	android:name
-		ADDED from C:\Users\ztxse\Documents\projects\boldmove\watch\BoldMove\JumpingJack\Wearable\src\main\AndroidManifest.xml:39:17-45
+		ADDED from C:\Users\ztxse\Documents\projects\boldmove\watch\BoldMove\JumpingJack\Wearable\src\main\AndroidManifest.xml:45:17-45
 intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
-ADDED from C:\Users\ztxse\Documents\projects\boldmove\watch\BoldMove\JumpingJack\Wearable\src\main\AndroidManifest.xml:41:13-44:29
+ADDED from C:\Users\ztxse\Documents\projects\boldmove\watch\BoldMove\JumpingJack\Wearable\src\main\AndroidManifest.xml:47:13-50:29
 action#android.intent.action.MAIN
-ADDED from C:\Users\ztxse\Documents\projects\boldmove\watch\BoldMove\JumpingJack\Wearable\src\main\AndroidManifest.xml:42:17-68
+ADDED from C:\Users\ztxse\Documents\projects\boldmove\watch\BoldMove\JumpingJack\Wearable\src\main\AndroidManifest.xml:48:17-68
 	android:name
-		ADDED from C:\Users\ztxse\Documents\projects\boldmove\watch\BoldMove\JumpingJack\Wearable\src\main\AndroidManifest.xml:42:25-66
+		ADDED from C:\Users\ztxse\Documents\projects\boldmove\watch\BoldMove\JumpingJack\Wearable\src\main\AndroidManifest.xml:48:25-66
 category#android.intent.category.LAUNCHER
-ADDED from C:\Users\ztxse\Documents\projects\boldmove\watch\BoldMove\JumpingJack\Wearable\src\main\AndroidManifest.xml:43:17-76
+ADDED from C:\Users\ztxse\Documents\projects\boldmove\watch\BoldMove\JumpingJack\Wearable\src\main\AndroidManifest.xml:49:17-76
 	android:name
-		ADDED from C:\Users\ztxse\Documents\projects\boldmove\watch\BoldMove\JumpingJack\Wearable\src\main\AndroidManifest.xml:43:27-74
+		ADDED from C:\Users\ztxse\Documents\projects\boldmove\watch\BoldMove\JumpingJack\Wearable\src\main\AndroidManifest.xml:49:27-74
 uses-sdk
 INJECTED from C:\Users\ztxse\Documents\projects\boldmove\watch\BoldMove\JumpingJack\Wearable\src\main\AndroidManifest.xml reason: use-sdk injection requested
 INJECTED from C:\Users\ztxse\Documents\projects\boldmove\watch\BoldMove\JumpingJack\Wearable\src\main\AndroidManifest.xml

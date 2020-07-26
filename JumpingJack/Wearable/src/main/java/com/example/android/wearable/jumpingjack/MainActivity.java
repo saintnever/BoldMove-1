@@ -16,13 +16,31 @@
 
 package com.example.android.wearable.jumpingjack;
 
+import android.app.Activity;
+import android.app.ListActivity;
+import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothManager;
+import android.bluetooth.BluetoothDevice;
+import android.bluetooth.le.BluetoothLeScanner;
+import android.bluetooth.le.ScanCallback;
+import android.bluetooth.le.ScanFilter;
+import android.bluetooth.le.ScanRecord;
+import android.bluetooth.le.ScanResult;
+import android.bluetooth.le.ScanSettings;
 import android.content.Context;
+import android.content.Intent;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.ParcelUuid;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -34,8 +52,11 @@ import com.example.android.wearable.jumpingjack.fragments.FunctionOneFragment;
 import com.example.android.wearable.jumpingjack.fragments.FunctionThreeFragment;
 import com.example.android.wearable.jumpingjack.fragments.FunctionTwoFragment;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.UUID;
 
 /**
  * The main activity for the Jumping Jack application. This activity registers itself to receive
@@ -77,6 +98,19 @@ public class MainActivity extends FragmentActivity
     private ImageView mFirstIndicator;
     private ImageView mThirdIndicator;
 
+    /**Bluetooth setup*/
+    // Initializes Bluetooth adapter.
+    private BluetoothAdapter bluetoothAdapter;
+    private final static int REQUEST_ENABLE_BT = 1;
+    private LeDeviceListAdapter mLeDeviceListAdapter;
+    private boolean mScanning;
+    private Handler handler;
+    BluetoothLeScanner lescanner;
+    ScanSettings settings;
+    List<ScanFilter> filters = new ArrayList<ScanFilter>();
+    // Stops scanning after 10 seconds.
+    private static final long SCAN_PERIOD = 300000;
+
     private float[] gravity= new float[3];
     private float[] linear_acceleration= new float[3];
     private float[] gyro=new float[3];
@@ -98,6 +132,7 @@ public class MainActivity extends FragmentActivity
     private final String STATION_CONTINUOUS_SELECTING="Selecting continuous functions";
     private final String STATION_CONTINUOUS_DETECTING="Detecting continuous gestures";
     private String mStation=STATION_DISCRETE_DETECTING;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -129,6 +164,119 @@ public class MainActivity extends FragmentActivity
 
         Timer timer = new Timer();
         timer.scheduleAtFixedRate(task, 0,200);//Sample rate =5Hz
+
+        handler= new Handler();
+        final BluetoothManager bluetoothManager =
+                (BluetoothManager) getSystemService(Context.BLUETOOTH_SERVICE);
+        bluetoothAdapter = bluetoothManager.getAdapter();
+
+    }
+
+    /**Register sensor listener*/
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        // Ensures Bluetooth is available on the device and it is enabled. If not,
+        // displays a dialog requesting user permission to enable Bluetooth.
+        if (bluetoothAdapter == null || !bluetoothAdapter.isEnabled()) {
+            Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+            startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
+        } else{
+            lescanner = bluetoothAdapter.getBluetoothLeScanner();
+            settings = new ScanSettings.Builder()//
+                           .setScanMode(ScanSettings.SCAN_MODE_LOW_LATENCY)//
+                           .setCallbackType(ScanSettings.CALLBACK_TYPE_ALL_MATCHES)//
+                           .build();
+            ScanFilter namefilter = new ScanFilter.Builder().setDeviceName("BoldMove").build();
+            filters.add(namefilter);
+            scanLeDevice(true);
+            mLeDeviceListAdapter = new LeDeviceListAdapter();
+
+        }
+        // Initializes list view adapter.
+
+        if (mSensorManager.registerListener(this, mAcceleratorSensor,
+                SENSOR_RATE_NORMAL)) {
+            if (Log.isLoggable(TAG, Log.DEBUG)) {
+                Log.d(TAG, "Successfully registered for the accelerator sensor updates");
+            }
+        }
+        if (mSensorManager.registerListener(this, mGyroSensor,
+                SENSOR_RATE_NORMAL)) {
+            if (Log.isLoggable(TAG, Log.DEBUG)) {
+                Log.d(TAG, "Successfully registered for the gyro sensor updates");
+            }
+        }
+        if (mSensorManager.registerListener(this, mMagnetSensor,
+                SENSOR_RATE_NORMAL)) {
+            if (Log.isLoggable(TAG, Log.DEBUG)) {
+                Log.d(TAG, "Successfully registered for the gyro sensor updates");
+            }
+        }
+    }
+
+    /**Unregister sensor listener*/
+    @Override
+    protected void onPause() {
+        super.onPause();
+        scanLeDevice(false);
+        mSensorManager.unregisterListener(this);
+        if (Log.isLoggable(TAG, Log.DEBUG)) {
+            Log.d(TAG, "Unregistered for sensor events");
+        }
+    }
+
+    ScanCallback scanCallback = new ScanCallback() {
+        @Override
+        public void onScanResult(int callbackType, ScanResult result) {
+            if (callbackType != ScanSettings.CALLBACK_TYPE_ALL_MATCHES) {
+                // Should not happen.
+                Log.e(TAG, "LE Scan has already started");
+                return;
+            }
+            ScanRecord scanRecord = result.getScanRecord();
+            if (scanRecord == null) {
+                return;
+            }
+            Log.d("blescan", scanRecord.toString());
+
+//            callback.onLeScan(result.getDevice(), result.getRssi(),
+//                    scanRecord.getBytes());
+        }
+    };
+
+
+    private void scanLeDevice(final boolean enable) {
+        if (enable) {
+            // Stops scanning after a pre-defined scan period.
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    mScanning = false;
+//                    bluetoothAdapter.stopLeScan(leScanCallback);
+                    lescanner.stopScan(scanCallback);
+                }
+            }, SCAN_PERIOD);
+
+            mScanning = true;
+            lescanner.startScan(filters, settings, scanCallback);
+            //lescanner.startScan(scanCallback);
+
+        } else {
+            mScanning = false;
+            lescanner.stopScan(scanCallback);
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        // User chose not to enable Bluetooth.
+        if (requestCode == REQUEST_ENABLE_BT && resultCode == Activity.RESULT_CANCELED) {
+            finish();
+            return;
+        }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     /**Start sensors*/
@@ -224,39 +372,7 @@ public class MainActivity extends FragmentActivity
         mPager.setAdapter(adapter);
     }
 
-    /**Register sensor listener*/
-    @Override
-    protected void onResume() {
-        super.onResume();
-        if (mSensorManager.registerListener(this, mAcceleratorSensor,
-                SENSOR_RATE_NORMAL)) {
-            if (Log.isLoggable(TAG, Log.DEBUG)) {
-                Log.d(TAG, "Successfully registered for the accelerator sensor updates");
-            }
-        }
-        if (mSensorManager.registerListener(this, mGyroSensor,
-                SENSOR_RATE_NORMAL)) {
-            if (Log.isLoggable(TAG, Log.DEBUG)) {
-                Log.d(TAG, "Successfully registered for the gyro sensor updates");
-            }
-        }
-        if (mSensorManager.registerListener(this, mMagnetSensor,
-                SENSOR_RATE_NORMAL)) {
-            if (Log.isLoggable(TAG, Log.DEBUG)) {
-                Log.d(TAG, "Successfully registered for the gyro sensor updates");
-            }
-        }
-    }
 
-    /**Unregister sensor listener*/
-    @Override
-    protected void onPause() {
-        super.onPause();
-        mSensorManager.unregisterListener(this);
-        if (Log.isLoggable(TAG, Log.DEBUG)) {
-            Log.d(TAG, "Unregistered for sensor events");
-        }
-    }
 
     /**Get sensor data when data changed*/
     @Override
@@ -542,5 +658,65 @@ public class MainActivity extends FragmentActivity
             super.onExitAmbient();
         }
     }
+
+
+
+    // Adapter for holding devices found through scanning.
+    private class LeDeviceListAdapter extends BaseAdapter {
+        private ArrayList<BluetoothDevice> mLeDevices;
+        private LayoutInflater mInflator;
+        public LeDeviceListAdapter() {
+            super();
+            mLeDevices = new ArrayList<BluetoothDevice>();
+            mInflator = MainActivity.this.getLayoutInflater();
+        }
+        public void addDevice(BluetoothDevice device) {
+            if(!mLeDevices.contains(device)) {
+                mLeDevices.add(device);
+            }
+        }
+        public BluetoothDevice getDevice(int position) {
+            return mLeDevices.get(position);
+        }
+        public void clear() {
+            mLeDevices.clear();
+        }
+        @Override
+        public int getCount() {
+            return mLeDevices.size();
+        }
+        @Override
+        public Object getItem(int i) {
+            return mLeDevices.get(i);
+        }
+        @Override
+        public long getItemId(int i) {
+            return i;
+        }
+        @Override
+        public View getView(int i, View view, ViewGroup viewGroup) {
+//            DeviceScanActivity.ViewHolder viewHolder;
+//            // General ListView optimization code.
+//            if (view == null) {
+//                view = mInflator.inflate(R.layout.listitem_device, null);
+//                viewHolder = new DeviceScanActivity.ViewHolder();
+//                viewHolder.deviceAddress = (TextView) view.findViewById(R.id.device_address);
+//                viewHolder.deviceName = (TextView) view.findViewById(R.id.device_name);
+//                view.setTag(viewHolder);
+//            } else {
+//                viewHolder = (DeviceScanActivity.ViewHolder) view.getTag();
+//            }
+//            BluetoothDevice device = mLeDevices.get(i);
+//            final String deviceName = device.getName();
+//            if (deviceName != null && deviceName.length() > 0)
+//                viewHolder.deviceName.setText(deviceName);
+//            else
+//                viewHolder.deviceName.setText(R.string.unknown_device);
+//            viewHolder.deviceAddress.setText(device.getAddress());
+            return view;
+        }
+    }
+
+
 
 }
