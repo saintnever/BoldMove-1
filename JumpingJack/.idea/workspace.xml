@@ -6,44 +6,18 @@
     </shared>
   </component>
   <component name="AndroidLogFilters">
+    <option name="TOOL_WINDOW_CUSTOM_FILTER" value="manudata" />
     <option name="TOOL_WINDOW_LOG_LEVEL" value="debug" />
     <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Show only selected application" />
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f27a1077-0945-4507-aed6-377174caa948" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.gradle/5.6.4/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.6.4/executionHistory/executionHistory.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/5.6.4/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.6.4/executionHistory/executionHistory.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/5.6.4/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.6.4/fileHashes/fileHashes.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/5.6.4/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.6.4/fileHashes/fileHashes.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/5.6.4/javaCompile/classAnalysis.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.6.4/javaCompile/classAnalysis.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/5.6.4/javaCompile/javaCompile.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.6.4/javaCompile/javaCompile.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/caches/build_file_checksums.ser" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/caches/build_file_checksums.ser" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules/Wearable/Wearable.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/Wearable/Wearable.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/bundle_manifest/debug/bundle-manifest/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Wearable/build/intermediates/bundle_manifest/debug/bundle-manifest/AndroidManifest.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/dex/debug/mergeProjectDexDebug/out/classes.dex" beforeDir="false" afterPath="$PROJECT_DIR$/Wearable/build/intermediates/dex/debug/mergeProjectDexDebug/out/classes.dex" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/incremental/packageDebug/tmp/debug/dex-renamer-state.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Wearable/build/intermediates/incremental/packageDebug/tmp/debug/dex-renamer-state.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/incremental/packageDebug/tmp/debug/zip-cache/androidResources" beforeDir="false" afterPath="$PROJECT_DIR$/Wearable/build/intermediates/incremental/packageDebug/tmp/debug/zip-cache/androidResources" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/instant_app_manifest/debug/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Wearable/build/intermediates/instant_app_manifest/debug/AndroidManifest.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/javac/debug/classes/com/example/android/wearable/jumpingjack/MainActivity$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/Wearable/build/intermediates/javac/debug/classes/com/example/android/wearable/jumpingjack/MainActivity$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/javac/debug/classes/com/example/android/wearable/jumpingjack/MainActivity$2$1.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/javac/debug/classes/com/example/android/wearable/jumpingjack/MainActivity$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/Wearable/build/intermediates/javac/debug/classes/com/example/android/wearable/jumpingjack/MainActivity$2.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/javac/debug/classes/com/example/android/wearable/jumpingjack/MainActivity$3$1.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/javac/debug/classes/com/example/android/wearable/jumpingjack/MainActivity$3.class" beforeDir="false" afterPath="$PROJECT_DIR$/Wearable/build/intermediates/javac/debug/classes/com/example/android/wearable/jumpingjack/MainActivity$3.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/javac/debug/classes/com/example/android/wearable/jumpingjack/MainActivity$MyAmbientCallback.class" beforeDir="false" afterPath="$PROJECT_DIR$/Wearable/build/intermediates/javac/debug/classes/com/example/android/wearable/jumpingjack/MainActivity$MyAmbientCallback.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/javac/debug/classes/com/example/android/wearable/jumpingjack/MainActivity.class" beforeDir="false" afterPath="$PROJECT_DIR$/Wearable/build/intermediates/javac/debug/classes/com/example/android/wearable/jumpingjack/MainActivity.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/manifest_merge_blame_file/debug/manifest-merger-blame-debug-report.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Wearable/build/intermediates/manifest_merge_blame_file/debug/manifest-merger-blame-debug-report.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/merged_manifests/debug/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Wearable/build/intermediates/merged_manifests/debug/AndroidManifest.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/processed_res/debug/out/resources-debug.ap_" beforeDir="false" afterPath="$PROJECT_DIR$/Wearable/build/intermediates/processed_res/debug/out/resources-debug.ap_" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/project_dex_archive/debug/out/com/example/android/wearable/jumpingjack/MainActivity$1.dex" beforeDir="false" afterPath="$PROJECT_DIR$/Wearable/build/intermediates/project_dex_archive/debug/out/com/example/android/wearable/jumpingjack/MainActivity$1.dex" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/project_dex_archive/debug/out/com/example/android/wearable/jumpingjack/MainActivity$2$1.dex" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/project_dex_archive/debug/out/com/example/android/wearable/jumpingjack/MainActivity$2.dex" beforeDir="false" afterPath="$PROJECT_DIR$/Wearable/build/intermediates/project_dex_archive/debug/out/com/example/android/wearable/jumpingjack/MainActivity$2.dex" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/project_dex_archive/debug/out/com/example/android/wearable/jumpingjack/MainActivity$3$1.dex" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/project_dex_archive/debug/out/com/example/android/wearable/jumpingjack/MainActivity$3.dex" beforeDir="false" afterPath="$PROJECT_DIR$/Wearable/build/intermediates/project_dex_archive/debug/out/com/example/android/wearable/jumpingjack/MainActivity$3.dex" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/project_dex_archive/debug/out/com/example/android/wearable/jumpingjack/MainActivity$MyAmbientCallback.dex" beforeDir="false" afterPath="$PROJECT_DIR$/Wearable/build/intermediates/project_dex_archive/debug/out/com/example/android/wearable/jumpingjack/MainActivity$MyAmbientCallback.dex" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/project_dex_archive/debug/out/com/example/android/wearable/jumpingjack/MainActivity.dex" beforeDir="false" afterPath="$PROJECT_DIR$/Wearable/build/intermediates/project_dex_archive/debug/out/com/example/android/wearable/jumpingjack/MainActivity.dex" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/outputs/apk/debug/Wearable-debug.apk" beforeDir="false" afterPath="$PROJECT_DIR$/Wearable/build/outputs/apk/debug/Wearable-debug.apk" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/outputs/logs/manifest-merger-debug-report.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Wearable/build/outputs/logs/manifest-merger-debug-report.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Wearable/src/main/AndroidManifest.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Wearable/src/main/java/com/example/android/wearable/jumpingjack/MainActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/Wearable/src/main/java/com/example/android/wearable/jumpingjack/MainActivity.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -237,26 +211,26 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="723" y="278" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1593674737422" />
-    <state width="2003" height="308" key="GridCell.Tab.0.bottom" timestamp="1595772598646">
+    <state width="2003" height="227" key="GridCell.Tab.0.bottom" timestamp="1596115147805">
       <screen x="0" y="0" width="2048" height="1122" />
     </state>
     <state width="1877" height="281" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1595580033839" />
-    <state width="2003" height="308" key="GridCell.Tab.0.bottom/0.0.2048.1122/2560.-172.1536.834@0.0.2048.1122" timestamp="1595772598646" />
-    <state width="2003" height="308" key="GridCell.Tab.0.center" timestamp="1595772598646">
+    <state width="2003" height="227" key="GridCell.Tab.0.bottom/0.0.2048.1122/2560.-172.1536.834@0.0.2048.1122" timestamp="1596115147805" />
+    <state width="2003" height="227" key="GridCell.Tab.0.center" timestamp="1596115147804">
       <screen x="0" y="0" width="2048" height="1122" />
     </state>
     <state width="1877" height="281" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1595580033838" />
-    <state width="2003" height="308" key="GridCell.Tab.0.center/0.0.2048.1122/2560.-172.1536.834@0.0.2048.1122" timestamp="1595772598646" />
-    <state width="2003" height="308" key="GridCell.Tab.0.left" timestamp="1595772598646">
+    <state width="2003" height="227" key="GridCell.Tab.0.center/0.0.2048.1122/2560.-172.1536.834@0.0.2048.1122" timestamp="1596115147804" />
+    <state width="2003" height="227" key="GridCell.Tab.0.left" timestamp="1596115147803">
       <screen x="0" y="0" width="2048" height="1122" />
     </state>
     <state width="1877" height="281" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1595580033838" />
-    <state width="2003" height="308" key="GridCell.Tab.0.left/0.0.2048.1122/2560.-172.1536.834@0.0.2048.1122" timestamp="1595772598646" />
-    <state width="2003" height="308" key="GridCell.Tab.0.right" timestamp="1595772598646">
+    <state width="2003" height="227" key="GridCell.Tab.0.left/0.0.2048.1122/2560.-172.1536.834@0.0.2048.1122" timestamp="1596115147803" />
+    <state width="2003" height="227" key="GridCell.Tab.0.right" timestamp="1596115147804">
       <screen x="0" y="0" width="2048" height="1122" />
     </state>
     <state width="1877" height="281" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1595580033838" />
-    <state width="2003" height="308" key="GridCell.Tab.0.right/0.0.2048.1122/2560.-172.1536.834@0.0.2048.1122" timestamp="1595772598646" />
+    <state width="2003" height="227" key="GridCell.Tab.0.right/0.0.2048.1122/2560.-172.1536.834@0.0.2048.1122" timestamp="1596115147804" />
     <state width="2003" height="380" key="GridCell.Tab.1.bottom" timestamp="1595770419252">
       <screen x="0" y="0" width="2048" height="1122" />
     </state>
@@ -277,10 +251,15 @@
     </state>
     <state width="1877" height="347" key="GridCell.Tab.1.right/0.0.1920.1040@0.0.1920.1040" timestamp="1593697036118" />
     <state width="2003" height="380" key="GridCell.Tab.1.right/0.0.2048.1122/2560.-172.1536.834@0.0.2048.1122" timestamp="1595770419252" />
-    <state x="640" y="516" key="com.intellij.ide.util.TipDialog" timestamp="1595554365930">
-      <screen x="0" y="0" width="1920" height="1040" />
+    <state x="617" y="294" key="Vcs.Push.Dialog.v2" timestamp="1595774247405">
+      <screen x="0" y="0" width="2048" height="1122" />
+    </state>
+    <state x="617" y="294" key="Vcs.Push.Dialog.v2/0.0.2048.1122/2560.-172.1536.834@0.0.2048.1122" timestamp="1595774247405" />
+    <state x="683" y="557" key="com.intellij.ide.util.TipDialog" timestamp="1596112589449">
+      <screen x="0" y="0" width="2048" height="1122" />
     </state>
     <state x="640" y="516" key="com.intellij.ide.util.TipDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1595554365930" />
+    <state x="683" y="557" key="com.intellij.ide.util.TipDialog/0.0.2048.1122/2560.-172.1536.834@0.0.2048.1122" timestamp="1596112589449" />
     <state x="567" y="70" width="786" height="900" key="find.popup" timestamp="1592479923328">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>

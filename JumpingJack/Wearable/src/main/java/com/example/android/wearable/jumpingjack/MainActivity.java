@@ -52,7 +52,9 @@ import com.example.android.wearable.jumpingjack.fragments.FunctionOneFragment;
 import com.example.android.wearable.jumpingjack.fragments.FunctionThreeFragment;
 import com.example.android.wearable.jumpingjack.fragments.FunctionTwoFragment;
 
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -105,11 +107,16 @@ public class MainActivity extends FragmentActivity
     private LeDeviceListAdapter mLeDeviceListAdapter;
     private boolean mScanning;
     private Handler handler;
-    BluetoothLeScanner lescanner;
-    ScanSettings settings;
-    List<ScanFilter> filters = new ArrayList<ScanFilter>();
+    private BluetoothLeScanner lescanner;
+    private ScanSettings settings;
+    private List<ScanFilter> filters = new ArrayList<ScanFilter>();
     // Stops scanning after 10 seconds.
     private static final long SCAN_PERIOD = 300000;
+    private byte[] manudata= new byte[4];
+    private byte  BUTTON_LEFT = 0;
+    private byte  BUTTON_RIGHT= 0;
+    private byte  SLIDER_TOUCH = 0;
+    private byte  SLIDER_VALUE = 0;
 
     private float[] gravity= new float[3];
     private float[] linear_acceleration= new float[3];
@@ -122,11 +129,11 @@ public class MainActivity extends FragmentActivity
     private String mPosition = POSITION_UNKNOWN;
 
     public static final String POSITION_UNKNOWN = "Unkown";
-    private final String POSITION_LEFT="Left";
-    private final String POSITION_RIGHT="Right";
-    private final String POSITION_TOP="Top";
-    private final String POSITION_BOTTOM="Bottom";
-    private final String POSITION_FORWARD="Push";
+    private final String POSITION_TOP="up";
+    private final String POSITION_BOTTOM="down";
+    private final String POSITION_LEFT="left";
+    private final String POSITION_RIGHT="right";
+    private final String POSITION_FORWARD="push";
     private final String STATION_DISCRETE_DETECTING="Detecting discrete gestures";
     private final String STATION_SELECTING="Selecting functions";
     private final String STATION_CONTINUOUS_SELECTING="Selecting continuous functions";
@@ -170,6 +177,9 @@ public class MainActivity extends FragmentActivity
                 (BluetoothManager) getSystemService(Context.BLUETOOTH_SERVICE);
         bluetoothAdapter = bluetoothManager.getAdapter();
 
+        for(int i=0;i<4;i++){
+            manudata[i] = 0x00;
+        }
     }
 
     /**Register sensor listener*/
@@ -240,7 +250,12 @@ public class MainActivity extends FragmentActivity
                 return;
             }
             Log.d("blescan", scanRecord.toString());
-
+            manudata = scanRecord.getManufacturerSpecificData(0x0059);
+            Log.d("manudata", Arrays.toString(manudata));
+            BUTTON_LEFT = manudata[0];
+            BUTTON_RIGHT = manudata[1];
+            SLIDER_TOUCH = manudata[3];
+            SLIDER_VALUE = manudata[4];
 //            callback.onLeScan(result.getDevice(), result.getRssi(),
 //                    scanRecord.getBytes());
         }
