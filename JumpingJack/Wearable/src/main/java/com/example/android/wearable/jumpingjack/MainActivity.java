@@ -41,6 +41,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -87,10 +88,12 @@ public class MainActivity extends FragmentActivity
     private int isTop=0;
     private int isBottom=0;
     private TextView gestureText;
+    private TextView counterText;
     private PagerAdapter adapter;
     private int previousTime=0;
     private float roll;
     private int i=0;
+    private int counter=1;
 
     private ViewPager mPager;
     private FunctionOneFragment mCounterPage;
@@ -117,6 +120,10 @@ public class MainActivity extends FragmentActivity
     private byte  BUTTON_RIGHT= 0;
     private byte  SLIDER_TOUCH = 0;
     private byte  SLIDER_VALUE = 0;
+    private byte PREVIOUS_BUTTON_LEFT=0;
+    private byte PREVIOUS_BUTTON_RIGHT=0;
+    private byte PREVIOUS_SLIDER_TOUCH=0;
+    private byte PREVIOUS_SLIDER_VALUE=0;
 
     private float[] gravity= new float[3];
     private float[] linear_acceleration= new float[3];
@@ -145,9 +152,10 @@ public class MainActivity extends FragmentActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setupGestureViews(STATION_DISCRETE_DETECTING);
-
         AmbientModeSupport.attach(this);
+
+        setupGestureViews("Let's start!");
+        /*setupGestureViews(STATION_DISCRETE_DETECTING);
 
         gravity[0] = 0.0f;
         gravity[1] = 0.0f;
@@ -170,7 +178,7 @@ public class MainActivity extends FragmentActivity
         startSensor();
 
         Timer timer = new Timer();
-        timer.scheduleAtFixedRate(task, 0,200);//Sample rate =5Hz
+        timer.scheduleAtFixedRate(task, 0,200);//Sample rate =5Hz*/
 
         handler= new Handler();
         final BluetoothManager bluetoothManager =
@@ -186,7 +194,7 @@ public class MainActivity extends FragmentActivity
     @Override
     protected void onResume() {
         super.onResume();
-
+        Log.i("resume", "resume");
         // Ensures Bluetooth is available on the device and it is enabled. If not,
         // displays a dialog requesting user permission to enable Bluetooth.
         if (bluetoothAdapter == null || !bluetoothAdapter.isEnabled()) {
@@ -204,8 +212,9 @@ public class MainActivity extends FragmentActivity
             mLeDeviceListAdapter = new LeDeviceListAdapter();
 
         }
-        // Initializes list view adapter.
 
+        // Initializes list view adapter.
+        /*
         if (mSensorManager.registerListener(this, mAcceleratorSensor,
                 SENSOR_RATE_NORMAL)) {
             if (Log.isLoggable(TAG, Log.DEBUG)) {
@@ -223,7 +232,7 @@ public class MainActivity extends FragmentActivity
             if (Log.isLoggable(TAG, Log.DEBUG)) {
                 Log.d(TAG, "Successfully registered for the gyro sensor updates");
             }
-        }
+        }*/
     }
 
     /**Unregister sensor listener*/
@@ -231,10 +240,10 @@ public class MainActivity extends FragmentActivity
     protected void onPause() {
         super.onPause();
         scanLeDevice(false);
-        mSensorManager.unregisterListener(this);
+        /*mSensorManager.unregisterListener(this);
         if (Log.isLoggable(TAG, Log.DEBUG)) {
             Log.d(TAG, "Unregistered for sensor events");
-        }
+        }*/
     }
 
     ScanCallback scanCallback = new ScanCallback() {
@@ -256,11 +265,11 @@ public class MainActivity extends FragmentActivity
             BUTTON_RIGHT = manudata[1];
             SLIDER_TOUCH = manudata[3];
             SLIDER_VALUE = manudata[4];
+            ubiTouchStatus();
 //            callback.onLeScan(result.getDevice(), result.getRssi(),
 //                    scanRecord.getBytes());
         }
     };
-
 
     private void scanLeDevice(final boolean enable) {
         if (enable) {
@@ -294,6 +303,130 @@ public class MainActivity extends FragmentActivity
         super.onActivityResult(requestCode, resultCode, data);
     }
 
+    /**ubiTouch feedback*/
+    private void ubiTouchStatus(){
+        switch (BUTTON_LEFT){
+            case 0:
+                if(PREVIOUS_BUTTON_LEFT==1){
+                    //显示选中的功能
+                    setupGestureViews("Result:\n"+functionList(counter,1)[mPager.getCurrentItem()]);
+                }
+                PREVIOUS_BUTTON_LEFT=0;
+                break;
+            case 1:
+                if(PREVIOUS_BUTTON_LEFT==0){
+                    String functionlist1[]=functionList(counter,1);
+                    setupScrollViews(functionlist1[0],functionlist1[1],functionlist1[2]);
+                }
+                PREVIOUS_BUTTON_LEFT=1;
+                break;
+        }
+        switch(BUTTON_RIGHT){
+            case 0:
+                if(PREVIOUS_BUTTON_RIGHT==1){
+                    //显示选中的功能
+                    setupGestureViews("Result:\n"+functionList(counter,2)[mPager.getCurrentItem()]);
+                }
+                PREVIOUS_BUTTON_RIGHT=0;
+                break;
+            case 1:
+                if(PREVIOUS_BUTTON_RIGHT==0){
+                    String functionlist2[]=functionList(counter,2);
+                    setupScrollViews(functionlist2[0],functionlist2[1],functionlist2[2]);
+                }
+                PREVIOUS_BUTTON_RIGHT=1;
+                break;
+        }
+        switch(SLIDER_TOUCH){
+            case 0:
+                if(PREVIOUS_SLIDER_TOUCH==1){
+                    //显示选中的数值
+                    setupGestureViews("Result:\n"+PREVIOUS_SLIDER_VALUE);
+                }
+                PREVIOUS_SLIDER_TOUCH=0;
+                break;
+            case 1:
+                if(PREVIOUS_SLIDER_TOUCH==0){
+                    String[] functionlist3=functionList(counter,3);
+                    setupScrollViews(functionlist3[0],functionlist3[1],functionlist3[2]);
+                }else{
+                    if(SLIDER_VALUE!=PREVIOUS_SLIDER_VALUE){
+                        //显示选中的功能和实时的连续值
+                        if(scrollTimer!=null){
+                            setupGestureViews(functionList(counter,3)[mPager.getCurrentItem()]+"\n"+SLIDER_VALUE);
+                        }else{
+                            setText(functionList(counter,3)[mPager.getCurrentItem()]+"\n"+SLIDER_VALUE);
+                        }
+                    }
+                }
+                PREVIOUS_SLIDER_VALUE=SLIDER_VALUE;
+                PREVIOUS_SLIDER_TOUCH=1;
+                break;
+        }
+    }
+
+    /**Redefined function list*/
+    private String[] functionList(int counter,int buttonType){
+        String[] functions=new String[]{"","",""};
+        switch(counter){
+            case 1:
+                if(buttonType==1){
+                    functions[0]="LEFT\nLOCATION1\nFUNCTION1";
+                    functions[1]="LEFT\nLOCATION1\nFUNCTION2";
+                    functions[2]="LEFT\nLOCATION1\nFUNCTION3";
+                    return functions;
+                }else if(buttonType==2){
+                    functions[0]="RIGHT\nLOCATION1\nFUNCTION1";
+                    functions[1]="RIGHT\nLOCATION1\nFUNCTION2";
+                    functions[2]="RIGHT\nLOCATION1\nFUNCTION3";
+                    return functions;
+                }else if(buttonType==3){
+                    functions[0]="SLIDER\nLOCATION1\nFUNCTION1";
+                    functions[1]="SLIDER\nLOCATION1\nFUNCTION2";
+                    functions[2]="SLIDER\nLOCATION1\nFUNCTION3";
+                    return functions;
+                }
+                break;
+            case 2:
+                if(buttonType==1){
+                    functions[0]="LEFT\nLOCATION2\nFUNCTION1";
+                    functions[1]="LEFT\nLOCATION2\nFUNCTION2";
+                    functions[2]="LEFT\nLOCATION2\nFUNCTION3";
+                    return functions;
+                }else if(buttonType==2){
+                    functions[0]="RIGHT\nLOCATION2\nFUNCTION1";
+                    functions[1]="RIGHT\nLOCATION2\nFUNCTION2";
+                    functions[2]="RIGHT\nLOCATION2\nFUNCTION3";
+                    return functions;
+                }else if(buttonType==3){
+                    functions[0]="SLIDER\nLOCATION2\nFUNCTION1";
+                    functions[1]="SLIDER\nLOCATION2\nFUNCTION2";
+                    functions[2]="SLIDER\nLOCATION2\nFUNCTION3";
+                    return functions;
+                }
+                break;
+            case 3:
+                if(buttonType==1){
+                    functions[0]="LEFT\nLOCATION3\nFUNCTION1";
+                    functions[1]="LEFT\nLOCATION3\nFUNCTION2";
+                    functions[2]="LEFT\nLOCATION3\nFUNCTION3";
+                    return functions;
+                }else if(buttonType==2){
+                    functions[0]="RIGHT\nLOCATION3\nFUNCTION1";
+                    functions[1]="RIGHT\nLOCATION3\nFUNCTION2";
+                    functions[2]="RIGHT\nLOCATION3\nFUNCTION3";
+                    return functions;
+                }else if(buttonType==3){
+                    functions[0]="SLIDER\nLOCATION3\nFUNCTION1";
+                    functions[1]="SLIDER\nLOCATION3\nFUNCTION2";
+                    functions[2]="SLIDER\nLOCATION3\nFUNCTION3";
+                    return functions;
+                }
+                break;
+        }
+        return functions;
+    }
+
     /**Start sensors*/
     private void startSensor() {
         if (mSensorManager == null) {
@@ -319,6 +452,9 @@ public class MainActivity extends FragmentActivity
         gestureText = findViewById(R.id.gesture);
         gestureText.setText(initialText);
 
+        counterText=findViewById(R.id.counter);
+        counterText.setText(Integer.toString(counter));
+
         if (scrollTimer != null) {
             scrollTimer.cancel();
             scrollTimer = null;
@@ -327,6 +463,30 @@ public class MainActivity extends FragmentActivity
             scrollTask.cancel();
             scrollTask = null;
         }
+
+        Button add = (Button) this.findViewById(R.id.addButton);
+        add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //TODO Auto-generated method stub
+                if(counter<3)
+                    counter++;
+                counterText.setText(Integer.toString(counter));
+                Log.i("buttonEvent", "addButton被用户点击了。");
+            }
+        });
+
+        Button remove = (Button) this.findViewById(R.id.removeButton);
+        remove.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //TODO Auto-generated method stub
+                if(counter>1)
+                    counter--;
+                counterText.setText(Integer.toString(counter));
+                Log.i("buttonEvent", "removeButton被用户点击了。");
+            }
+        });
     }
 
 
@@ -400,12 +560,12 @@ public class MainActivity extends FragmentActivity
             case Sensor.TYPE_GYROSCOPE:
                 //Log.e(TAG, "Gyroscope:   "+event.values[0]+"  "+event.values[1]+"   "+event.values[2]);
                 gyro=event.values;
-                RA=RelativeAccelerator(accelerator,gyro,event.timestamp);
-                inAirGesture();
+                //RA=RelativeAccelerator(accelerator,gyro,event.timestamp);
+                //inAirGesture();
                 break;
             case Sensor.TYPE_MAGNETIC_FIELD:
                 //Log.e(TAG, "Magnet:   "+event.values[0]+"  "+event.values[1]+"   "+event.values[2]);
-                AO=AbsoluteOrientation(accelerator,magnet);
+                //AO=AbsoluteOrientation(accelerator,magnet);
                 magnet=event.values;
                 break;
         }
