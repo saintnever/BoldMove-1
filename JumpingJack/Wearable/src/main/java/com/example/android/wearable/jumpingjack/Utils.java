@@ -21,6 +21,9 @@ import android.content.SharedPreferences;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
 
+import java.io.InputStream;
+import java.util.Scanner;
+
 /**
  * A utility class for some helper methods.
  */
@@ -64,4 +67,11 @@ public class Utils {
         return pref.getInt(PREF_KEY_COUNTER, 0);
     }
 
+    public static String convertStreamToString(InputStream is) {
+        Scanner s = new Scanner(is).useDelimiter("\\A");
+        return s.hasNext() ? s.next() : "";
+    }
+
 }
+
+

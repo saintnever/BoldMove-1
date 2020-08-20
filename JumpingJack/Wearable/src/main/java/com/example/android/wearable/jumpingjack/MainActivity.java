@@ -53,6 +53,8 @@ import com.example.android.wearable.jumpingjack.fragments.FunctionOneFragment;
 import com.example.android.wearable.jumpingjack.fragments.FunctionThreeFragment;
 import com.example.android.wearable.jumpingjack.fragments.FunctionTwoFragment;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -60,6 +62,12 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.UUID;
+import com.example.android.wearable.jumpingjack.function;
+import com.google.android.gms.common.util.Strings;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * The main activity for the Jumping Jack application. This activity registers itself to receive
@@ -151,7 +159,6 @@ public class MainActivity extends FragmentActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         AmbientModeSupport.attach(this);
 
         setupGestureViews("Let's start!");
@@ -187,6 +194,12 @@ public class MainActivity extends FragmentActivity
 
         for(int i=0;i<4;i++){
             manudata[i] = 0x00;
+        }
+
+        try {
+            List<function> functions = assembly_functions(2,1,1,0);
+        } catch (IOException | JSONException e) {
+            e.printStackTrace();
         }
     }
 
@@ -424,6 +437,26 @@ public class MainActivity extends FragmentActivity
                 }
                 break;
         }
+        return functions;
+    }
+
+    /**Redefined function list*/
+    private List<function> assembly_functions(int study, int session, int block, int semantic) throws IOException, JSONException {
+        InputStream jsonStream = getAssets().open("functions_study.json");
+        JSONObject jsonObject = new JSONObject(Utils.convertStreamToString(jsonStream));
+        JSONArray json_scenarios = new JSONArray();
+        Context context = getApplicationContext();
+        if (study == 1) {
+             json_scenarios = jsonObject.getJSONArray("functions_study" + Integer.toString(study));
+        }
+        else if (study == 2){
+            json_scenarios = jsonObject.getJSONArray("functions_study" + Integer.toString(study) + "_scenario"+Integer.toString(block));
+        }
+        List<function> functions = new ArrayList<function>();
+        for (int i = 0; i < json_scenarios.length(); i++) {
+            functions.add(new function(json_scenarios.getJSONObject(i), context));
+        }
+
         return functions;
     }
 

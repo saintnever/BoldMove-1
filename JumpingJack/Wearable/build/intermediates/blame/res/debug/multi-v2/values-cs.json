@@ -1,10 +1,27 @@
 {
     "logs": [
         {
-            "outputFile": "D:\\Android Wear Projects\\BoldMove-ubitouch\\BoldMove\\JumpingJack\\Wearable\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-cs\\values-cs.xml",
+            "outputFile": "C:\\Users\\ztxse\\Documents\\projects\\boldmove\\watch\\BoldMove\\JumpingJack\\Wearable\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-cs\\values-cs.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\jiang\\.gradle\\caches\\transforms-2\\files-2.1\\da95e0dd41fd0c634661df2a0f122634\\core-1.1.0\\res\\values-cs\\values-cs.xml",
+                    "source": "C:\\Users\\ztxse\\.gradle\\caches\\transforms-2\\files-2.1\\52bcdde783b993926de945b31941af0a\\wear-1.0.0\\res\\values-cs\\values-cs.xml",
+                    "from": {
+                        "startLines": "2,3",
+                        "startColumns": "4,4",
+                        "startOffsets": "55,171",
+                        "endColumns": "115,123",
+                        "endOffsets": "166,290"
+                    },
+                    "to": {
+                        "startLines": "89,90",
+                        "startColumns": "4,4",
+                        "startOffsets": "6741,6857",
+                        "endColumns": "115,123",
+                        "endOffsets": "6852,6976"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\ztxse\\.gradle\\caches\\transforms-2\\files-2.1\\03736cf4bc3669a69d502627b70a527e\\core-1.1.0\\res\\values-cs\\values-cs.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",
@@ -21,7 +38,7 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\jiang\\.gradle\\caches\\transforms-2\\files-2.1\\3136d2e9a522e4a18093ba3e920e5f4e\\jetified-wearable-2.7.0\\res\\values-cs\\values.xml",
+                    "source": "C:\\Users\\ztxse\\.gradle\\caches\\transforms-2\\files-2.1\\dfba5ea543d551c0347d1f4e40f8d366\\jetified-wearable-2.7.0\\res\\values-cs\\values.xml",
                     "from": {
                         "startLines": "4,9,14,19,24,29,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71",
                         "startColumns": "0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0",
@@ -40,7 +57,7 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\jiang\\.gradle\\caches\\transforms-2\\files-2.1\\e2c213d4dfcecf7d0961805c3c2450f7\\jetified-play-services-base-17.0.0\\res\\values-cs\\values.xml",
+                    "source": "C:\\Users\\ztxse\\.gradle\\caches\\transforms-2\\files-2.1\\6a27f052584ba14e1bf3f0754d910342\\jetified-play-services-base-17.0.0\\res\\values-cs\\values.xml",
                     "from": {
                         "startLines": "4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20",
                         "startColumns": "0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0",
@@ -57,24 +74,7 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\jiang\\.gradle\\caches\\transforms-2\\files-2.1\\4c38bf2f4ca935b4210f3a9b0daceebd\\wear-1.0.0\\res\\values-cs\\values-cs.xml",
-                    "from": {
-                        "startLines": "2,3",
-                        "startColumns": "4,4",
-                        "startOffsets": "55,171",
-                        "endColumns": "115,123",
-                        "endOffsets": "166,290"
-                    },
-                    "to": {
-                        "startLines": "89,90",
-                        "startColumns": "4,4",
-                        "startOffsets": "6741,6857",
-                        "endColumns": "115,123",
-                        "endOffsets": "6852,6976"
-                    }
-                },
-                {
-                    "source": "C:\\Users\\jiang\\.gradle\\caches\\transforms-2\\files-2.1\\752a983649401b2c06f8f162da3a35f7\\jetified-play-services-basement-17.0.0\\res\\values-cs\\values.xml",
+                    "source": "C:\\Users\\ztxse\\.gradle\\caches\\transforms-2\\files-2.1\\85cfff5691f363e5417071a3d3b6c15f\\jetified-play-services-basement-17.0.0\\res\\values-cs\\values.xml",
                     "from": {
                         "startLines": "4",
                         "startColumns": "0",
