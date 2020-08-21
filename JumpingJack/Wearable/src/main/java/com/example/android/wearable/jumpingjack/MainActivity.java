@@ -303,7 +303,11 @@ public class MainActivity extends FragmentActivity
             BUTTON_RIGHT = manudata[1];
             SLIDER_TOUCH = manudata[2];
             SLIDER_VALUE = manudata[3];
-            ubiTouchStatus();
+            try {
+                ubiTouchStatus();
+            } catch (IOException | JSONException e) {
+                e.printStackTrace();
+            }
 //            callback.onLeScan(result.getDevice(), result.getRssi(),
 //                    scanRecord.getBytes());
         }
@@ -342,7 +346,7 @@ public class MainActivity extends FragmentActivity
     }
 
     /**ubiTouch feedback*/
-    private void ubiTouchStatus(){
+    private void ubiTouchStatus() throws IOException, JSONException {
         // get current task
         // if semantic matches task semantic
         // start selection
@@ -376,74 +380,91 @@ public class MainActivity extends FragmentActivity
         task = randomTasks_StudyOne.get(finishedTasks);
         //写入log文件
         Log.d("currentSettings", functionOrder+" "+ functionTime +" "+ task +" "+session);
+        List<function> b1s1 = functionList(0, 1, 4);
+        for (function item:b1s1
+             ) {
+            Log.d("function_validation",item.get_id().toString());
+        }
 
         //实验一结束进行实验二么？还是编译成两个程序？
         //如果是实验二，执行以下代码
         //。。。。。。
-
+//        switch (BUTTON_LEFT){
+//            case 0:
+//                if(PREVIOUS_BUTTON_LEFT==1){
+//                    //显示选中的功能
+//                    setupGestureViews("Result:\n"+functionList(1,1,functionOrder)[mPager.getCurrentItem()]);
+//                    //写入Log文件，任务完成时间
+//                    Log.d("finishTime",String.valueOf(System.currentTimeMillis()));
+//                    finishedBlocks++;
+//                }
+//                PREVIOUS_BUTTON_LEFT=0;
+//                break;
+//            case -1:
+//                if(PREVIOUS_BUTTON_LEFT==0){
+//                    String functionlist1[]=functionList(1,1,functionOrder);
+//                    setupScrollViews(functionlist1[0],functionlist1[1],functionlist1[2]);
+//                    //写入Log文件，任务开始时间
+//                    Log.d("startTime",String.valueOf(System.currentTimeMillis()));
+//                }
+//                PREVIOUS_BUTTON_LEFT=1;
+//                break;
+//        }
+//        switch(BUTTON_RIGHT){
+//            case 0:
+//                if(PREVIOUS_BUTTON_RIGHT==1){
+//                    //显示选中的功能
+//                    setupGestureViews("Result:\n"+functionList(2,1,functionOrder)[mPager.getCurrentItem()]);
+//                    //写入Log文件，任务完成时间
+//                    Log.d("finishTime",String.valueOf(System.currentTimeMillis()));
+//                    finishedBlocks++;
+//                }
+//                PREVIOUS_BUTTON_RIGHT=0;
+//                break;
+//            case -1:
+//                if(PREVIOUS_BUTTON_RIGHT==0){
+//                    String functionlist2[]=functionList(2,1,functionOrder);
+//                    setupScrollViews(functionlist2[0],functionlist2[1],functionlist2[2]);
+//                    //写入Log文件，任务开始时间
+//                    Log.d("startTime",String.valueOf(System.currentTimeMillis()));
+//                }
+//                PREVIOUS_BUTTON_RIGHT=1;
+//                break;
+//        }
+//        switch(TOGGLE){
+//            case 0:
+//                if(PREVIOUS_SLIDER_TOUCH==1){
+//                    //显示选中的数值
+//                    setupGestureViews("Result:\n"+PREVIOUS_SLIDER_VALUE);
+//                    finishedBlocks++;
+//                }
+//                PREVIOUS_SLIDER_TOUCH=0;
+//                break;
+//            case -1:
+//                if(PREVIOUS_SLIDER_TOUCH==0){
+//                    String[] functionlist3=functionList(3,1,functionOrder);
+//                    setupScrollViews(functionlist3[0],functionlist3[1],functionlist3[2]);
+//                    //写入Log文件，任务开始时间
+//                    Log.d("startTime",String.valueOf(System.currentTimeMillis()));
+//                }else{
+//                    if(SLIDER_VALUE!=PREVIOUS_SLIDER_VALUE){
+//                        //写入Log文件，任务完成时间
+//                        Log.d("finishedTime",String.valueOf(System.currentTimeMillis()));
+//                        //显示选中的功能和实时的连续值
+//                        if(scrollTimer!=null){
+//                            setupGestureViews(functionList(3,1,functionOrder)[mPager.getCurrentItem()]+"\n"+SLIDER_VALUE);
+//                        }else{
+//                            setText(functionList(3,1,functionOrder)[mPager.getCurrentItem()]+"\n"+SLIDER_VALUE);
+//                        }
+//                    }
+//                }
+//                PREVIOUS_SLIDER_VALUE=SLIDER_VALUE;
+//                PREVIOUS_SLIDER_TOUCH=1;
+//                break;
+//        }
     }
 
-    /**Predefined function list*/
-    private String[] functionList(int location,int semantic,int study,int functionOrder){
-        String[] functions=new String[]{"","",""};
-        switch(location){
-            case 1:
-                if(semantic==1){
-                    functions[0]="LEFT\nLOCATION1\nFUNCTION1";
-                    functions[1]="LEFT\nLOCATION1\nFUNCTION2";
-                    functions[2]="LEFT\nLOCATION1\nFUNCTION3";
-                    return functions;
-                }else if(semantic==2){
-                    functions[0]="RIGHT\nLOCATION1\nFUNCTION1";
-                    functions[1]="RIGHT\nLOCATION1\nFUNCTION2";
-                    functions[2]="RIGHT\nLOCATION1\nFUNCTION3";
-                    return functions;
-                }else if(semantic==3){
-                    functions[0]="SLIDER\nLOCATION1\nFUNCTION1";
-                    functions[1]="SLIDER\nLOCATION1\nFUNCTION2";
-                    functions[2]="SLIDER\nLOCATION1\nFUNCTION3";
-                    return functions;
-                }
-                break;
-            case 2:
-                if(semantic==1){
-                    functions[0]="LEFT\nLOCATION2\nFUNCTION1";
-                    functions[1]="LEFT\nLOCATION2\nFUNCTION2";
-                    functions[2]="LEFT\nLOCATION2\nFUNCTION3";
-                    return functions;
-                }else if(semantic==2){
-                    functions[0]="RIGHT\nLOCATION2\nFUNCTION1";
-                    functions[1]="RIGHT\nLOCATION2\nFUNCTION2";
-                    functions[2]="RIGHT\nLOCATION2\nFUNCTION3";
-                    return functions;
-                }else if(semantic==3){
-                    functions[0]="SLIDER\nLOCATION2\nFUNCTION1";
-                    functions[1]="SLIDER\nLOCATION2\nFUNCTION2";
-                    functions[2]="SLIDER\nLOCATION2\nFUNCTION3";
-                    return functions;
-                }
-                break;
-            case 3:
-                if(semantic==1){
-                    functions[0]="LEFT\nLOCATION3\nFUNCTION1";
-                    functions[1]="LEFT\nLOCATION3\nFUNCTION2";
-                    functions[2]="LEFT\nLOCATION3\nFUNCTION3";
-                    return functions;
-                }else if(semantic==2){
-                    functions[0]="RIGHT\nLOCATION3\nFUNCTION1";
-                    functions[1]="RIGHT\nLOCATION3\nFUNCTION2";
-                    functions[2]="RIGHT\nLOCATION3\nFUNCTION3";
-                    return functions;
-                }else if(semantic==3){
-                    functions[0]="SLIDER\nLOCATION3\nFUNCTION1";
-                    functions[1]="SLIDER\nLOCATION3\nFUNCTION2";
-                    functions[2]="SLIDER\nLOCATION3\nFUNCTION3";
-                    return functions;
-                }
-                break;
-        }
-        return functions;
-    }
+
 
     /**Redefined function list*/
     private List<function> assembly_functions(int study, int session, int block, int semantic) throws IOException, JSONException {
@@ -477,6 +498,24 @@ public class MainActivity extends FragmentActivity
             }
         }
         return mapping_functions;
+    }
+
+
+    /**Predefined function list*/
+    private List<function> functionList(int semantic,int block, int functionOrder) throws IOException, JSONException {
+        List<function> all_functions = assembly_functions(1, 0, block, 0);
+        List<function> semantic_functions = extract_semantic_functions(all_functions, semantic);
+        Collections.shuffle(semantic_functions);
+        function target_function = new function();
+        for (function item:semantic_functions) {
+            if (item.get_id() < 4){
+                target_function = item;
+                semantic_functions.remove(item);
+                break;
+            }
+        }
+        semantic_functions.add(functionOrder, target_function);
+        return semantic_functions;
     }
 
     /**Start sensors*/

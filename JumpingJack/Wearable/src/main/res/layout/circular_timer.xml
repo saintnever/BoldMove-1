@@ -49,7 +49,7 @@
         android:text="1"/>
     <ImageView
         android:id="@+id/image_view"
-        android:src="@drawable/ic_launcher"
+        android:src="@drawable/jump_down_50"
         android:layout_width="80dp"
         android:layout_height="80dp"/>
 </androidx.wear.widget.CircularProgressLayout>

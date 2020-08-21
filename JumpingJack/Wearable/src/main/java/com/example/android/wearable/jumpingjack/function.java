@@ -27,6 +27,14 @@ public class function {
 //        this.state = extract_state(state);
 //        this.image = extract_image(image, context);
 //    }
+    public function() {
+        this.id = 0;
+        this.name = "";
+        this.semantics = new Integer[]{0};
+        this.devices = new String[]{""};
+        this.state = new String[]{""};
+        this.image = 0;
+    }
 
     public function(JSONObject func, Context context) throws JSONException {
         this.id = func.getInt("id");
@@ -96,6 +104,15 @@ public class function {
         return drawable;
     }
 
+    public String[] get_device(){
+        return this.devices;
+    }
+    public Integer get_id(){
+        return this.id;
+    }
+    public String get_name(){
+        return this.name;
+    }
     public Integer[] get_semantic(){
         return this.semantics;
     }

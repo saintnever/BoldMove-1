@@ -3,8 +3,20 @@
         {"id":"0", "function": "power", "device": ["tv"], "semantic": ["toggle"], "state": ["on", "off"], "image": " "},
         {"id":"1", "function": "channel", "device": ["tv"], "semantic": ["previous", "next"], "state": ["1-20"], "image": " "},
         {"id":"2", "function": "volume", "device": ["tv"], "semantic": ["adjust"], "state": ["0-30"], "image": " "},
-        {"id":"3", "function": "dim_mode", "device": ["curtain","light1", "light2"], "semantic": ["toggle"], "state": ["on","off"], "image": " "}
+        {"id":"3", "function": "dim_mode", "device": ["curtain","light1", "light2"], "semantic": ["toggle"], "state": ["on","off"], "image": " "},
+        {"id":"4", "function": "power", "device": ["ac"], "semantic": ["toggle"], "state": ["on","off"], "image": " "},
+        {"id":"5", "function": "fan", "device": ["ac"], "semantic": ["previous","next"], "state": ["1-3"], "image": " "},
+        {"id":"6", "function": "temperature", "device": ["ac"], "semantic": ["adjust"], "state": ["15-30"], "image": " "},
+        {"id":"7", "function": "play", "device": ["speaker"], "semantic": ["toggle"], "state": ["play","pause"], "image": " "},
+        {"id":"8", "function": "song", "device": ["speaker"], "semantic": ["previous","next"], "state": ["previous", "next"], "image": " "},
+        {"id":"9", "function": "volume", "device": ["speaker"], "semantic": ["adjust"], "state": ["0-30"], "image": " "},
+        {"id":"10", "function": "mute", "device": ["laptop"], "semantic": ["toggle"], "state": ["mute", "unmute"], "image": " "},
+        {"id":"11", "function": "page", "device": ["laptop"], "semantic": ["previous","next"], "state": ["1-20"], "image": " "},
+        {"id":"12", "function": "display", "device": ["laptop"], "semantic": ["previous","next"], "state": ["1","2"], "image": " "},
+        {"id":"13", "function": "volume", "device": ["laptop"], "semantic": ["adjust"], "state": ["0-30"], "image": " "},
+        {"id":"14", "function": "brightness", "device": ["laptop"], "semantic": ["adjust"], "state": ["0-100"], "image": " "}
     ],
+
     "functions_study2_scenario1":[
         {"id":"0", "function": "power", "device": ["tv"], "semantic": ["toggle"], "state": ["on", "off"], "image": " "},
         {"id":"1", "function": "channel", "device": ["tv"], "semantic": ["previous","next"], "state": ["1-20"], "image": " "},
