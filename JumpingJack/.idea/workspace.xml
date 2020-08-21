@@ -15,268 +15,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f27a1077-0945-4507-aed6-377174caa948" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/Wearable/src/main/res/layout/circular_timer.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/caches/build_file_checksums.ser" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/caches/build_file_checksums.ser" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_core_core_1_1_0_aar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_core_core_1_3_1_aar.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/modules/Wearable/Wearable.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/Wearable/Wearable.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/Wearable/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/multi-v2/debug.json" beforeDir="false" afterPath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/multi-v2/debug.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/multi-v2/values-af.json" beforeDir="false" afterPath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/multi-v2/values-af.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/multi-v2/values-am.json" beforeDir="false" afterPath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/multi-v2/values-am.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/multi-v2/values-ar.json" beforeDir="false" afterPath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/multi-v2/values-ar.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/multi-v2/values-as.json" beforeDir="false" afterPath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/multi-v2/values-as.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/multi-v2/values-az.json" beforeDir="false" afterPath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/multi-v2/values-az.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/multi-v2/values-b+sr+Latn.json" beforeDir="false" afterPath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/multi-v2/values-b+sr+Latn.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/multi-v2/values-be.json" beforeDir="false" afterPath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/multi-v2/values-be.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/multi-v2/values-bg.json" beforeDir="false" afterPath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/multi-v2/values-bg.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/multi-v2/values-bn.json" beforeDir="false" afterPath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/multi-v2/values-bn.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/multi-v2/values-bs.json" beforeDir="false" afterPath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/multi-v2/values-bs.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/multi-v2/values-ca.json" beforeDir="false" afterPath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/multi-v2/values-ca.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/multi-v2/values-cs.json" beforeDir="false" afterPath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/multi-v2/values-cs.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/multi-v2/values-da.json" beforeDir="false" afterPath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/multi-v2/values-da.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/multi-v2/values-de.json" beforeDir="false" afterPath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/multi-v2/values-de.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/multi-v2/values-el.json" beforeDir="false" afterPath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/multi-v2/values-el.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/multi-v2/values-en-rAU.json" beforeDir="false" afterPath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/multi-v2/values-en-rAU.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/multi-v2/values-en-rCA.json" beforeDir="false" afterPath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/multi-v2/values-en-rCA.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/multi-v2/values-en-rGB.json" beforeDir="false" afterPath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/multi-v2/values-en-rGB.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/multi-v2/values-en-rIN.json" beforeDir="false" afterPath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/multi-v2/values-en-rIN.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/multi-v2/values-en-rXC.json" beforeDir="false" afterPath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/multi-v2/values-en-rXC.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/multi-v2/values-es-rUS.json" beforeDir="false" afterPath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/multi-v2/values-es-rUS.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/multi-v2/values-es.json" beforeDir="false" afterPath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/multi-v2/values-es.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/multi-v2/values-et.json" beforeDir="false" afterPath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/multi-v2/values-et.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/multi-v2/values-eu.json" beforeDir="false" afterPath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/multi-v2/values-eu.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/multi-v2/values-fa.json" beforeDir="false" afterPath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/multi-v2/values-fa.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/multi-v2/values-fi.json" beforeDir="false" afterPath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/multi-v2/values-fi.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/multi-v2/values-fr-rCA.json" beforeDir="false" afterPath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/multi-v2/values-fr-rCA.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/multi-v2/values-fr.json" beforeDir="false" afterPath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/multi-v2/values-fr.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/multi-v2/values-gl.json" beforeDir="false" afterPath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/multi-v2/values-gl.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/multi-v2/values-gu.json" beforeDir="false" afterPath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/multi-v2/values-gu.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/multi-v2/values-hi.json" beforeDir="false" afterPath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/multi-v2/values-hi.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/multi-v2/values-hr.json" beforeDir="false" afterPath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/multi-v2/values-hr.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/multi-v2/values-hu.json" beforeDir="false" afterPath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/multi-v2/values-hu.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/multi-v2/values-hy.json" beforeDir="false" afterPath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/multi-v2/values-hy.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/multi-v2/values-in.json" beforeDir="false" afterPath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/multi-v2/values-in.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/multi-v2/values-is.json" beforeDir="false" afterPath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/multi-v2/values-is.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/multi-v2/values-it.json" beforeDir="false" afterPath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/multi-v2/values-it.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/multi-v2/values-iw.json" beforeDir="false" afterPath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/multi-v2/values-iw.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/multi-v2/values-ja.json" beforeDir="false" afterPath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/multi-v2/values-ja.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/multi-v2/values-ka.json" beforeDir="false" afterPath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/multi-v2/values-ka.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/multi-v2/values-kk.json" beforeDir="false" afterPath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/multi-v2/values-kk.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/multi-v2/values-km.json" beforeDir="false" afterPath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/multi-v2/values-km.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/multi-v2/values-kn.json" beforeDir="false" afterPath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/multi-v2/values-kn.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/multi-v2/values-ko.json" beforeDir="false" afterPath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/multi-v2/values-ko.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/multi-v2/values-ky.json" beforeDir="false" afterPath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/multi-v2/values-ky.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/multi-v2/values-lo.json" beforeDir="false" afterPath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/multi-v2/values-lo.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/multi-v2/values-lt.json" beforeDir="false" afterPath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/multi-v2/values-lt.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/multi-v2/values-lv.json" beforeDir="false" afterPath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/multi-v2/values-lv.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/multi-v2/values-mk.json" beforeDir="false" afterPath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/multi-v2/values-mk.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/multi-v2/values-ml.json" beforeDir="false" afterPath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/multi-v2/values-ml.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/multi-v2/values-mn.json" beforeDir="false" afterPath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/multi-v2/values-mn.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/multi-v2/values-mr.json" beforeDir="false" afterPath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/multi-v2/values-mr.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/multi-v2/values-ms.json" beforeDir="false" afterPath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/multi-v2/values-ms.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/multi-v2/values-my.json" beforeDir="false" afterPath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/multi-v2/values-my.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/multi-v2/values-nb.json" beforeDir="false" afterPath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/multi-v2/values-nb.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/multi-v2/values-ne.json" beforeDir="false" afterPath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/multi-v2/values-ne.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/multi-v2/values-nl.json" beforeDir="false" afterPath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/multi-v2/values-nl.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/multi-v2/values-or.json" beforeDir="false" afterPath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/multi-v2/values-or.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/multi-v2/values-pa.json" beforeDir="false" afterPath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/multi-v2/values-pa.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/multi-v2/values-pl.json" beforeDir="false" afterPath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/multi-v2/values-pl.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/multi-v2/values-pt-rBR.json" beforeDir="false" afterPath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/multi-v2/values-pt-rBR.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/multi-v2/values-pt-rPT.json" beforeDir="false" afterPath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/multi-v2/values-pt-rPT.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/multi-v2/values-pt.json" beforeDir="false" afterPath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/multi-v2/values-pt.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/multi-v2/values-ro.json" beforeDir="false" afterPath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/multi-v2/values-ro.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/multi-v2/values-ru.json" beforeDir="false" afterPath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/multi-v2/values-ru.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/multi-v2/values-si.json" beforeDir="false" afterPath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/multi-v2/values-si.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/multi-v2/values-sk.json" beforeDir="false" afterPath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/multi-v2/values-sk.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/multi-v2/values-sl.json" beforeDir="false" afterPath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/multi-v2/values-sl.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/multi-v2/values-sq.json" beforeDir="false" afterPath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/multi-v2/values-sq.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/multi-v2/values-sr.json" beforeDir="false" afterPath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/multi-v2/values-sr.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/multi-v2/values-sv.json" beforeDir="false" afterPath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/multi-v2/values-sv.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/multi-v2/values-sw.json" beforeDir="false" afterPath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/multi-v2/values-sw.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/multi-v2/values-ta.json" beforeDir="false" afterPath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/multi-v2/values-ta.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/multi-v2/values-te.json" beforeDir="false" afterPath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/multi-v2/values-te.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/multi-v2/values-th.json" beforeDir="false" afterPath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/multi-v2/values-th.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/multi-v2/values-tl.json" beforeDir="false" afterPath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/multi-v2/values-tl.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/multi-v2/values-tr.json" beforeDir="false" afterPath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/multi-v2/values-tr.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/multi-v2/values-uk.json" beforeDir="false" afterPath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/multi-v2/values-uk.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/multi-v2/values-ur.json" beforeDir="false" afterPath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/multi-v2/values-ur.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/multi-v2/values-uz.json" beforeDir="false" afterPath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/multi-v2/values-uz.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/multi-v2/values-v16.json" beforeDir="false" afterPath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/multi-v2/values-v16.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/multi-v2/values-v21.json" beforeDir="false" afterPath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/multi-v2/values-v21.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/multi-v2/values-vi.json" beforeDir="false" afterPath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/multi-v2/values-vi.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/multi-v2/values-zh-rCN.json" beforeDir="false" afterPath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/multi-v2/values-zh-rCN.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/multi-v2/values-zh-rHK.json" beforeDir="false" afterPath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/multi-v2/values-zh-rHK.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/multi-v2/values-zh-rTW.json" beforeDir="false" afterPath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/multi-v2/values-zh-rTW.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/multi-v2/values-zu.json" beforeDir="false" afterPath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/multi-v2/values-zu.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/multi-v2/values.json" beforeDir="false" afterPath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/multi-v2/values.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/single/debug.json" beforeDir="false" afterPath="$PROJECT_DIR$/Wearable/build/intermediates/blame/res/debug/single/debug.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/compile_and_runtime_not_namespaced_r_class_jar/debug/R.jar" beforeDir="false" afterPath="$PROJECT_DIR$/Wearable/build/intermediates/compile_and_runtime_not_namespaced_r_class_jar/debug/R.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/dex_archive_input_jar_hashes/debug/out" beforeDir="false" afterPath="$PROJECT_DIR$/Wearable/build/intermediates/dex_archive_input_jar_hashes/debug/out" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/incremental/debug-mergeJavaRes/merge-state" beforeDir="false" afterPath="$PROJECT_DIR$/Wearable/build/intermediates/incremental/debug-mergeJavaRes/merge-state" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/incremental/debug-mergeNativeLibs/merge-state" beforeDir="false" afterPath="$PROJECT_DIR$/Wearable/build/intermediates/incremental/debug-mergeNativeLibs/merge-state" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/incremental/mergeDebugResources/compile-file-map.properties" beforeDir="false" afterPath="$PROJECT_DIR$/Wearable/build/intermediates/incremental/mergeDebugResources/compile-file-map.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/incremental/mergeDebugResources/merged.dir/values-af/values-af.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/incremental/mergeDebugResources/merged.dir/values-am/values-am.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/incremental/mergeDebugResources/merged.dir/values-ar/values-ar.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/incremental/mergeDebugResources/merged.dir/values-as/values-as.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/incremental/mergeDebugResources/merged.dir/values-az/values-az.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/incremental/mergeDebugResources/merged.dir/values-b+es+419/values-b+es+419.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/incremental/mergeDebugResources/merged.dir/values-b+sr+Latn/values-b+sr+Latn.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/incremental/mergeDebugResources/merged.dir/values-be/values-be.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/incremental/mergeDebugResources/merged.dir/values-bg/values-bg.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/incremental/mergeDebugResources/merged.dir/values-bn/values-bn.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/incremental/mergeDebugResources/merged.dir/values-bs/values-bs.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/incremental/mergeDebugResources/merged.dir/values-ca/values-ca.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/incremental/mergeDebugResources/merged.dir/values-cs/values-cs.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/incremental/mergeDebugResources/merged.dir/values-da/values-da.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/incremental/mergeDebugResources/merged.dir/values-de/values-de.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/incremental/mergeDebugResources/merged.dir/values-el/values-el.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/incremental/mergeDebugResources/merged.dir/values-en-rAU/values-en-rAU.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/incremental/mergeDebugResources/merged.dir/values-en-rCA/values-en-rCA.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/incremental/mergeDebugResources/merged.dir/values-en-rGB/values-en-rGB.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/incremental/mergeDebugResources/merged.dir/values-en-rIN/values-en-rIN.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/incremental/mergeDebugResources/merged.dir/values-en-rXC/values-en-rXC.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/incremental/mergeDebugResources/merged.dir/values-es-rUS/values-es-rUS.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/incremental/mergeDebugResources/merged.dir/values-es/values-es.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/incremental/mergeDebugResources/merged.dir/values-et/values-et.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/incremental/mergeDebugResources/merged.dir/values-eu/values-eu.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/incremental/mergeDebugResources/merged.dir/values-fa/values-fa.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/incremental/mergeDebugResources/merged.dir/values-fi/values-fi.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/incremental/mergeDebugResources/merged.dir/values-fr-rCA/values-fr-rCA.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/incremental/mergeDebugResources/merged.dir/values-fr/values-fr.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/incremental/mergeDebugResources/merged.dir/values-gl/values-gl.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/incremental/mergeDebugResources/merged.dir/values-gu/values-gu.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/incremental/mergeDebugResources/merged.dir/values-hi/values-hi.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/incremental/mergeDebugResources/merged.dir/values-hr/values-hr.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/incremental/mergeDebugResources/merged.dir/values-hu/values-hu.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/incremental/mergeDebugResources/merged.dir/values-hy/values-hy.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/incremental/mergeDebugResources/merged.dir/values-in/values-in.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/incremental/mergeDebugResources/merged.dir/values-is/values-is.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/incremental/mergeDebugResources/merged.dir/values-it/values-it.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/incremental/mergeDebugResources/merged.dir/values-iw/values-iw.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/incremental/mergeDebugResources/merged.dir/values-ja/values-ja.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/incremental/mergeDebugResources/merged.dir/values-ka/values-ka.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/incremental/mergeDebugResources/merged.dir/values-kk/values-kk.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/incremental/mergeDebugResources/merged.dir/values-km/values-km.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/incremental/mergeDebugResources/merged.dir/values-kn/values-kn.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/incremental/mergeDebugResources/merged.dir/values-ko/values-ko.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/incremental/mergeDebugResources/merged.dir/values-ky/values-ky.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/incremental/mergeDebugResources/merged.dir/values-lo/values-lo.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/incremental/mergeDebugResources/merged.dir/values-lt/values-lt.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/incremental/mergeDebugResources/merged.dir/values-lv/values-lv.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/incremental/mergeDebugResources/merged.dir/values-mk/values-mk.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/incremental/mergeDebugResources/merged.dir/values-ml/values-ml.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/incremental/mergeDebugResources/merged.dir/values-mn/values-mn.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/incremental/mergeDebugResources/merged.dir/values-mr/values-mr.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/incremental/mergeDebugResources/merged.dir/values-ms/values-ms.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/incremental/mergeDebugResources/merged.dir/values-my/values-my.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/incremental/mergeDebugResources/merged.dir/values-nb/values-nb.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/incremental/mergeDebugResources/merged.dir/values-ne/values-ne.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/incremental/mergeDebugResources/merged.dir/values-nl/values-nl.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/incremental/mergeDebugResources/merged.dir/values-notround-v23/values-notround-v23.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/incremental/mergeDebugResources/merged.dir/values-or/values-or.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/incremental/mergeDebugResources/merged.dir/values-pa/values-pa.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/incremental/mergeDebugResources/merged.dir/values-pl/values-pl.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/incremental/mergeDebugResources/merged.dir/values-pt-rBR/values-pt-rBR.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/incremental/mergeDebugResources/merged.dir/values-pt-rPT/values-pt-rPT.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/incremental/mergeDebugResources/merged.dir/values-pt/values-pt.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/incremental/mergeDebugResources/merged.dir/values-ro/values-ro.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/incremental/mergeDebugResources/merged.dir/values-round-v23/values-round-v23.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/incremental/mergeDebugResources/merged.dir/values-ru/values-ru.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/incremental/mergeDebugResources/merged.dir/values-si/values-si.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/incremental/mergeDebugResources/merged.dir/values-sk/values-sk.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/incremental/mergeDebugResources/merged.dir/values-sl/values-sl.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/incremental/mergeDebugResources/merged.dir/values-sq/values-sq.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/incremental/mergeDebugResources/merged.dir/values-sr/values-sr.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/incremental/mergeDebugResources/merged.dir/values-sv/values-sv.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/incremental/mergeDebugResources/merged.dir/values-sw/values-sw.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/incremental/mergeDebugResources/merged.dir/values-sw180dp-notround-v23/values-sw180dp-notround-v23.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/incremental/mergeDebugResources/merged.dir/values-sw210dp-round-v23/values-sw210dp-round-v23.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/incremental/mergeDebugResources/merged.dir/values-sw210dp-v13/values-sw210dp-v13.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/incremental/mergeDebugResources/merged.dir/values-ta/values-ta.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/incremental/mergeDebugResources/merged.dir/values-te/values-te.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/incremental/mergeDebugResources/merged.dir/values-th/values-th.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/incremental/mergeDebugResources/merged.dir/values-tl/values-tl.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/incremental/mergeDebugResources/merged.dir/values-tr/values-tr.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/incremental/mergeDebugResources/merged.dir/values-uk/values-uk.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/incremental/mergeDebugResources/merged.dir/values-ur/values-ur.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/incremental/mergeDebugResources/merged.dir/values-uz/values-uz.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/incremental/mergeDebugResources/merged.dir/values-v16/values-v16.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/incremental/mergeDebugResources/merged.dir/values-v20/values-v20.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/incremental/mergeDebugResources/merged.dir/values-v21/values-v21.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/incremental/mergeDebugResources/merged.dir/values-v23/values-v23.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/incremental/mergeDebugResources/merged.dir/values-v24/values-v24.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/incremental/mergeDebugResources/merged.dir/values-vi/values-vi.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/incremental/mergeDebugResources/merged.dir/values-w160dp-v13/values-w160dp-v13.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/incremental/mergeDebugResources/merged.dir/values-w180dp-v13/values-w180dp-v13.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/incremental/mergeDebugResources/merged.dir/values-w192dp-v13/values-w192dp-v13.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/incremental/mergeDebugResources/merged.dir/values-w195dp-v13/values-w195dp-v13.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/incremental/mergeDebugResources/merged.dir/values-w205dp-v13/values-w205dp-v13.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/incremental/mergeDebugResources/merged.dir/values-w225dp-v13/values-w225dp-v13.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/incremental/mergeDebugResources/merged.dir/values-w228dp-v13/values-w228dp-v13.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/incremental/mergeDebugResources/merged.dir/values-w240dp-v13/values-w240dp-v13.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/incremental/mergeDebugResources/merged.dir/values-zh-rCN/values-zh-rCN.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/incremental/mergeDebugResources/merged.dir/values-zh-rHK/values-zh-rHK.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/incremental/mergeDebugResources/merged.dir/values-zh-rTW/values-zh-rTW.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/incremental/mergeDebugResources/merged.dir/values-zu/values-zu.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/incremental/mergeDebugResources/merged.dir/values/values.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/incremental/mergeDebugResources/merger.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Wearable/build/intermediates/incremental/mergeDebugResources/merger.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/incremental/packageDebug/tmp/debug/dex-renamer-state.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Wearable/build/intermediates/incremental/packageDebug/tmp/debug/dex-renamer-state.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/incremental/packageDebug/tmp/debug/zip-cache/androidResources" beforeDir="false" afterPath="$PROJECT_DIR$/Wearable/build/intermediates/incremental/packageDebug/tmp/debug/zip-cache/androidResources" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/incremental/packageDebug/tmp/debug/zip-cache/javaResources0" beforeDir="false" afterPath="$PROJECT_DIR$/Wearable/build/intermediates/incremental/packageDebug/tmp/debug/zip-cache/javaResources0" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/javac/debug/classes/com/example/android/wearable/jumpingjack/MainActivity$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/Wearable/build/intermediates/javac/debug/classes/com/example/android/wearable/jumpingjack/MainActivity$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/javac/debug/classes/com/example/android/wearable/jumpingjack/MainActivity$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/Wearable/build/intermediates/javac/debug/classes/com/example/android/wearable/jumpingjack/MainActivity$2.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/javac/debug/classes/com/example/android/wearable/jumpingjack/MainActivity$3.class" beforeDir="false" afterPath="$PROJECT_DIR$/Wearable/build/intermediates/javac/debug/classes/com/example/android/wearable/jumpingjack/MainActivity$3.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/javac/debug/classes/com/example/android/wearable/jumpingjack/MainActivity$4.class" beforeDir="false" afterPath="$PROJECT_DIR$/Wearable/build/intermediates/javac/debug/classes/com/example/android/wearable/jumpingjack/MainActivity$4.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/javac/debug/classes/com/example/android/wearable/jumpingjack/MainActivity$5.class" beforeDir="false" afterPath="$PROJECT_DIR$/Wearable/build/intermediates/javac/debug/classes/com/example/android/wearable/jumpingjack/MainActivity$5.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/javac/debug/classes/com/example/android/wearable/jumpingjack/MainActivity$6$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/Wearable/build/intermediates/javac/debug/classes/com/example/android/wearable/jumpingjack/MainActivity$6$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/javac/debug/classes/com/example/android/wearable/jumpingjack/MainActivity$6.class" beforeDir="false" afterPath="$PROJECT_DIR$/Wearable/build/intermediates/javac/debug/classes/com/example/android/wearable/jumpingjack/MainActivity$6.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/javac/debug/classes/com/example/android/wearable/jumpingjack/MainActivity$7$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/Wearable/build/intermediates/javac/debug/classes/com/example/android/wearable/jumpingjack/MainActivity$7$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/javac/debug/classes/com/example/android/wearable/jumpingjack/MainActivity$7.class" beforeDir="false" afterPath="$PROJECT_DIR$/Wearable/build/intermediates/javac/debug/classes/com/example/android/wearable/jumpingjack/MainActivity$7.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/javac/debug/classes/com/example/android/wearable/jumpingjack/MainActivity$LeDeviceListAdapter.class" beforeDir="false" afterPath="$PROJECT_DIR$/Wearable/build/intermediates/javac/debug/classes/com/example/android/wearable/jumpingjack/MainActivity$LeDeviceListAdapter.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/javac/debug/classes/com/example/android/wearable/jumpingjack/MainActivity$MyAmbientCallback.class" beforeDir="false" afterPath="$PROJECT_DIR$/Wearable/build/intermediates/javac/debug/classes/com/example/android/wearable/jumpingjack/MainActivity$MyAmbientCallback.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/javac/debug/classes/com/example/android/wearable/jumpingjack/MainActivity.class" beforeDir="false" afterPath="$PROJECT_DIR$/Wearable/build/intermediates/javac/debug/classes/com/example/android/wearable/jumpingjack/MainActivity.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/javac/debug/classes/com/example/android/wearable/jumpingjack/fragments/FunctionOneFragment.class" beforeDir="false" afterPath="$PROJECT_DIR$/Wearable/build/intermediates/javac/debug/classes/com/example/android/wearable/jumpingjack/fragments/FunctionOneFragment.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/javac/debug/classes/com/example/android/wearable/jumpingjack/fragments/FunctionThreeFragment.class" beforeDir="false" afterPath="$PROJECT_DIR$/Wearable/build/intermediates/javac/debug/classes/com/example/android/wearable/jumpingjack/fragments/FunctionThreeFragment.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/javac/debug/classes/com/example/android/wearable/jumpingjack/fragments/FunctionTwoFragment.class" beforeDir="false" afterPath="$PROJECT_DIR$/Wearable/build/intermediates/javac/debug/classes/com/example/android/wearable/jumpingjack/fragments/FunctionTwoFragment.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/manifest_merge_blame_file/debug/manifest-merger-blame-debug-report.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Wearable/build/intermediates/manifest_merge_blame_file/debug/manifest-merger-blame-debug-report.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/merged_java_res/debug/out.jar" beforeDir="false" afterPath="$PROJECT_DIR$/Wearable/build/intermediates/merged_java_res/debug/out.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/processed_res/debug/out/resources-debug.ap_" beforeDir="false" afterPath="$PROJECT_DIR$/Wearable/build/intermediates/processed_res/debug/out/resources-debug.ap_" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/project_dex_archive/debug/out/com/example/android/wearable/jumpingjack/MainActivity$1.dex" beforeDir="false" afterPath="$PROJECT_DIR$/Wearable/build/intermediates/project_dex_archive/debug/out/com/example/android/wearable/jumpingjack/MainActivity$1.dex" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/project_dex_archive/debug/out/com/example/android/wearable/jumpingjack/MainActivity$2.dex" beforeDir="false" afterPath="$PROJECT_DIR$/Wearable/build/intermediates/project_dex_archive/debug/out/com/example/android/wearable/jumpingjack/MainActivity$2.dex" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/project_dex_archive/debug/out/com/example/android/wearable/jumpingjack/MainActivity$3.dex" beforeDir="false" afterPath="$PROJECT_DIR$/Wearable/build/intermediates/project_dex_archive/debug/out/com/example/android/wearable/jumpingjack/MainActivity$3.dex" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/project_dex_archive/debug/out/com/example/android/wearable/jumpingjack/MainActivity$4.dex" beforeDir="false" afterPath="$PROJECT_DIR$/Wearable/build/intermediates/project_dex_archive/debug/out/com/example/android/wearable/jumpingjack/MainActivity$4.dex" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/project_dex_archive/debug/out/com/example/android/wearable/jumpingjack/MainActivity$5.dex" beforeDir="false" afterPath="$PROJECT_DIR$/Wearable/build/intermediates/project_dex_archive/debug/out/com/example/android/wearable/jumpingjack/MainActivity$5.dex" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/project_dex_archive/debug/out/com/example/android/wearable/jumpingjack/MainActivity$6$1.dex" beforeDir="false" afterPath="$PROJECT_DIR$/Wearable/build/intermediates/project_dex_archive/debug/out/com/example/android/wearable/jumpingjack/MainActivity$6$1.dex" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/project_dex_archive/debug/out/com/example/android/wearable/jumpingjack/MainActivity$6.dex" beforeDir="false" afterPath="$PROJECT_DIR$/Wearable/build/intermediates/project_dex_archive/debug/out/com/example/android/wearable/jumpingjack/MainActivity$6.dex" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/project_dex_archive/debug/out/com/example/android/wearable/jumpingjack/MainActivity$7$1.dex" beforeDir="false" afterPath="$PROJECT_DIR$/Wearable/build/intermediates/project_dex_archive/debug/out/com/example/android/wearable/jumpingjack/MainActivity$7$1.dex" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/project_dex_archive/debug/out/com/example/android/wearable/jumpingjack/MainActivity$7.dex" beforeDir="false" afterPath="$PROJECT_DIR$/Wearable/build/intermediates/project_dex_archive/debug/out/com/example/android/wearable/jumpingjack/MainActivity$7.dex" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/project_dex_archive/debug/out/com/example/android/wearable/jumpingjack/MainActivity$LeDeviceListAdapter.dex" beforeDir="false" afterPath="$PROJECT_DIR$/Wearable/build/intermediates/project_dex_archive/debug/out/com/example/android/wearable/jumpingjack/MainActivity$LeDeviceListAdapter.dex" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/project_dex_archive/debug/out/com/example/android/wearable/jumpingjack/MainActivity$MyAmbientCallback.dex" beforeDir="false" afterPath="$PROJECT_DIR$/Wearable/build/intermediates/project_dex_archive/debug/out/com/example/android/wearable/jumpingjack/MainActivity$MyAmbientCallback.dex" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/project_dex_archive/debug/out/com/example/android/wearable/jumpingjack/MainActivity.dex" beforeDir="false" afterPath="$PROJECT_DIR$/Wearable/build/intermediates/project_dex_archive/debug/out/com/example/android/wearable/jumpingjack/MainActivity.dex" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/project_dex_archive/debug/out/com/example/android/wearable/jumpingjack/fragments/FunctionOneFragment.dex" beforeDir="false" afterPath="$PROJECT_DIR$/Wearable/build/intermediates/project_dex_archive/debug/out/com/example/android/wearable/jumpingjack/fragments/FunctionOneFragment.dex" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/project_dex_archive/debug/out/com/example/android/wearable/jumpingjack/fragments/FunctionThreeFragment.dex" beforeDir="false" afterPath="$PROJECT_DIR$/Wearable/build/intermediates/project_dex_archive/debug/out/com/example/android/wearable/jumpingjack/fragments/FunctionThreeFragment.dex" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/project_dex_archive/debug/out/com/example/android/wearable/jumpingjack/fragments/FunctionTwoFragment.dex" beforeDir="false" afterPath="$PROJECT_DIR$/Wearable/build/intermediates/project_dex_archive/debug/out/com/example/android/wearable/jumpingjack/fragments/FunctionTwoFragment.dex" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/res/merged/debug/layout_gesture_detection_layout.xml.flat" beforeDir="false" afterPath="$PROJECT_DIR$/Wearable/build/intermediates/res/merged/debug/layout_gesture_detection_layout.xml.flat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/res/merged/debug/values-en-rXC_values-en-rXC.arsc.flat" beforeDir="false" afterPath="$PROJECT_DIR$/Wearable/build/intermediates/res/merged/debug/values-en-rXC_values-en-rXC.arsc.flat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/res/merged/debug/values-v21_values-v21.arsc.flat" beforeDir="false" afterPath="$PROJECT_DIR$/Wearable/build/intermediates/res/merged/debug/values-v21_values-v21.arsc.flat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/res/merged/debug/values_values.arsc.flat" beforeDir="false" afterPath="$PROJECT_DIR$/Wearable/build/intermediates/res/merged/debug/values_values.arsc.flat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/runtime_symbol_list/debug/R.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Wearable/build/intermediates/runtime_symbol_list/debug/R.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/intermediates/symbol_list_with_package_name/debug/package-aware-r.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Wearable/build/intermediates/symbol_list_with_package_name/debug/package-aware-r.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/outputs/apk/debug/Wearable-debug.apk" beforeDir="false" afterPath="$PROJECT_DIR$/Wearable/build/outputs/apk/debug/Wearable-debug.apk" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/build/outputs/logs/manifest-merger-debug-report.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Wearable/build/outputs/logs/manifest-merger-debug-report.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Wearable/src/main/java/com/example/android/wearable/jumpingjack/MainActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/Wearable/src/main/java/com/example/android/wearable/jumpingjack/MainActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/src/main/res/layout/gesture_detection_layout.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Wearable/src/main/res/layout/gesture_detection_layout.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Wearable/src/main/java/com/example/android/wearable/jumpingjack/function.java" beforeDir="false" afterPath="$PROJECT_DIR$/Wearable/src/main/java/com/example/android/wearable/jumpingjack/function.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="192.168.1.100:5555" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="192.168.43.101:5555" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
@@ -508,52 +257,60 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="723" y="278" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1593674737422" />
-    <state width="2508" height="490" key="GridCell.Tab.0.bottom" timestamp="1597990029369">
-      <screen x="0" y="0" width="2560" height="1409" />
+    <state width="1491" height="263" key="GridCell.Tab.0.bottom" timestamp="1597997682306">
+      <screen x="0" y="0" width="1536" height="834" />
     </state>
     <state width="2508" height="490" key="GridCell.Tab.0.bottom/-3840.0.1536.846/0.0.2560.1409@0.0.2560.1409" timestamp="1597990029369" />
+    <state width="1491" height="263" key="GridCell.Tab.0.bottom/0.0.1536.834@0.0.1536.834" timestamp="1597997682306" />
     <state width="1877" height="281" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1596681502900" />
     <state width="2003" height="227" key="GridCell.Tab.0.bottom/0.0.2048.1122/2560.-172.1536.834@0.0.2048.1122" timestamp="1596115147805" />
-    <state width="2508" height="490" key="GridCell.Tab.0.center" timestamp="1597990029369">
-      <screen x="0" y="0" width="2560" height="1409" />
+    <state width="1491" height="263" key="GridCell.Tab.0.center" timestamp="1597997682306">
+      <screen x="0" y="0" width="1536" height="834" />
     </state>
     <state width="2508" height="490" key="GridCell.Tab.0.center/-3840.0.1536.846/0.0.2560.1409@0.0.2560.1409" timestamp="1597990029369" />
+    <state width="1491" height="263" key="GridCell.Tab.0.center/0.0.1536.834@0.0.1536.834" timestamp="1597997682306" />
     <state width="1877" height="281" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1596681502900" />
     <state width="2003" height="227" key="GridCell.Tab.0.center/0.0.2048.1122/2560.-172.1536.834@0.0.2048.1122" timestamp="1596115147804" />
-    <state width="2508" height="490" key="GridCell.Tab.0.left" timestamp="1597990029369">
-      <screen x="0" y="0" width="2560" height="1409" />
+    <state width="1491" height="263" key="GridCell.Tab.0.left" timestamp="1597997682306">
+      <screen x="0" y="0" width="1536" height="834" />
     </state>
     <state width="2508" height="490" key="GridCell.Tab.0.left/-3840.0.1536.846/0.0.2560.1409@0.0.2560.1409" timestamp="1597990029369" />
+    <state width="1491" height="263" key="GridCell.Tab.0.left/0.0.1536.834@0.0.1536.834" timestamp="1597997682306" />
     <state width="1877" height="281" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1596681502899" />
     <state width="2003" height="227" key="GridCell.Tab.0.left/0.0.2048.1122/2560.-172.1536.834@0.0.2048.1122" timestamp="1596115147803" />
-    <state width="2508" height="490" key="GridCell.Tab.0.right" timestamp="1597990029369">
-      <screen x="0" y="0" width="2560" height="1409" />
+    <state width="1491" height="263" key="GridCell.Tab.0.right" timestamp="1597997682306">
+      <screen x="0" y="0" width="1536" height="834" />
     </state>
     <state width="2508" height="490" key="GridCell.Tab.0.right/-3840.0.1536.846/0.0.2560.1409@0.0.2560.1409" timestamp="1597990029369" />
+    <state width="1491" height="263" key="GridCell.Tab.0.right/0.0.1536.834@0.0.1536.834" timestamp="1597997682306" />
     <state width="1877" height="281" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1596681502900" />
     <state width="2003" height="227" key="GridCell.Tab.0.right/0.0.2048.1122/2560.-172.1536.834@0.0.2048.1122" timestamp="1596115147804" />
-    <state width="2508" height="490" key="GridCell.Tab.1.bottom" timestamp="1597990029369">
-      <screen x="0" y="0" width="2560" height="1409" />
+    <state width="1491" height="263" key="GridCell.Tab.1.bottom" timestamp="1597997674965">
+      <screen x="0" y="0" width="1536" height="834" />
     </state>
     <state width="2508" height="490" key="GridCell.Tab.1.bottom/-3840.0.1536.846/0.0.2560.1409@0.0.2560.1409" timestamp="1597990029369" />
+    <state width="1491" height="263" key="GridCell.Tab.1.bottom/0.0.1536.834@0.0.1536.834" timestamp="1597997674965" />
     <state width="1877" height="347" key="GridCell.Tab.1.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1593697036118" />
     <state width="2003" height="380" key="GridCell.Tab.1.bottom/0.0.2048.1122/2560.-172.1536.834@0.0.2048.1122" timestamp="1595770419252" />
-    <state width="2508" height="490" key="GridCell.Tab.1.center" timestamp="1597990029369">
-      <screen x="0" y="0" width="2560" height="1409" />
+    <state width="1491" height="263" key="GridCell.Tab.1.center" timestamp="1597997674965">
+      <screen x="0" y="0" width="1536" height="834" />
     </state>
     <state width="2508" height="490" key="GridCell.Tab.1.center/-3840.0.1536.846/0.0.2560.1409@0.0.2560.1409" timestamp="1597990029369" />
+    <state width="1491" height="263" key="GridCell.Tab.1.center/0.0.1536.834@0.0.1536.834" timestamp="1597997674965" />
     <state width="1877" height="347" key="GridCell.Tab.1.center/0.0.1920.1040@0.0.1920.1040" timestamp="1593697036118" />
     <state width="2003" height="380" key="GridCell.Tab.1.center/0.0.2048.1122/2560.-172.1536.834@0.0.2048.1122" timestamp="1595770419251" />
-    <state width="2508" height="490" key="GridCell.Tab.1.left" timestamp="1597990029369">
-      <screen x="0" y="0" width="2560" height="1409" />
+    <state width="1491" height="263" key="GridCell.Tab.1.left" timestamp="1597997674965">
+      <screen x="0" y="0" width="1536" height="834" />
     </state>
     <state width="2508" height="490" key="GridCell.Tab.1.left/-3840.0.1536.846/0.0.2560.1409@0.0.2560.1409" timestamp="1597990029369" />
+    <state width="1491" height="263" key="GridCell.Tab.1.left/0.0.1536.834@0.0.1536.834" timestamp="1597997674965" />
     <state width="1877" height="347" key="GridCell.Tab.1.left/0.0.1920.1040@0.0.1920.1040" timestamp="1593697036118" />
     <state width="2003" height="380" key="GridCell.Tab.1.left/0.0.2048.1122/2560.-172.1536.834@0.0.2048.1122" timestamp="1595770419251" />
-    <state width="2508" height="490" key="GridCell.Tab.1.right" timestamp="1597990029369">
-      <screen x="0" y="0" width="2560" height="1409" />
+    <state width="1491" height="263" key="GridCell.Tab.1.right" timestamp="1597997674965">
+      <screen x="0" y="0" width="1536" height="834" />
     </state>
     <state width="2508" height="490" key="GridCell.Tab.1.right/-3840.0.1536.846/0.0.2560.1409@0.0.2560.1409" timestamp="1597990029369" />
+    <state width="1491" height="263" key="GridCell.Tab.1.right/0.0.1536.834@0.0.1536.834" timestamp="1597997674965" />
     <state width="1877" height="347" key="GridCell.Tab.1.right/0.0.1920.1040@0.0.1920.1040" timestamp="1593697036118" />
     <state width="2003" height="380" key="GridCell.Tab.1.right/0.0.2048.1122/2560.-172.1536.834@0.0.2048.1122" timestamp="1595770419252" />
     <state x="781" y="347" key="SettingsEditor" timestamp="1597897242690">
@@ -573,9 +330,10 @@
       <screen x="0" y="0" width="2560" height="1409" />
     </state>
     <state width="1288" height="712" key="XDebugger.FullValuePopup/-3840.0.1536.846/0.0.2560.1409@0.0.2560.1409" timestamp="1597891360520" />
-    <state x="683" y="557" key="com.intellij.ide.util.TipDialog" timestamp="1596112589449">
-      <screen x="0" y="0" width="2048" height="1122" />
+    <state x="512" y="414" key="com.intellij.ide.util.TipDialog" timestamp="1597995933688">
+      <screen x="0" y="0" width="1536" height="834" />
     </state>
+    <state x="512" y="414" key="com.intellij.ide.util.TipDialog/0.0.1536.834@0.0.1536.834" timestamp="1597995933688" />
     <state x="640" y="516" key="com.intellij.ide.util.TipDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1595554365930" />
     <state x="683" y="557" key="com.intellij.ide.util.TipDialog/0.0.2048.1122/2560.-172.1536.834@0.0.2048.1122" timestamp="1596112589449" />
     <state x="567" y="70" width="786" height="900" key="find.popup" timestamp="1592479923328">

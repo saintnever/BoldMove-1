@@ -1,4 +1,4 @@
-#Fri Aug 21 14:07:08 CST 2020
+#Fri Aug 21 16:14:34 CST 2020
 base.0=C\:\\Users\\ztxse\\Documents\\projects\\boldmove\\watch\\BoldMove\\JumpingJack\\Wearable\\build\\intermediates\\dex\\debug\\mergeExtDexDebug\\classes.dex
 path.1=classes.dex
 renamed.1=classes2.dex

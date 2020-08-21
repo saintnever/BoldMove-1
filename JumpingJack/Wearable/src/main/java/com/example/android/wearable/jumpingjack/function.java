@@ -95,4 +95,8 @@ public class function {
         }
         return drawable;
     }
+
+    public Integer[] get_semantic(){
+        return this.semantics;
+    }
 }

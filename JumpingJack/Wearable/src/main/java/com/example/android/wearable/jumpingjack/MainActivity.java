@@ -163,7 +163,7 @@ public class MainActivity extends FragmentActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         AmbientModeSupport.attach(this);
-        setContentView(R.layout.circular_timer);
+        //setContentView(R.layout.circular_timer);
         setupGestureViews("Let's start!");
         /*setupGestureViews(STATION_DISCRETE_DETECTING);
 
@@ -279,8 +279,8 @@ public class MainActivity extends FragmentActivity
             Log.d("manudata", Arrays.toString(manudata));
             BUTTON_LEFT = manudata[0];
             BUTTON_RIGHT = manudata[1];
-            SLIDER_TOUCH = manudata[3];
-            SLIDER_VALUE = manudata[4];
+            SLIDER_TOUCH = manudata[2];
+            SLIDER_VALUE = manudata[3];
             ubiTouchStatus();
 //            callback.onLeScan(result.getDevice(), result.getRssi(),
 //                    scanRecord.getBytes());
@@ -321,6 +321,16 @@ public class MainActivity extends FragmentActivity
 
     /**ubiTouch feedback*/
     private void ubiTouchStatus(){
+        // get current task
+        // if semantic matches task semantic
+        // start selection
+        // if type 1 interface
+        //    start function selection
+        // if type 2 interface
+        //    if slider, start function selection
+        //    if trigger/prev/next buttons, wait for 2s, then start function selection
+        // if not
+        // no feedback
         switch (BUTTON_LEFT){
             case 0:
                 if(PREVIOUS_BUTTON_LEFT==1){
@@ -459,8 +469,22 @@ public class MainActivity extends FragmentActivity
         for (int i = 0; i < json_scenarios.length(); i++) {
             functions.add(new function(json_scenarios.getJSONObject(i), context));
         }
-
         return functions;
+    }
+
+    private List<function> extract_semantic_functions (List<function> block_functions, int semantic){
+        List<function> mapping_functions = new ArrayList<>();
+        for (function item:
+             block_functions) {
+            for (int i:item.get_semantic()
+                 ) {
+                if (i == semantic){
+                    mapping_functions.add(item);
+                    break;
+                }
+            }
+        }
+        return mapping_functions;
     }
 
     /**Start sensors*/
