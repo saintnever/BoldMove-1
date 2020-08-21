@@ -14,12 +14,7 @@
     <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Show only selected application" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f27a1077-0945-4507-aed6-377174caa948" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/modules/Wearable/Wearable.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/Wearable/Wearable.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/src/main/java/com/example/android/wearable/jumpingjack/MainActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/Wearable/src/main/java/com/example/android/wearable/jumpingjack/MainActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wearable/src/main/java/com/example/android/wearable/jumpingjack/function.java" beforeDir="false" afterPath="$PROJECT_DIR$/Wearable/src/main/java/com/example/android/wearable/jumpingjack/function.java" afterDir="false" />
-    </list>
+    <list default="true" id="f27a1077-0945-4507-aed6-377174caa948" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
