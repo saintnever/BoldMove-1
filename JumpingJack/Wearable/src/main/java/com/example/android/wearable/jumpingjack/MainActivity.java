@@ -48,6 +48,7 @@ import android.widget.TextView;
 import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager.widget.ViewPager;
 import androidx.wear.ambient.AmbientModeSupport;
+import androidx.wear.widget.CircularProgressLayout;
 
 import com.example.android.wearable.jumpingjack.fragments.FunctionOneFragment;
 import com.example.android.wearable.jumpingjack.fragments.FunctionThreeFragment;
@@ -79,7 +80,7 @@ import org.json.JSONObject;
  * stage, user can set this counter to 0.
  */
 public class MainActivity extends FragmentActivity
-        implements AmbientModeSupport.AmbientCallbackProvider, SensorEventListener {
+        implements AmbientModeSupport.AmbientCallbackProvider, SensorEventListener, CircularProgressLayout.OnTimerFinishedListener {
 
     private static final String TAG = "MainActivity";
 
@@ -155,12 +156,14 @@ public class MainActivity extends FragmentActivity
     private final String STATION_CONTINUOUS_DETECTING="Detecting continuous gestures";
     private String mStation=STATION_DISCRETE_DETECTING;
 
+    private CircularProgressLayout circularProgress;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         AmbientModeSupport.attach(this);
-
+        setContentView(R.layout.circular_timer);
         setupGestureViews("Let's start!");
         /*setupGestureViews(STATION_DISCRETE_DETECTING);
 
@@ -482,11 +485,16 @@ public class MainActivity extends FragmentActivity
     /**Real-time gesture display*/
     private void setupGestureViews(String initialText){
         setContentView(R.layout.gesture_detection_layout);
+
         gestureText = findViewById(R.id.gesture);
         gestureText.setText(initialText);
 
-        counterText=findViewById(R.id.counter);
+        counterText=  findViewById(R.id.counter);
         counterText.setText(Integer.toString(counter));
+
+        circularProgress = (CircularProgressLayout) findViewById(R.id.circular_progress);
+//        circularProgress.setwidt(50);
+        circularProgress.setOnTimerFinishedListener(this);
 
         if (scrollTimer != null) {
             scrollTimer.cancel();
@@ -505,6 +513,11 @@ public class MainActivity extends FragmentActivity
                 if(counter<3)
                     counter++;
                 counterText.setText(Integer.toString(counter));
+
+                // Two seconds to cancel the action
+                circularProgress.setTotalTime(2000);
+                // Start the timer
+                circularProgress.startTimer();
                 Log.i("buttonEvent", "addButton被用户点击了。");
             }
         });
@@ -841,6 +854,12 @@ public class MainActivity extends FragmentActivity
         return new MyAmbientCallback();
     }
 
+
+    @Override
+    public void onTimerFinished(CircularProgressLayout layout) {
+
+    }
+
     /** Customizes appearance for Ambient mode. (We don't do anything minus default.) */
     private class MyAmbientCallback extends AmbientModeSupport.AmbientCallback {
         /** Prepares the UI for ambient mode. */
@@ -924,7 +943,5 @@ public class MainActivity extends FragmentActivity
             return view;
         }
     }
-
-
 
 }

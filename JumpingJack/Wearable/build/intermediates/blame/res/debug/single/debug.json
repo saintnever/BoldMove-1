@@ -48,6 +48,10 @@
         "source": "C:\\Users\\ztxse\\Documents\\projects\\boldmove\\watch\\BoldMove\\JumpingJack\\Wearable\\src\\main\\res\\layout\\setting_layout.xml"
     },
     {
+        "merged": "C:\\Users\\ztxse\\Documents\\projects\\boldmove\\watch\\BoldMove\\JumpingJack\\Wearable\\build\\intermediates\\res\\merged\\debug\\layout_circular_timer.xml.flat",
+        "source": "C:\\Users\\ztxse\\Documents\\projects\\boldmove\\watch\\BoldMove\\JumpingJack\\Wearable\\src\\main\\res\\layout\\circular_timer.xml"
+    },
+    {
         "merged": "C:\\Users\\ztxse\\Documents\\projects\\boldmove\\watch\\BoldMove\\JumpingJack\\Wearable\\build\\intermediates\\res\\merged\\debug\\drawable_jump_up_50.png.flat",
         "source": "C:\\Users\\ztxse\\Documents\\projects\\boldmove\\watch\\BoldMove\\JumpingJack\\Wearable\\src\\main\\res\\drawable\\jump_up_50.png"
     },

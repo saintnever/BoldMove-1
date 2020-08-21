@@ -269,6 +269,8 @@ bool action_choose_expand_selected
 bool action_choose_symmetrical_dimen
 color action_button_background
 color ambient_mode_text
+color androidx_core_ripple_material_light
+color androidx_core_secondary_text_default_material_light
 color black
 color black_54p
 color black_86p
@@ -328,9 +330,7 @@ color primary_text_dark
 color primary_text_default_material_dark
 color primary_text_light
 color red_a200
-color ripple_material_light
 color secondary_text_default_material_dark
-color secondary_text_default_material_light
 color secondary_text_light
 color semitransparent_grey
 color white
@@ -643,6 +643,7 @@ id center_horizontal
 id center_vertical
 id chains
 id chronometer
+id circular_progress
 id clip_horizontal
 id clip_vertical
 id configView
@@ -669,6 +670,7 @@ id height
 id icon
 id icon_group
 id icon_only
+id image_view
 id indicator_0
 id indicator_1
 id indicator_2
@@ -803,6 +805,7 @@ layout action_drawer_item_view
 layout action_drawer_peek_view
 layout action_drawer_title_view
 layout alert_dialog_wearable
+layout circular_timer
 layout counter_layout
 layout custom_dialog
 layout decomposition_config_activity

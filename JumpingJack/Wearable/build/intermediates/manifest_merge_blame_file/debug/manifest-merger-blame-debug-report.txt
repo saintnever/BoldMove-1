@@ -58,7 +58,7 @@
 40        android:allowBackup="true"
 40-->C:\Users\ztxse\Documents\projects\boldmove\watch\BoldMove\JumpingJack\Wearable\src\main\AndroidManifest.xml:34:13-39
 41        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
-41-->[androidx.core:core:1.1.0] C:\Users\ztxse\.gradle\caches\transforms-2\files-2.1\03736cf4bc3669a69d502627b70a527e\core-1.1.0\AndroidManifest.xml:24:18-86
+41-->[androidx.core:core:1.3.1] C:\Users\ztxse\.gradle\caches\transforms-2\files-2.1\905808b10bc47511b6c6896a37787f2b\core-1.3.1\AndroidManifest.xml:24:18-86
 42        android:debuggable="true"
 43        android:extractNativeLibs="false"
 44        android:icon="@drawable/ic_launcher"
