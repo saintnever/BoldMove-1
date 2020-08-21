@@ -59,6 +59,7 @@ import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -102,7 +103,17 @@ public class MainActivity extends FragmentActivity
     private int previousTime=0;
     private float roll;
     private int i=0;
-    private int counter=1;
+    private int session =1;
+    private int functionOrder=1;
+    private int functionTime =1;
+    private int context =1;
+    private int task =1;
+    private int finishedBlocks=0;
+    private int finishedTasks=0;
+    private Integer[][] blocks_StudyOne;
+    private Integer[] tasks_StudyOne;
+    private List<List<Integer>> randomBlocks_StudyOne;
+    private List<Integer> randomTasks_StudyOne;
 
     private ViewPager mPager;
     private FunctionOneFragment mCounterPage;
@@ -163,8 +174,8 @@ public class MainActivity extends FragmentActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         AmbientModeSupport.attach(this);
-        //setContentView(R.layout.circular_timer);
-        setupGestureViews("Let's start!");
+        setContentView(R.layout.circular_timer);
+        setupGestureViews("实验开始!");
         /*setupGestureViews(STATION_DISCRETE_DETECTING);
 
         gravity[0] = 0.0f;
@@ -188,7 +199,18 @@ public class MainActivity extends FragmentActivity
         startSensor();
 
         Timer timer = new Timer();
-        timer.scheduleAtFixedRate(task, 0,200);//Sample rate =5Hz*/
+        timer.scheduleAtFixedRate(holdTimer, 0,200);//Sample rate =5Hz*/
+
+        blocks_StudyOne = new Integer[][]{{1, 1}, {1, 3}, {1, 5},{2,1},{2,3},{2,5},{3,1},{3,3},{3,5}};
+        randomBlocks_StudyOne = new ArrayList<>();
+        for (Integer[] ints : blocks_StudyOne) {
+            randomBlocks_StudyOne.add(Arrays.asList(ints));
+        }
+        Collections.shuffle(randomBlocks_StudyOne);
+
+        tasks_StudyOne =new Integer[]{1,2,3,4};
+        randomTasks_StudyOne =Arrays.asList(tasks_StudyOne);
+        Collections.shuffle(randomTasks_StudyOne);
 
         handler= new Handler();
         final BluetoothManager bluetoothManager =
@@ -331,82 +353,52 @@ public class MainActivity extends FragmentActivity
         //    if trigger/prev/next buttons, wait for 2s, then start function selection
         // if not
         // no feedback
-        switch (BUTTON_LEFT){
-            case 0:
-                if(PREVIOUS_BUTTON_LEFT==1){
-                    //显示选中的功能
-                    setupGestureViews("Result:\n"+functionList(counter,1)[mPager.getCurrentItem()]);
-                }
-                PREVIOUS_BUTTON_LEFT=0;
-                break;
-            case 1:
-                if(PREVIOUS_BUTTON_LEFT==0){
-                    String functionlist1[]=functionList(counter,1);
-                    setupScrollViews(functionlist1[0],functionlist1[1],functionlist1[2]);
-                }
-                PREVIOUS_BUTTON_LEFT=1;
-                break;
-        }
-        switch(BUTTON_RIGHT){
-            case 0:
-                if(PREVIOUS_BUTTON_RIGHT==1){
-                    //显示选中的功能
-                    setupGestureViews("Result:\n"+functionList(counter,2)[mPager.getCurrentItem()]);
-                }
-                PREVIOUS_BUTTON_RIGHT=0;
-                break;
-            case 1:
-                if(PREVIOUS_BUTTON_RIGHT==0){
-                    String functionlist2[]=functionList(counter,2);
-                    setupScrollViews(functionlist2[0],functionlist2[1],functionlist2[2]);
-                }
-                PREVIOUS_BUTTON_RIGHT=1;
-                break;
-        }
-        switch(SLIDER_TOUCH){
-            case 0:
-                if(PREVIOUS_SLIDER_TOUCH==1){
-                    //显示选中的数值
-                    setupGestureViews("Result:\n"+PREVIOUS_SLIDER_VALUE);
-                }
-                PREVIOUS_SLIDER_TOUCH=0;
-                break;
-            case 1:
-                if(PREVIOUS_SLIDER_TOUCH==0){
-                    String[] functionlist3=functionList(counter,3);
-                    setupScrollViews(functionlist3[0],functionlist3[1],functionlist3[2]);
+        //如果是实验一，执行以下代码
+        if(finishedBlocks==9){
+            finishedBlocks=0;
+            Collections.shuffle(randomBlocks_StudyOne);
+            if(finishedTasks<3) {
+                finishedTasks++;
+            }else{
+                finishedTasks=0;
+                Collections.shuffle(randomTasks_StudyOne);
+                if(session<2){
+                    session++;
                 }else{
-                    if(SLIDER_VALUE!=PREVIOUS_SLIDER_VALUE){
-                        //显示选中的功能和实时的连续值
-                        if(scrollTimer!=null){
-                            setupGestureViews(functionList(counter,3)[mPager.getCurrentItem()]+"\n"+SLIDER_VALUE);
-                        }else{
-                            setText(functionList(counter,3)[mPager.getCurrentItem()]+"\n"+SLIDER_VALUE);
-                        }
-                    }
+                    //实验完成
+                    setText("实验结束！");
                 }
-                PREVIOUS_SLIDER_VALUE=SLIDER_VALUE;
-                PREVIOUS_SLIDER_TOUCH=1;
-                break;
+            }
         }
+
+        functionOrder= randomBlocks_StudyOne.get(finishedBlocks).get(1);
+        functionTime = randomBlocks_StudyOne.get(finishedBlocks).get(0);
+        task = randomTasks_StudyOne.get(finishedTasks);
+        //写入log文件
+        Log.d("currentSettings", functionOrder+" "+ functionTime +" "+ task +" "+session);
+
+        //实验一结束进行实验二么？还是编译成两个程序？
+        //如果是实验二，执行以下代码
+        //。。。。。。
+
     }
 
-    /**Redefined function list*/
-    private String[] functionList(int counter,int buttonType){
+    /**Predefined function list*/
+    private String[] functionList(int location,int semantic,int study,int functionOrder){
         String[] functions=new String[]{"","",""};
-        switch(counter){
+        switch(location){
             case 1:
-                if(buttonType==1){
+                if(semantic==1){
                     functions[0]="LEFT\nLOCATION1\nFUNCTION1";
                     functions[1]="LEFT\nLOCATION1\nFUNCTION2";
                     functions[2]="LEFT\nLOCATION1\nFUNCTION3";
                     return functions;
-                }else if(buttonType==2){
+                }else if(semantic==2){
                     functions[0]="RIGHT\nLOCATION1\nFUNCTION1";
                     functions[1]="RIGHT\nLOCATION1\nFUNCTION2";
                     functions[2]="RIGHT\nLOCATION1\nFUNCTION3";
                     return functions;
-                }else if(buttonType==3){
+                }else if(semantic==3){
                     functions[0]="SLIDER\nLOCATION1\nFUNCTION1";
                     functions[1]="SLIDER\nLOCATION1\nFUNCTION2";
                     functions[2]="SLIDER\nLOCATION1\nFUNCTION3";
@@ -414,17 +406,17 @@ public class MainActivity extends FragmentActivity
                 }
                 break;
             case 2:
-                if(buttonType==1){
+                if(semantic==1){
                     functions[0]="LEFT\nLOCATION2\nFUNCTION1";
                     functions[1]="LEFT\nLOCATION2\nFUNCTION2";
                     functions[2]="LEFT\nLOCATION2\nFUNCTION3";
                     return functions;
-                }else if(buttonType==2){
+                }else if(semantic==2){
                     functions[0]="RIGHT\nLOCATION2\nFUNCTION1";
                     functions[1]="RIGHT\nLOCATION2\nFUNCTION2";
                     functions[2]="RIGHT\nLOCATION2\nFUNCTION3";
                     return functions;
-                }else if(buttonType==3){
+                }else if(semantic==3){
                     functions[0]="SLIDER\nLOCATION2\nFUNCTION1";
                     functions[1]="SLIDER\nLOCATION2\nFUNCTION2";
                     functions[2]="SLIDER\nLOCATION2\nFUNCTION3";
@@ -432,17 +424,17 @@ public class MainActivity extends FragmentActivity
                 }
                 break;
             case 3:
-                if(buttonType==1){
+                if(semantic==1){
                     functions[0]="LEFT\nLOCATION3\nFUNCTION1";
                     functions[1]="LEFT\nLOCATION3\nFUNCTION2";
                     functions[2]="LEFT\nLOCATION3\nFUNCTION3";
                     return functions;
-                }else if(buttonType==2){
+                }else if(semantic==2){
                     functions[0]="RIGHT\nLOCATION3\nFUNCTION1";
                     functions[1]="RIGHT\nLOCATION3\nFUNCTION2";
                     functions[2]="RIGHT\nLOCATION3\nFUNCTION3";
                     return functions;
-                }else if(buttonType==3){
+                }else if(semantic==3){
                     functions[0]="SLIDER\nLOCATION3\nFUNCTION1";
                     functions[1]="SLIDER\nLOCATION3\nFUNCTION2";
                     functions[2]="SLIDER\nLOCATION3\nFUNCTION3";
@@ -514,7 +506,7 @@ public class MainActivity extends FragmentActivity
         gestureText.setText(initialText);
 
         counterText=  findViewById(R.id.counter);
-        counterText.setText(Integer.toString(counter));
+        counterText.setText(Integer.toString(context));
 
         circularProgress = (CircularProgressLayout) findViewById(R.id.circular_progress);
 //        circularProgress.setwidt(50);
@@ -534,9 +526,9 @@ public class MainActivity extends FragmentActivity
             @Override
             public void onClick(View v) {
                 //TODO Auto-generated method stub
-                if(counter<3)
-                    counter++;
-                counterText.setText(Integer.toString(counter));
+                if(context <3)
+                    context++;
+                counterText.setText(Integer.toString(context));
 
                 // Two seconds to cancel the action
                 circularProgress.setTotalTime(2000);
@@ -551,9 +543,9 @@ public class MainActivity extends FragmentActivity
             @Override
             public void onClick(View v) {
                 //TODO Auto-generated method stub
-                if(counter>1)
-                    counter--;
-                counterText.setText(Integer.toString(counter));
+                if(context >1)
+                    context--;
+                counterText.setText(Integer.toString(context));
                 Log.i("buttonEvent", "removeButton被用户点击了。");
             }
         });
@@ -811,7 +803,7 @@ public class MainActivity extends FragmentActivity
     }
 
     /**Timer: Execute every 200ms for hold gesture detection*/
-    TimerTask task = new TimerTask() {
+    TimerTask holdTimer = new TimerTask() {
         @Override
         public void run() {
             // TODO Auto-generated method stub
