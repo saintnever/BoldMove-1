@@ -1,0 +1,120 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<!--
+3 Copyright (C) 2014 The Android Open Source Project
+4
+5     Licensed under the Apache License, Version 2.0 (the "License");
+6     you may not use this file except in compliance with the License.
+7     You may obtain a copy of the License at
+8
+9          http://www.apache.org/licenses/LICENSE-2.0
+10
+11     Unless required by applicable law or agreed to in writing, software
+12     distributed under the License is distributed on an "AS IS" BASIS,
+13     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+14     See the License for the specific language governing permissions and
+15     limitations under the License.
+16-->
+17<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+18    package="com.example.android.wearable.jumpingjack"
+19    android:versionCode="1"
+20    android:versionName="1.0" >
+21
+22    <uses-sdk
+23        android:minSdkVersion="24"
+23-->D:\Android Wear Projects\BoldMove-ubitouch\BoldMove-ubitouch\BoldMove-ubitouch\BoldMove\JumpingJack\Wearable\src\main\AndroidManifest.xml
+24        android:targetSdkVersion="28" />
+24-->D:\Android Wear Projects\BoldMove-ubitouch\BoldMove-ubitouch\BoldMove-ubitouch\BoldMove\JumpingJack\Wearable\src\main\AndroidManifest.xml
+25
+26    <uses-feature android:name="android.hardware.type.watch" />
+26-->D:\Android Wear Projects\BoldMove-ubitouch\BoldMove-ubitouch\BoldMove-ubitouch\BoldMove\JumpingJack\Wearable\src\main\AndroidManifest.xml:21:5-64
+26-->D:\Android Wear Projects\BoldMove-ubitouch\BoldMove-ubitouch\BoldMove-ubitouch\BoldMove\JumpingJack\Wearable\src\main\AndroidManifest.xml:21:19-61
+27    <uses-feature
+27-->D:\Android Wear Projects\BoldMove-ubitouch\BoldMove-ubitouch\BoldMove-ubitouch\BoldMove\JumpingJack\Wearable\src\main\AndroidManifest.xml:22:5-89
+28        android:name="android.hardware.bluetooth_le"
+28-->D:\Android Wear Projects\BoldMove-ubitouch\BoldMove-ubitouch\BoldMove-ubitouch\BoldMove\JumpingJack\Wearable\src\main\AndroidManifest.xml:22:19-63
+29        android:required="true" />
+29-->D:\Android Wear Projects\BoldMove-ubitouch\BoldMove-ubitouch\BoldMove-ubitouch\BoldMove\JumpingJack\Wearable\src\main\AndroidManifest.xml:22:64-87
+30
+31    <uses-permission android:name="android.permission.VIBRATE" />
+31-->D:\Android Wear Projects\BoldMove-ubitouch\BoldMove-ubitouch\BoldMove-ubitouch\BoldMove\JumpingJack\Wearable\src\main\AndroidManifest.xml:24:5-65
+31-->D:\Android Wear Projects\BoldMove-ubitouch\BoldMove-ubitouch\BoldMove-ubitouch\BoldMove\JumpingJack\Wearable\src\main\AndroidManifest.xml:24:22-63
+32    <uses-permission android:name="android.permission.WAKE_LOCK" />
+32-->D:\Android Wear Projects\BoldMove-ubitouch\BoldMove-ubitouch\BoldMove-ubitouch\BoldMove\JumpingJack\Wearable\src\main\AndroidManifest.xml:26:5-68
+32-->D:\Android Wear Projects\BoldMove-ubitouch\BoldMove-ubitouch\BoldMove-ubitouch\BoldMove\JumpingJack\Wearable\src\main\AndroidManifest.xml:26:22-65
+33    <uses-permission android:name="android.permission.BLUETOOTH" />
+33-->D:\Android Wear Projects\BoldMove-ubitouch\BoldMove-ubitouch\BoldMove-ubitouch\BoldMove\JumpingJack\Wearable\src\main\AndroidManifest.xml:27:5-67
+33-->D:\Android Wear Projects\BoldMove-ubitouch\BoldMove-ubitouch\BoldMove-ubitouch\BoldMove\JumpingJack\Wearable\src\main\AndroidManifest.xml:27:22-65
+34    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+34-->D:\Android Wear Projects\BoldMove-ubitouch\BoldMove-ubitouch\BoldMove-ubitouch\BoldMove\JumpingJack\Wearable\src\main\AndroidManifest.xml:28:5-73
+34-->D:\Android Wear Projects\BoldMove-ubitouch\BoldMove-ubitouch\BoldMove-ubitouch\BoldMove\JumpingJack\Wearable\src\main\AndroidManifest.xml:28:22-71
+35
+36    <!-- Required only if your app isn't using the Device Companion Manager. -->
+37    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+37-->D:\Android Wear Projects\BoldMove-ubitouch\BoldMove-ubitouch\BoldMove-ubitouch\BoldMove\JumpingJack\Wearable\src\main\AndroidManifest.xml:31:5-79
+37-->D:\Android Wear Projects\BoldMove-ubitouch\BoldMove-ubitouch\BoldMove-ubitouch\BoldMove\JumpingJack\Wearable\src\main\AndroidManifest.xml:31:22-76
+38
+39    <application
+39-->D:\Android Wear Projects\BoldMove-ubitouch\BoldMove-ubitouch\BoldMove-ubitouch\BoldMove\JumpingJack\Wearable\src\main\AndroidManifest.xml:33:5-52:19
+40        android:allowBackup="true"
+40-->D:\Android Wear Projects\BoldMove-ubitouch\BoldMove-ubitouch\BoldMove-ubitouch\BoldMove\JumpingJack\Wearable\src\main\AndroidManifest.xml:34:13-39
+41        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+41-->[androidx.core:core:1.3.1] C:\Users\jiang\.gradle\caches\transforms-2\files-2.1\70a33e8ed933cd1d3ba30f983e7d4d1f\core-1.3.1\AndroidManifest.xml:24:18-86
+42        android:debuggable="true"
+43        android:extractNativeLibs="false"
+44        android:icon="@drawable/ic_launcher"
+44-->D:\Android Wear Projects\BoldMove-ubitouch\BoldMove-ubitouch\BoldMove-ubitouch\BoldMove\JumpingJack\Wearable\src\main\AndroidManifest.xml:35:13-49
+45        android:label="@string/app_name"
+45-->D:\Android Wear Projects\BoldMove-ubitouch\BoldMove-ubitouch\BoldMove-ubitouch\BoldMove\JumpingJack\Wearable\src\main\AndroidManifest.xml:36:13-45
+46        android:testOnly="true"
+47        android:theme="@android:style/Theme.DeviceDefault.Light" >
+47-->D:\Android Wear Projects\BoldMove-ubitouch\BoldMove-ubitouch\BoldMove-ubitouch\BoldMove\JumpingJack\Wearable\src\main\AndroidManifest.xml:37:13-69
+48        <meta-data
+48-->D:\Android Wear Projects\BoldMove-ubitouch\BoldMove-ubitouch\BoldMove-ubitouch\BoldMove\JumpingJack\Wearable\src\main\AndroidManifest.xml:40:9-42:36
+49            android:name="com.google.android.wearable.standalone"
+49-->D:\Android Wear Projects\BoldMove-ubitouch\BoldMove-ubitouch\BoldMove-ubitouch\BoldMove\JumpingJack\Wearable\src\main\AndroidManifest.xml:41:13-66
+50            android:value="true" />
+50-->D:\Android Wear Projects\BoldMove-ubitouch\BoldMove-ubitouch\BoldMove-ubitouch\BoldMove\JumpingJack\Wearable\src\main\AndroidManifest.xml:42:13-33
+51
+52        <activity
+52-->D:\Android Wear Projects\BoldMove-ubitouch\BoldMove-ubitouch\BoldMove-ubitouch\BoldMove\JumpingJack\Wearable\src\main\AndroidManifest.xml:44:9-51:20
+53            android:name="com.example.android.wearable.jumpingjack.MainActivity"
+53-->D:\Android Wear Projects\BoldMove-ubitouch\BoldMove-ubitouch\BoldMove-ubitouch\BoldMove\JumpingJack\Wearable\src\main\AndroidManifest.xml:45:17-45
+54            android:label="@string/app_name" >
+54-->D:\Android Wear Projects\BoldMove-ubitouch\BoldMove-ubitouch\BoldMove-ubitouch\BoldMove\JumpingJack\Wearable\src\main\AndroidManifest.xml:46:17-49
+55            <intent-filter>
+55-->D:\Android Wear Projects\BoldMove-ubitouch\BoldMove-ubitouch\BoldMove-ubitouch\BoldMove\JumpingJack\Wearable\src\main\AndroidManifest.xml:47:13-50:29
+56                <action android:name="android.intent.action.MAIN" />
+56-->D:\Android Wear Projects\BoldMove-ubitouch\BoldMove-ubitouch\BoldMove-ubitouch\BoldMove\JumpingJack\Wearable\src\main\AndroidManifest.xml:48:17-68
+56-->D:\Android Wear Projects\BoldMove-ubitouch\BoldMove-ubitouch\BoldMove-ubitouch\BoldMove\JumpingJack\Wearable\src\main\AndroidManifest.xml:48:25-66
+57
+58                <category android:name="android.intent.category.LAUNCHER" />
+58-->D:\Android Wear Projects\BoldMove-ubitouch\BoldMove-ubitouch\BoldMove-ubitouch\BoldMove\JumpingJack\Wearable\src\main\AndroidManifest.xml:49:17-76
+58-->D:\Android Wear Projects\BoldMove-ubitouch\BoldMove-ubitouch\BoldMove-ubitouch\BoldMove\JumpingJack\Wearable\src\main\AndroidManifest.xml:49:27-74
+59            </intent-filter>
+60        </activity>
+61
+62        <uses-library
+62-->[com.google.android.support:wearable:2.7.0] C:\Users\jiang\.gradle\caches\transforms-2\files-2.1\7f0fd58d8a0563a91e4cdfe111e2d151\jetified-wearable-2.7.0\AndroidManifest.xml:10:9-12:40
+63            android:name="com.google.android.wearable"
+63-->[com.google.android.support:wearable:2.7.0] C:\Users\jiang\.gradle\caches\transforms-2\files-2.1\7f0fd58d8a0563a91e4cdfe111e2d151\jetified-wearable-2.7.0\AndroidManifest.xml:11:13-55
+64            android:required="false" />
+64-->[com.google.android.support:wearable:2.7.0] C:\Users\jiang\.gradle\caches\transforms-2\files-2.1\7f0fd58d8a0563a91e4cdfe111e2d151\jetified-wearable-2.7.0\AndroidManifest.xml:12:13-37
+65
+66        <activity
+66-->[com.google.android.gms:play-services-base:17.0.0] C:\Users\jiang\.gradle\caches\transforms-2\files-2.1\59ad23d4bb357d927feb8cc12f3026f7\jetified-play-services-base-17.0.0\AndroidManifest.xml:23:9-26:75
+67            android:name="com.google.android.gms.common.api.GoogleApiActivity"
+67-->[com.google.android.gms:play-services-base:17.0.0] C:\Users\jiang\.gradle\caches\transforms-2\files-2.1\59ad23d4bb357d927feb8cc12f3026f7\jetified-play-services-base-17.0.0\AndroidManifest.xml:24:13-79
+68            android:exported="false"
+68-->[com.google.android.gms:play-services-base:17.0.0] C:\Users\jiang\.gradle\caches\transforms-2\files-2.1\59ad23d4bb357d927feb8cc12f3026f7\jetified-play-services-base-17.0.0\AndroidManifest.xml:25:13-37
+69            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+69-->[com.google.android.gms:play-services-base:17.0.0] C:\Users\jiang\.gradle\caches\transforms-2\files-2.1\59ad23d4bb357d927feb8cc12f3026f7\jetified-play-services-base-17.0.0\AndroidManifest.xml:26:13-72
+70
+71        <meta-data
+71-->[com.google.android.gms:play-services-basement:17.0.0] C:\Users\jiang\.gradle\caches\transforms-2\files-2.1\cc5c6431a157ee841dc9e495d54844cf\jetified-play-services-basement-17.0.0\AndroidManifest.xml:23:9-25:69
+72            android:name="com.google.android.gms.version"
+72-->[com.google.android.gms:play-services-basement:17.0.0] C:\Users\jiang\.gradle\caches\transforms-2\files-2.1\cc5c6431a157ee841dc9e495d54844cf\jetified-play-services-basement-17.0.0\AndroidManifest.xml:24:13-58
+73            android:value="@integer/google_play_services_version" />
+73-->[com.google.android.gms:play-services-basement:17.0.0] C:\Users\jiang\.gradle\caches\transforms-2\files-2.1\cc5c6431a157ee841dc9e495d54844cf\jetified-play-services-basement-17.0.0\AndroidManifest.xml:25:13-66
+74    </application>
+75
+76</manifest>

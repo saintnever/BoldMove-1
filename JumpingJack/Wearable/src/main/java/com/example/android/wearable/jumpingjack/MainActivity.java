@@ -17,7 +17,6 @@
 package com.example.android.wearable.jumpingjack;
 
 import android.app.Activity;
-import android.app.ListActivity;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothManager;
 import android.bluetooth.BluetoothDevice;
@@ -35,7 +34,6 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.ParcelUuid;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -56,16 +54,12 @@ import com.example.android.wearable.jumpingjack.fragments.FunctionTwoFragment;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.UUID;
-import com.example.android.wearable.jumpingjack.function;
-import com.google.android.gms.common.util.Strings;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -81,7 +75,7 @@ import org.json.JSONObject;
  * stage, user can set this counter to 0.
  */
 public class MainActivity extends FragmentActivity
-        implements AmbientModeSupport.AmbientCallbackProvider, SensorEventListener, CircularProgressLayout.OnTimerFinishedListener {
+        implements AmbientModeSupport.AmbientCallbackProvider, CircularProgressLayout.OnTimerFinishedListener {
 
     private static final String TAG = "MainActivity";
 
@@ -94,6 +88,8 @@ public class MainActivity extends FragmentActivity
     private int timer=0;
     private Timer scrollTimer;
     private TimerTask scrollTask;
+    private Timer waitTimer;
+    private TimerTask waitTask;
     private boolean isHold=false;
     private int isTop=0;
     private int isBottom=0;
@@ -108,12 +104,9 @@ public class MainActivity extends FragmentActivity
     private int functionTime =1;
     private int context =1;
     private int task =1;
-    private int finishedBlocks=0;
-    private int finishedTasks=0;
+    private int block =0;
     private Integer[][] blocks_StudyOne;
-    private Integer[] tasks_StudyOne;
     private List<List<Integer>> randomBlocks_StudyOne;
-    private List<Integer> randomTasks_StudyOne;
 
     private ViewPager mPager;
     private FunctionOneFragment mCounterPage;
@@ -140,10 +133,12 @@ public class MainActivity extends FragmentActivity
     private byte  BUTTON_RIGHT= 0;
     private byte  SLIDER_TOUCH = 0;
     private byte  SLIDER_VALUE = 0;
+    private byte TOGGLE = 0;
     private byte PREVIOUS_BUTTON_LEFT=0;
     private byte PREVIOUS_BUTTON_RIGHT=0;
     private byte PREVIOUS_SLIDER_TOUCH=0;
     private byte PREVIOUS_SLIDER_VALUE=0;
+    private byte PREVIOUS_TOGGLE=0;
 
     private float[] gravity= new float[3];
     private float[] linear_acceleration= new float[3];
@@ -176,41 +171,13 @@ public class MainActivity extends FragmentActivity
         AmbientModeSupport.attach(this);
         setContentView(R.layout.circular_timer);
         setupGestureViews("实验开始!");
-        /*setupGestureViews(STATION_DISCRETE_DETECTING);
 
-        gravity[0] = 0.0f;
-        gravity[1] = 0.0f;
-        gravity[2] = 0.0f;
-
-        linear_acceleration[0] = 0.0f;
-        linear_acceleration[1] = 0.0f;
-        linear_acceleration[2] = 0.0f;
-
-        gyro[0] = 0.0f;
-        gyro[1] = 0.0f;
-        gyro[2] = 0.0f;
-
-        accelerator[0] = 0.0f;
-        accelerator[1] = 0.0f;
-        accelerator[2] = 0.0f;
-
-        mPosition = POSITION_UNKNOWN;
-
-        startSensor();
-
-        Timer timer = new Timer();
-        timer.scheduleAtFixedRate(holdTimer, 0,200);//Sample rate =5Hz*/
-
-        blocks_StudyOne = new Integer[][]{{1, 1}, {1, 3}, {1, 5},{2,1},{2,3},{2,5},{3,1},{3,3},{3,5}};
+        blocks_StudyOne = new Integer[][]{{1, 0}, {1, 2}, {1, 4},{2,0},{2,2},{2,4},{3,0},{3,2},{3,4}};
         randomBlocks_StudyOne = new ArrayList<>();
         for (Integer[] ints : blocks_StudyOne) {
             randomBlocks_StudyOne.add(Arrays.asList(ints));
         }
         Collections.shuffle(randomBlocks_StudyOne);
-
-        tasks_StudyOne =new Integer[]{1,2,3,4};
-        randomTasks_StudyOne =Arrays.asList(tasks_StudyOne);
-        Collections.shuffle(randomTasks_StudyOne);
 
         handler= new Handler();
         final BluetoothManager bluetoothManager =
@@ -250,27 +217,6 @@ public class MainActivity extends FragmentActivity
             mLeDeviceListAdapter = new LeDeviceListAdapter();
 
         }
-
-        // Initializes list view adapter.
-        /*
-        if (mSensorManager.registerListener(this, mAcceleratorSensor,
-                SENSOR_RATE_NORMAL)) {
-            if (Log.isLoggable(TAG, Log.DEBUG)) {
-                Log.d(TAG, "Successfully registered for the accelerator sensor updates");
-            }
-        }
-        if (mSensorManager.registerListener(this, mGyroSensor,
-                SENSOR_RATE_NORMAL)) {
-            if (Log.isLoggable(TAG, Log.DEBUG)) {
-                Log.d(TAG, "Successfully registered for the gyro sensor updates");
-            }
-        }
-        if (mSensorManager.registerListener(this, mMagnetSensor,
-                SENSOR_RATE_NORMAL)) {
-            if (Log.isLoggable(TAG, Log.DEBUG)) {
-                Log.d(TAG, "Successfully registered for the gyro sensor updates");
-            }
-        }*/
     }
 
     /**Unregister sensor listener*/
@@ -278,10 +224,6 @@ public class MainActivity extends FragmentActivity
     protected void onPause() {
         super.onPause();
         scanLeDevice(false);
-        /*mSensorManager.unregisterListener(this);
-        if (Log.isLoggable(TAG, Log.DEBUG)) {
-            Log.d(TAG, "Unregistered for sensor events");
-        }*/
     }
 
     ScanCallback scanCallback = new ScanCallback() {
@@ -301,8 +243,9 @@ public class MainActivity extends FragmentActivity
             Log.d("manudata", Arrays.toString(manudata));
             BUTTON_LEFT = manudata[0];
             BUTTON_RIGHT = manudata[1];
-            SLIDER_TOUCH = manudata[2];
-            SLIDER_VALUE = manudata[3];
+            TOGGLE = manudata[2];
+            SLIDER_TOUCH = getByteValues(manudata[3])[0];//获得前四位值
+            SLIDER_VALUE = getByteValues(manudata[3])[1];//获得后四位值
             try {
                 ubiTouchStatus();
             } catch (IOException | JSONException e) {
@@ -312,6 +255,16 @@ public class MainActivity extends FragmentActivity
 //                    scanRecord.getBytes());
         }
     };
+
+    /**Get first four bits and last four bits values*/
+    public static byte[] getByteValues(byte b) {
+        byte[] array = new byte[2];
+        for (int i = 1; i >= 0; i--) {
+            array[i] = (byte)(b & 15);
+            b = (byte) (b >> 4);
+        }
+        return array;
+    }
 
     private void scanLeDevice(final boolean enable) {
         if (enable) {
@@ -357,114 +310,193 @@ public class MainActivity extends FragmentActivity
         //    if trigger/prev/next buttons, wait for 2s, then start function selection
         // if not
         // no feedback
-        //如果是实验一，执行以下代码
-        if(finishedBlocks==9){
-            finishedBlocks=0;
+        /**Study 1: 2 sessions, 4 tasks, 9 blocks*/
+        if(block ==9){
+            block =0;
             Collections.shuffle(randomBlocks_StudyOne);
-            if(finishedTasks<3) {
-                finishedTasks++;
-            }else{
-                finishedTasks=0;
-                Collections.shuffle(randomTasks_StudyOne);
-                if(session<2){
+            if(task <4)
+                task++;
+            else{
+                task =1;
+                if(session<2)
                     session++;
-                }else{
+                else{
+                    session=1;
                     //实验完成
                     setText("实验结束！");
                 }
             }
         }
-
-        functionOrder= randomBlocks_StudyOne.get(finishedBlocks).get(1);
-        functionTime = randomBlocks_StudyOne.get(finishedBlocks).get(0);
-        task = randomTasks_StudyOne.get(finishedTasks);
-        //写入log文件
+        functionOrder= randomBlocks_StudyOne.get(block).get(1);
+        functionTime = randomBlocks_StudyOne.get(block).get(0);
+        //写入log文件，当前参数
         Log.d("currentSettings", functionOrder+" "+ functionTime +" "+ task +" "+session);
+
         List<function> b1s1 = functionList(0, 1, 4);
         for (function item:b1s1
              ) {
             Log.d("function_validation",item.get_id().toString());
         }
 
-        //实验一结束进行实验二么？还是编译成两个程序？
-        //如果是实验二，执行以下代码
-        //。。。。。。
-//        switch (BUTTON_LEFT){
-//            case 0:
-//                if(PREVIOUS_BUTTON_LEFT==1){
-//                    //显示选中的功能
-//                    setupGestureViews("Result:\n"+functionList(1,1,functionOrder)[mPager.getCurrentItem()]);
-//                    //写入Log文件，任务完成时间
-//                    Log.d("finishTime",String.valueOf(System.currentTimeMillis()));
-//                    finishedBlocks++;
-//                }
-//                PREVIOUS_BUTTON_LEFT=0;
-//                break;
-//            case -1:
-//                if(PREVIOUS_BUTTON_LEFT==0){
-//                    String functionlist1[]=functionList(1,1,functionOrder);
-//                    setupScrollViews(functionlist1[0],functionlist1[1],functionlist1[2]);
-//                    //写入Log文件，任务开始时间
-//                    Log.d("startTime",String.valueOf(System.currentTimeMillis()));
-//                }
-//                PREVIOUS_BUTTON_LEFT=1;
-//                break;
-//        }
-//        switch(BUTTON_RIGHT){
-//            case 0:
-//                if(PREVIOUS_BUTTON_RIGHT==1){
-//                    //显示选中的功能
-//                    setupGestureViews("Result:\n"+functionList(2,1,functionOrder)[mPager.getCurrentItem()]);
-//                    //写入Log文件，任务完成时间
-//                    Log.d("finishTime",String.valueOf(System.currentTimeMillis()));
-//                    finishedBlocks++;
-//                }
-//                PREVIOUS_BUTTON_RIGHT=0;
-//                break;
-//            case -1:
-//                if(PREVIOUS_BUTTON_RIGHT==0){
-//                    String functionlist2[]=functionList(2,1,functionOrder);
-//                    setupScrollViews(functionlist2[0],functionlist2[1],functionlist2[2]);
-//                    //写入Log文件，任务开始时间
-//                    Log.d("startTime",String.valueOf(System.currentTimeMillis()));
-//                }
-//                PREVIOUS_BUTTON_RIGHT=1;
-//                break;
-//        }
-//        switch(TOGGLE){
-//            case 0:
-//                if(PREVIOUS_SLIDER_TOUCH==1){
-//                    //显示选中的数值
-//                    setupGestureViews("Result:\n"+PREVIOUS_SLIDER_VALUE);
-//                    finishedBlocks++;
-//                }
-//                PREVIOUS_SLIDER_TOUCH=0;
-//                break;
-//            case -1:
-//                if(PREVIOUS_SLIDER_TOUCH==0){
-//                    String[] functionlist3=functionList(3,1,functionOrder);
-//                    setupScrollViews(functionlist3[0],functionlist3[1],functionlist3[2]);
-//                    //写入Log文件，任务开始时间
-//                    Log.d("startTime",String.valueOf(System.currentTimeMillis()));
-//                }else{
-//                    if(SLIDER_VALUE!=PREVIOUS_SLIDER_VALUE){
-//                        //写入Log文件，任务完成时间
-//                        Log.d("finishedTime",String.valueOf(System.currentTimeMillis()));
-//                        //显示选中的功能和实时的连续值
-//                        if(scrollTimer!=null){
-//                            setupGestureViews(functionList(3,1,functionOrder)[mPager.getCurrentItem()]+"\n"+SLIDER_VALUE);
-//                        }else{
-//                            setText(functionList(3,1,functionOrder)[mPager.getCurrentItem()]+"\n"+SLIDER_VALUE);
-//                        }
-//                    }
-//                }
-//                PREVIOUS_SLIDER_VALUE=SLIDER_VALUE;
-//                PREVIOUS_SLIDER_TOUCH=1;
-//                break;
-//        }
+        /**Left button pressed or released*/
+        switch (BUTTON_LEFT){
+            case 0:
+                if(PREVIOUS_BUTTON_LEFT==-1){
+                    stopTimer();
+                    block++;
+                    //显示选中的功能
+                    //setupGestureViews("Result:\n"+functionList(0, 0,0).get(0).get_device()[/*mPager.getCurrentItem()*/0]);
+                    //写入Log文件，任务完成时间
+                    Log.d("finishTime",String.valueOf(System.currentTimeMillis()));
+                }
+                PREVIOUS_BUTTON_LEFT=0;
+                break;
+            case -1:
+                if(PREVIOUS_BUTTON_LEFT==0){
+                    if(session==1){
+                        //显示滚动功能列表
+                        //List<function> functionlist=functionList(0, 0,0);
+                        //setupScrollViews(functionlist.get(0).get_device()[0],functionlist.get(0).get_device()[0],functionlist.get(0).get_device()[0]);
+                        //写入Log文件，任务开始时间
+                        Log.d("startTime",String.valueOf(System.currentTimeMillis()));
+                    }else{
+                        waitTimer = new Timer();
+                        /**Timer: execute after 2s*/
+                        waitTask = new TimerTask() {
+                            @Override
+                            public void run() {
+                                // TODO Auto-generated method stub
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        //显示滚动功能列表
+//                                        List<function> functionlist= null;
+//                                        try {
+//                                            functionlist = functionList(0,0,0);
+//                                        } catch (IOException e) {
+//                                            e.printStackTrace();
+//                                        } catch (JSONException e) {
+//                                            e.printStackTrace();
+//                                        }
+//                                        setupScrollViews(functionlist.get(0).get_device()[0],functionlist.get(0).get_device()[0],functionlist.get(0).get_device()[0]);
+                                        //写入Log文件，任务开始时间
+                                        Log.d("startTime",String.valueOf(System.currentTimeMillis()));
+                                    }});}
+                        };
+                        waitTimer.schedule(waitTask, 2000);
+                    }
+                }
+                PREVIOUS_BUTTON_LEFT=-1;
+                break;
+        }
+        /**Right button pressed or released*/
+        switch(BUTTON_RIGHT){
+            case 0:
+                if(PREVIOUS_BUTTON_RIGHT==-1){
+                    stopTimer();
+                    block++;
+                    //显示选中的功能
+                    //setupGestureViews("Result:\n"+functionList(1,0,0).get(0).get_device()[/*mPager.getCurrentItem()*/0]);
+                    //写入Log文件，任务完成时间
+                    Log.d("finishTime",String.valueOf(System.currentTimeMillis()));
+                }
+                PREVIOUS_BUTTON_RIGHT=0;
+                break;
+            case -1:
+                if(PREVIOUS_BUTTON_RIGHT==0){
+                    if(session==1){
+                        //显示滚动功能列表
+                        //List<function> functionlist=functionList(1,0,0);
+                        //setupScrollViews(functionlist.get(0).get_device()[0],functionlist.get(0).get_device()[0],functionlist.get(0).get_device()[0]);
+                        //写入Log文件，任务开始时间
+                        Log.d("startTime",String.valueOf(System.currentTimeMillis()));
+                    }else{
+                        waitTimer = new Timer();
+                        /**Timer: execute after 2s*/
+                        waitTask = new TimerTask() {
+                            @Override
+                            public void run() {
+                                // TODO Auto-generated method stub
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        //显示滚动功能列表
+//                                        List<function> functionlist= null;
+//                                        try {
+//                                            functionlist = functionList(1,0,0);
+//                                        } catch (IOException e) {
+//                                            e.printStackTrace();
+//                                        } catch (JSONException e) {
+//                                            e.printStackTrace();
+//                                        }
+//                                        setupScrollViews(functionlist.get(0).get_device()[0],functionlist.get(0).get_device()[0],functionlist.get(0).get_device()[0]);
+                                        //写入Log文件，任务开始时间
+                                        Log.d("startTime",String.valueOf(System.currentTimeMillis()));
+                                    }});}
+                        };
+                        waitTimer.schedule(waitTask, 2000);
+                    }
+                }
+                PREVIOUS_BUTTON_RIGHT=-1;
+                break;
+        }
+        /**Toggle button pressed or released*/
+        switch(TOGGLE){
+            case 0:
+                if(PREVIOUS_TOGGLE==-1){
+                    block++;
+                    //显示选中的功能
+                    //setupGestureViews("Result:\n"+functionList(2,0,0).get(0).get_device()[/*mPager.getCurrentItem()*/0]);
+                    //写入Log文件，任务完成时间
+                    Log.d("finishTime",String.valueOf(System.currentTimeMillis()));
+                }
+                PREVIOUS_TOGGLE=0;
+                break;
+            case -1:
+                if(PREVIOUS_TOGGLE==0){
+                    //显示滚动功能列表
+                    //List<function> functionlist=functionList(2,0,0);
+                    //setupScrollViews(functionlist.get(0).get_device()[0],functionlist.get(0).get_device()[0],functionlist.get(0).get_device()[0]);
+                    //写入Log文件，任务开始时间
+                    Log.d("startTime",String.valueOf(System.currentTimeMillis()));
+                }
+                PREVIOUS_TOGGLE=-1;
+                break;
+        }
+        /**Slider pressed, released or dragged*/
+        switch(SLIDER_TOUCH){
+            case 0:
+                if(PREVIOUS_SLIDER_TOUCH==15){
+                    block++;
+                    //显示选中的数值
+                    //setupGestureViews("Result:\n"+PREVIOUS_SLIDER_VALUE);
+                }
+                PREVIOUS_SLIDER_TOUCH=0;
+                break;
+            case 15:
+                if(PREVIOUS_SLIDER_TOUCH==0){
+                    //显示滚动功能列表
+                    //List<function> functionlist=functionList(3,0,0);
+                    //setupScrollViews(functionlist.get(0).get_device()[0],functionlist.get(0).get_device()[0],functionlist.get(0).get_device()[0]);
+                    //写入Log文件，任务开始时间
+                    Log.d("startTime",String.valueOf(System.currentTimeMillis()));
+                }else{
+                    if(SLIDER_VALUE!=PREVIOUS_SLIDER_VALUE){
+                        //写入Log文件，任务完成时间
+                        Log.d("finishedTime",String.valueOf(System.currentTimeMillis()));
+                        //显示选中的功能和实时的连续值
+                        if(scrollTimer!=null){
+                            //setupGestureViews(functionList(3,0,0).get(0).get_device()[/*mPager.getCurrentItem()*/0]+"\n"+SLIDER_VALUE);
+                        }else{
+                            //setText(functionList(3,0,0).get(0).get_device()[/*mPager.getCurrentItem()*/0]+"\n"+SLIDER_VALUE);
+                        }
+                    }
+                }
+                PREVIOUS_SLIDER_VALUE=SLIDER_VALUE;
+                PREVIOUS_SLIDER_TOUCH=15;
+                break;
+        }
     }
-
-
 
     /**Redefined function list*/
     private List<function> assembly_functions(int study, int session, int block, int semantic) throws IOException, JSONException {
@@ -518,25 +550,6 @@ public class MainActivity extends FragmentActivity
         return semantic_functions;
     }
 
-    /**Start sensors*/
-    private void startSensor() {
-        if (mSensorManager == null) {
-            mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
-        }
-        if (mAcceleratorSensor == null) {
-            /**LINEAR_ACCELERATION is required for algorithm 2*/
-            //mSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION);
-            mAcceleratorSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-        }
-        if (mGyroSensor == null) {
-            mGyroSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
-        }
-        if(mMagnetSensor==null) {
-            mMagnetSensor=mSensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
-        }
-
-    }
-
     /**Real-time gesture display*/
     private void setupGestureViews(String initialText){
         setContentView(R.layout.gesture_detection_layout);
@@ -545,11 +558,7 @@ public class MainActivity extends FragmentActivity
         gestureText.setText(initialText);
 
         counterText=  findViewById(R.id.counter);
-        counterText.setText(Integer.toString(context));
-
-        circularProgress = (CircularProgressLayout) findViewById(R.id.circular_progress);
-//        circularProgress.setwidt(50);
-        circularProgress.setOnTimerFinishedListener(this);
+        counterText.setText("第"+(block==9?1:(block+1))+"次");
 
         if (scrollTimer != null) {
             scrollTimer.cancel();
@@ -560,36 +569,18 @@ public class MainActivity extends FragmentActivity
             scrollTask = null;
         }
 
-        Button add = (Button) this.findViewById(R.id.addButton);
-        add.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //TODO Auto-generated method stub
-                if(context <3)
-                    context++;
-                counterText.setText(Integer.toString(context));
-
-                // Two seconds to cancel the action
-                circularProgress.setTotalTime(2000);
-                // Start the timer
-                circularProgress.startTimer();
-                Log.i("buttonEvent", "addButton被用户点击了。");
-            }
-        });
-
         Button remove = (Button) this.findViewById(R.id.removeButton);
         remove.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //TODO Auto-generated method stub
-                if(context >1)
-                    context--;
-                counterText.setText(Integer.toString(context));
+                if(block >0)
+                    block--;
+                counterText.setText("第"+(block==9?1:(block+1))+"次");
                 Log.i("buttonEvent", "removeButton被用户点击了。");
             }
         });
     }
-
 
     /**Scroll function list*/
     private void setupScrollViews(String function1, String function2, String function3) {
@@ -629,6 +620,14 @@ public class MainActivity extends FragmentActivity
             }
         });
 
+        circularProgress = (CircularProgressLayout) findViewById(R.id.circular_progress);
+//        circularProgress.setwidt(50);
+        circularProgress.setOnTimerFinishedListener(this);
+
+        circularProgress.setTotalTime(functionTime *1000);
+        // Start the timer
+        circularProgress.startTimer();
+
         scrollTimer = new Timer();
 
         /**Timer: page scroll every 2s*/
@@ -639,240 +638,18 @@ public class MainActivity extends FragmentActivity
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        circularProgress.stopTimer();
                         mPager.setCurrentItem(mPager.getCurrentItem()==2?0:mPager.getCurrentItem()+1);
+                        //写入Log文件，每个选项出现时间
+                        Log.d("everyFunctionTime",String.valueOf(System.currentTimeMillis()));
+                        // Start the timer
+                        circularProgress.startTimer();
                     }});}
         };
 
-        scrollTimer.schedule(scrollTask, 2000,2000);//every 2 seconds
+        scrollTimer.schedule(scrollTask, functionTime *1000, functionTime *1000);//every 2 seconds
 
         mPager.setAdapter(adapter);
-    }
-
-
-
-    /**Get sensor data when data changed*/
-    @Override
-    public void onSensorChanged(SensorEvent event) {
-        switch(event.sensor.getType()) {
-            case Sensor.TYPE_ACCELEROMETER:
-                //Log.e(TAG, "Accelerator:   "+event.values[0]+"  "+event.values[1]+"   "+event.values[2]);
-                accelerator=event.values;
-                break;
-            case Sensor.TYPE_GYROSCOPE:
-                //Log.e(TAG, "Gyroscope:   "+event.values[0]+"  "+event.values[1]+"   "+event.values[2]);
-                gyro=event.values;
-                //RA=RelativeAccelerator(accelerator,gyro,event.timestamp);
-                //inAirGesture();
-                break;
-            case Sensor.TYPE_MAGNETIC_FIELD:
-                //Log.e(TAG, "Magnet:   "+event.values[0]+"  "+event.values[1]+"   "+event.values[2]);
-                //AO=AbsoluteOrientation(accelerator,magnet);
-                magnet=event.values;
-                break;
-        }
-    }
-
-    /**AbsoluteOrientation Algorithm: https://blog.csdn.net/u014702999/article/details/51483361*/
-    private float AbsoluteOrientation(float[] AcceleratorValues,float[] MagnetValues ){
-        if (AcceleratorValues != null && MagnetValues != null) {
-            float R[] = new float[9];
-            float I[] = new float[9];
-            boolean success = SensorManager.getRotationMatrix(R, I, AcceleratorValues, MagnetValues);
-            if (success) {
-                float orientation[] = new float[3];// orientation contains: azimut, pitch and roll
-                SensorManager.getOrientation(R, orientation);
-                roll = -(float)Math.toDegrees(orientation[2]);
-                Log.e(TAG, "roll:   "+(int)(roll/4));
-            }
-        }
-        return (int)(roll/4);
-    }
-
-    /**RelativeAccelerator Algorithm: https://w3c.github.io/motion-sensors/#complementary-filter*/
-    private double[] RelativeAccelerator(float[] AcceleratorValues, float[] GyroValues, long timestamp){
-        acc[0]=0;
-        acc[1]=0;
-        acc[2]=0;
-        float bias=0.98f;
-        long dt = (timestamp - mLastTime)/100000;
-        mLastTime = timestamp;
-        double norm = Math.sqrt(Math.pow(accelerator[0],2) + Math.pow(accelerator[1],2) + Math.pow(accelerator[2],2));
-        double scale = Math.PI / 2;
-        acc[0] = bias * (accelerator[0] + gyro[0] * dt) + (1.0 - bias) * (accelerator[0] * scale / norm);
-        acc[1] = bias * (accelerator[1] + gyro[1] * dt) + (1.0 - bias) * (accelerator[1] * scale / norm);
-        acc[2] = bias * (accelerator[2] + gyro[2] * dt) + (1.0 - bias) * (accelerator[2] * scale / norm);
-        //Log.e(TAG, "Mulitsensors:   "+Math.round(accelerator[0])+"  "+Math.round(accelerator[1])+"   "+Math.round(accelerator[2]));
-
-        return acc;
-    }
-
-    /**Station controller*/
-    private void inAirGesture() {
-        switch(mStation){
-            case STATION_DISCRETE_DETECTING:
-                SwipeDetection();
-                //Detect wrist rotation
-                if(gyro[0]<-5){
-                    setupScrollViews("Function 1","Function 2","Function 3");
-                    i=0;
-                    mStation=STATION_CONTINUOUS_SELECTING;
-                }
-                break;
-            case STATION_CONTINUOUS_DETECTING:
-                setText(Float.toString(Math.round(AO)));
-                if(Math.sqrt(Math.pow(RA[0],2)+Math.pow(RA[1],2)+Math.pow(RA[2],2))<30)
-                {
-                    isHold=true;
-                }else{
-                    isHold=false;
-                }
-                break;
-            case STATION_CONTINUOUS_SELECTING:
-                //Detect wrist rotation
-               if(i>=50){
-               if(gyro[0]<-5){
-                    setupGestureViews("Result:\n"+mPager.getCurrentItem()+1);
-                    Log.e(TAG, "Function"+(mPager.getCurrentItem()+1)+"\n"+mPosition);
-                    mStation=STATION_CONTINUOUS_DETECTING;
-                    i=0;
-                }}else{
-                   i++;
-               }
-                break;
-            case STATION_SELECTING:
-                ConfirmAndRestart();
-                break;
-                
-        }
-    }
-
-    /**Detect discrete swipe gestures*/
-    private void SwipeDetection(){
-        if(Math.sqrt(Math.pow(RA[0],2)+Math.pow(RA[1],2)+Math.pow(RA[2],2))<30)
-        {
-            isHold=true;
-        }else{
-            isHold=false;
-            /**Detect left/right/top/bottom swipe gestures*/
-            if(Math.abs(RA[2])>=Math.abs(RA[0])&&Math.abs(RA[2])>=Math.abs(RA[1]))
-            {
-                if(RA[2]>200)
-                {
-                        Log.e(TAG, "Left");
-                        mPosition=POSITION_LEFT;
-                        setText(mPosition);
-                }
-                else if(RA[2]<-200)
-                {
-                        Log.e(TAG, "Right");
-                        mPosition=POSITION_RIGHT;
-                        setText(mPosition);
-                }
-            }else if(Math.abs(RA[1])>=Math.abs(RA[0])&&Math.abs(RA[1])>=Math.abs(RA[2]))
-            {
-                /**Detect push (Double click) gesture****************************/
-                if((isTop==1||isBottom==1)&&previousTime!=0)
-                {
-                    previousTime=0;
-                }
-                previousTime++;
-                if(previousTime==10)
-                {
-                    if(isTop>=3&&isBottom>=3){
-                        Log.e(TAG, "Forward");
-                        mPosition=POSITION_FORWARD;
-                        setText(mPosition);
-                        isTop=0;
-                        isBottom=0;
-                    }else{
-                        isTop=0;
-                        isBottom=0;
-                    }
-                }
-                if(mPosition==POSITION_FORWARD){
-                    if(previousTime>=100){
-                        if(RA[1]<-200)
-                        {
-                                Log.e(TAG, "Top");
-                                mPosition=POSITION_TOP;
-                                setText(mPosition);
-                                isTop++;
-                        }
-                        else if(RA[1]>200)
-                        {
-                                Log.e(TAG, "Bottom");
-                                mPosition=POSITION_BOTTOM;
-                                setText(mPosition);
-                                isBottom++;
-                        }
-                    }
-                }else{
-                    /************************************************************/
-                    if(RA[1]<-200)
-                    {
-                            Log.e(TAG, "Top");
-                            mPosition=POSITION_TOP;
-                            setText(mPosition);
-                            isTop++;
-                    }
-                    else if(RA[1]>200)
-                    {
-                            Log.e(TAG, "Bottom");
-                            mPosition=POSITION_BOTTOM;
-                            setText(mPosition);
-                            isBottom++;
-
-                    }
-                }
-            }
-        }
-    }
-
-    /**Detect hand down gesture to restart*/
-    private void ConfirmAndRestart(){
-        if(Math.abs(RA[1])>=Math.abs(RA[0])&&Math.abs(RA[1])>=Math.abs(RA[2])){
-            if(RA[1]>200){
-                mStation=STATION_DISCRETE_DETECTING;
-                int currentPosition=mPager.getCurrentItem()+1;
-                setupGestureViews("Result:\n"+currentPosition);
-                //setText("Function"+currentPosition+"\n"+mPosition);
-                Log.e(TAG, "Function"+currentPosition+"\n"+mPosition);
-            }
-        }
-    }
-
-    /**Timer: Execute every 200ms for hold gesture detection*/
-    TimerTask holdTimer = new TimerTask() {
-        @Override
-        public void run() {
-            // TODO Auto-generated method stub
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    /**Detect hold gesture to end swipe detection*/
-                    if(isHold==true){
-                        /**200ms*10=2s hold 2 seconds*/
-                        if(timer>=10){
-                            timer=0;
-                            if(mStation==STATION_DISCRETE_DETECTING){
-                                mStation=STATION_SELECTING;
-                                setupScrollViews(mPosition,mPosition,mPosition);
-                            }else if(mStation==STATION_CONTINUOUS_DETECTING){
-                                Log.e(TAG, "Result:"+AO);
-                                mStation=STATION_DISCRETE_DETECTING;
-                                setText(mPosition);
-                            }
-                        }else{timer++;}
-                    }else{
-                        timer=0;
-                    }
-                }});}
-    };
-
-
-    @Override
-    public void onAccuracyChanged(Sensor sensor, int accuracy) {
-        // No op.
     }
 
     private void setText(String text)
@@ -880,6 +657,17 @@ public class MainActivity extends FragmentActivity
         if(gestureText!=null)
         {
             gestureText.setText(text);
+        }
+    }
+
+    private void stopTimer(){
+        if (waitTimer != null) {
+            waitTimer.cancel();
+            waitTimer = null;
+        }
+        if (waitTask != null) {
+            waitTask.cancel();
+            waitTask = null;
         }
     }
 
