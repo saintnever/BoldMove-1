@@ -104,7 +104,7 @@ public class MainActivity extends FragmentActivity
     private int previousTime=0;
     private float roll;
     private int i=0;
-    private int session =1;
+    private int session = 0;
     private int functionOrder=1;
     private int functionTime =1;
     private int context =1;
@@ -238,12 +238,23 @@ public class MainActivity extends FragmentActivity
 
     private void setupstartview(int block_num){
         setContentView(R.layout.session_start);
-        TextView block_textview = findViewById(R.id.title);
+        TextView block_textview = findViewById(R.id.block_num);
+        TextView session_textview = findViewById(R.id.session_num);
+
         if (block_num < 4) {
             block_textview.setText("Block" + block_num);
         }
         else{
-            block_textview.setText("Session Finished!");
+            block_textview.setText("Session "+session+"Finished!");
+            block = 0;
+            session = session + 1;
+        }
+
+        if (session < 2){
+            session_textview.setText("Session "+session);
+        }
+        else{
+            session_textview.setText("Experiment Finished");
         }
 
         Button start_button = findViewById(R.id.button_start);
@@ -284,7 +295,15 @@ public class MainActivity extends FragmentActivity
             circularProgress = (CircularProgressLayout) findViewById(R.id.circular_progress);
             circularProgress.setTotalTime(functionTime * 1000);
             stopfunction = false;
+            if (session == 1) {
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException ex) {
+                    Thread.currentThread().interrupt();
+                }
+            }
             updatefunctionview(index, functions, circularProgress);
+
         }
 
         if (pressed == 0 && layoutId == R.layout.circular_timer){

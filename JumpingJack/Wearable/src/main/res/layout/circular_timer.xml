@@ -6,8 +6,8 @@
 
     <TextView
         android:id="@+id/function"
-        android:layout_marginTop="100dp"
-        android:layout_marginStart="20dp"
+        android:layout_marginTop="80dp"
+        android:layout_centerHorizontal="true"
         android:textAlignment="center"
         android:textSize="25sp"
         android:layout_width="wrap_content"
@@ -15,29 +15,29 @@
 
     <TextView
         android:id="@+id/slider_value"
-        android:layout_marginTop="100dp"
-        android:layout_marginStart="160dp"
+        android:layout_marginTop="125dp"
+        android:layout_centerHorizontal="true"
         android:textAlignment="center"
-        android:textSize="25sp"
+        android:textSize="20sp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
     <Button
         android:id="@+id/redo"
-        android:layout_width="60dp"
-        android:layout_height="35dp"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="150dp"
+        android:layout_width="55dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="45dp"
+        android:layout_marginTop="160dp"
         android:text="Redo"
         android:textSize="12sp"
         android:visibility="invisible"/>
 
     <Button
         android:id="@+id/nextTrial"
-        android:layout_width="60dp"
-        android:layout_height="35dp"
-        android:layout_marginStart="105dp"
-        android:layout_marginTop="150dp"
+        android:layout_width="55dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="110dp"
+        android:layout_marginTop="160dp"
         android:text="Next"
         android:textSize="12sp"
         android:visibility="invisible"/>
@@ -47,9 +47,9 @@
         android:id="@+id/device"
         android:src="@drawable/ac"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="25dp"
-        android:layout_width="60dp"
-        android:layout_height="60dp"/>
+        android:layout_marginTop="15dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"/>
 
     <androidx.wear.widget.CircularProgressLayout android:id="@+id/circular_progress"
         android:layout_width="match_parent"
