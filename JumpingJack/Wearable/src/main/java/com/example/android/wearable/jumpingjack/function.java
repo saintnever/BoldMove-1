@@ -47,8 +47,9 @@ public class function {
 
     private Integer[] extract_semantics(JSONArray semantics) throws JSONException {
         Integer[] semanticsid = new Integer[semantics.length()] ;
+
         for (int i = 0; i < semanticsid.length; i++) {
-            switch (semantics.getString(0)){
+            switch (semantics.getString(i)){
                 case "previous":
                     semanticsid[i] = 0;
                     break;
@@ -110,10 +111,14 @@ public class function {
     public Integer get_id(){
         return this.id;
     }
+    public String[] get_state(){
+        return this.state;
+    }
     public String get_name(){
         return this.name;
     }
     public Integer[] get_semantic(){
         return this.semantics;
     }
+    public Integer get_imageid() {return this.image;}
 }

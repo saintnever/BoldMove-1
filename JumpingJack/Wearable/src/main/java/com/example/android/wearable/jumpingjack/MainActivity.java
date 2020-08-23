@@ -44,6 +44,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.fragment.app.FragmentActivity;
+import androidx.lifecycle.MutableLiveData;
 import androidx.viewpager.widget.ViewPager;
 import androidx.wear.ambient.AmbientModeSupport;
 import androidx.wear.widget.CircularProgressLayout;
@@ -58,12 +59,16 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import static java.lang.Math.abs;
 
 /**
  * The main activity for the Jumping Jack application. This activity registers itself to receive
@@ -75,7 +80,7 @@ import org.json.JSONObject;
  * stage, user can set this counter to 0.
  */
 public class MainActivity extends FragmentActivity
-        implements AmbientModeSupport.AmbientCallbackProvider, CircularProgressLayout.OnTimerFinishedListener {
+        implements AmbientModeSupport.AmbientCallbackProvider{
 
     private static final String TAG = "MainActivity";
 
@@ -103,7 +108,7 @@ public class MainActivity extends FragmentActivity
     private int functionOrder=1;
     private int functionTime =1;
     private int context =1;
-    private int task =1;
+    private int trial = 0;
     private int block =0;
     private Integer[][] blocks_StudyOne;
     private List<List<Integer>> randomBlocks_StudyOne;
@@ -120,7 +125,6 @@ public class MainActivity extends FragmentActivity
     // Initializes Bluetooth adapter.
     private BluetoothAdapter bluetoothAdapter;
     private final static int REQUEST_ENABLE_BT = 1;
-    private LeDeviceListAdapter mLeDeviceListAdapter;
     private boolean mScanning;
     private Handler handler;
     private BluetoothLeScanner lescanner;
@@ -131,6 +135,7 @@ public class MainActivity extends FragmentActivity
     private byte[] manudata= new byte[4];
     private byte  BUTTON_LEFT = 0;
     private byte  BUTTON_RIGHT= 0;
+    private byte  BUTTON_TRIGGER = 0;
     private byte  SLIDER_TOUCH = 0;
     private byte  SLIDER_VALUE = 0;
     private byte TOGGLE = 0;
@@ -163,36 +168,36 @@ public class MainActivity extends FragmentActivity
     private String mStation=STATION_DISCRETE_DETECTING;
 
     private CircularProgressLayout circularProgress;
+    private int layoutId;
+    private function current_function;
+    private boolean stopfunction = false;
+    List<function> all_functions = new ArrayList<>();
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         AmbientModeSupport.attach(this);
-        setContentView(R.layout.circular_timer);
-        setupGestureViews("实验开始!");
 
         blocks_StudyOne = new Integer[][]{{1, 0}, {1, 2}, {1, 4},{2,0},{2,2},{2,4},{3,0},{3,2},{3,4}};
         randomBlocks_StudyOne = new ArrayList<>();
         for (Integer[] ints : blocks_StudyOne) {
             randomBlocks_StudyOne.add(Arrays.asList(ints));
         }
-        Collections.shuffle(randomBlocks_StudyOne);
+
+        try {
+            all_functions = assembly_functions(1, 0, block, 0);
+        } catch (IOException | JSONException e) {
+            e.printStackTrace();
+        }
 
         handler= new Handler();
         final BluetoothManager bluetoothManager =
                 (BluetoothManager) getSystemService(Context.BLUETOOTH_SERVICE);
         bluetoothAdapter = bluetoothManager.getAdapter();
 
-        for(int i=0;i<4;i++){
-            manudata[i] = 0x00;
-        }
+        setupstartview(block);
 
-        try {
-            List<function> functions = assembly_functions(2,1,1,0);
-        } catch (IOException | JSONException e) {
-            e.printStackTrace();
-        }
     }
 
     /**Register sensor listener*/
@@ -211,10 +216,9 @@ public class MainActivity extends FragmentActivity
                            .setScanMode(ScanSettings.SCAN_MODE_LOW_LATENCY)//
                            .setCallbackType(ScanSettings.CALLBACK_TYPE_ALL_MATCHES)//
                            .build();
-            ScanFilter namefilter = new ScanFilter.Builder().setDeviceName("BoldMove").build();
+            ScanFilter namefilter = new ScanFilter.Builder().setDeviceName("BoldMove1").build();
             filters.add(namefilter);
             scanLeDevice(true);
-            mLeDeviceListAdapter = new LeDeviceListAdapter();
 
         }
     }
@@ -225,6 +229,145 @@ public class MainActivity extends FragmentActivity
         super.onPause();
         scanLeDevice(false);
     }
+
+    @Override
+    public void setContentView(int layoutResID) {
+        this.layoutId = layoutResID;
+        super.setContentView(layoutResID);
+    }
+
+    private void setupstartview(int block_num){
+        setContentView(R.layout.session_start);
+        TextView block_textview = findViewById(R.id.title);
+        if (block_num < 4) {
+            block_textview.setText("Block" + block_num);
+        }
+        else{
+            block_textview.setText("Session Finished!");
+        }
+
+        Button start_button = findViewById(R.id.button_start);
+        start_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setupTrialview(block, trial);
+            }
+        });
+
+        Collections.shuffle(randomBlocks_StudyOne);
+    }
+
+    private void setupTrialview(int block_num, int trial_num){
+        setContentView(R.layout.block_layout);
+        TextView block_textview = findViewById(R.id.block);
+        TextView task_textview = findViewById(R.id.task);
+        String blocktext = "Block "+ block_num;
+        String tasktext = "Trial "+ trial_num;
+
+        block_textview.setText(blocktext);
+        task_textview.setText(tasktext);
+
+        Log.d("view", Integer.toString(layoutId));
+    }
+
+    private void setupfunctionview(int trial_num, int semantic, int pressed, int slider_value){
+       if (pressed == 1 && layoutId == R.layout.block_layout) {
+            setContentView(R.layout.circular_timer);
+
+            int functionOrder= randomBlocks_StudyOne.get(trial_num).get(1);
+            int functionTime = randomBlocks_StudyOne.get(trial_num).get(0);
+            int index = 0;
+//            //写入log文件，当前参数
+//            Log.d("currentSettings", functionOrder+" "+ functionTime +" "+ task +" "+session);
+
+            final List<function> functions = functionList(semantic, trial_num, functionOrder);
+            circularProgress = (CircularProgressLayout) findViewById(R.id.circular_progress);
+            circularProgress.setTotalTime(functionTime * 1000);
+            stopfunction = false;
+            updatefunctionview(index, functions, circularProgress);
+        }
+
+        if (pressed == 0 && layoutId == R.layout.circular_timer){
+            circularProgress.stopTimer();
+            circularProgress.setVisibility(View.INVISIBLE);
+            stopfunction = true;
+            // make buttons visible
+            Button redo = findViewById(R.id.redo);
+            Button nextTrial = findViewById(R.id.nextTrial);
+            redo.setVisibility(View.VISIBLE);
+            nextTrial.setVisibility(View.VISIBLE);
+
+            redo.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    setupTrialview(block, trial);
+                }
+            });
+
+            nextTrial.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    trial = trial + 1;
+                    if (trial == randomBlocks_StudyOne.size()){
+                        block = block + 1;
+                        trial = 0;
+                        setupstartview(block);
+                    }
+                    else{
+                        setupTrialview(block, trial);
+                    }
+                }
+            });
+            // TODO update result or slider value
+            // resultview()
+        }
+
+        // for slider selection
+        if (pressed == 2 && layoutId == R.layout.circular_timer){
+            circularProgress.stopTimer();
+            circularProgress.setVisibility(View.INVISIBLE);
+            stopfunction = true;
+            // make buttons visible
+            TextView svalue = findViewById(R.id.slider_value);
+            String[] scale = current_function.get_state();
+
+            int min  = Integer.parseInt(scale[0], 10);
+            int max = Integer.parseInt(scale[scale.length-1], 10);
+            int scaled_value = min + (max-min) * (SLIDER_VALUE-0)/ 15;
+            //Log.d("scale", scale[0]+"-"+scale[scale.length-1]+"-"+min+"-"+max+"-"+scaled_value);
+            svalue.setText(Integer.toString(scaled_value));
+        }
+    }
+
+    private void  updatefunctionview(final int index, final List<function> functions, CircularProgressLayout layout){
+        if (!stopfunction) {
+            current_function = functions.get(index);
+            layout.stopTimer();
+            ImageView imageDevice = findViewById(R.id.device);
+            Log.d("funcupdate", Integer.toString(index));
+            if (functions.get(index).get_imageid() != null) {
+                imageDevice.setImageResource(functions.get(index).get_imageid());
+            }
+
+            TextView nameFunction = findViewById(R.id.function);
+            nameFunction.setText(functions.get(index).get_name());
+
+            layout.setOnTimerFinishedListener(new CircularProgressLayout.OnTimerFinishedListener() {
+                @Override
+                public void onTimerFinished(CircularProgressLayout layout) {
+                    if (index == functions.size() - 1) {
+                        updatefunctionview(0, functions, layout);
+                    } else {
+                        updatefunctionview(index + 1, functions, layout);
+                    }
+                }
+            });
+            layout.startTimer();
+        }
+        else{
+            layout.stopTimer();
+        }
+    };
 
     ScanCallback scanCallback = new ScanCallback() {
         @Override
@@ -238,24 +381,91 @@ public class MainActivity extends FragmentActivity
             if (scanRecord == null) {
                 return;
             }
-            Log.d("blescan", scanRecord.toString());
+//            Log.d("blescan", scanRecord.toString());
             manudata = scanRecord.getManufacturerSpecificData(0x0059);
-            Log.d("manudata", Arrays.toString(manudata));
-            BUTTON_LEFT = manudata[0];
-            BUTTON_RIGHT = manudata[1];
-            TOGGLE = manudata[2];
-            SLIDER_TOUCH = getByteValues(manudata[3])[0];//获得前四位值
-            SLIDER_VALUE = getByteValues(manudata[3])[1];//获得后四位值
-            try {
-                ubiTouchStatus();
-            } catch (IOException | JSONException e) {
-                e.printStackTrace();
+            //Log.d("manudata", Arrays.toString(manudata));
+
+            int[] inputs = getTouchInput(manudata);
+            if (inputs[0] > -1 && inputs[1] > -1) {
+                Log.d("manudata",Integer.toString(inputs[0])+Integer.toString(inputs[1]));
+                setupfunctionview(trial, inputs[0], inputs[1], SLIDER_VALUE);
             }
+//            try {
+//                ubiTouchStatus();
+//            } catch (IOException | JSONException e) {
+//                e.printStackTrace();
+//            }
 //            callback.onLeScan(result.getDevice(), result.getRssi(),
 //                    scanRecord.getBytes());
         }
     };
 
+    private int[] getTouchInput(byte[] advdata){
+        int semantic = -1;
+        int pressed = -1; //1 pressed, 0 released, 2 dragged
+        // Previous
+        if (BUTTON_LEFT != advdata[0]){
+            semantic = 0;
+            BUTTON_LEFT = advdata[0];
+            if (advdata[0] == 0){
+                // button released
+                pressed = 0;
+            }
+            else{
+                // button pressed
+                pressed = 1;
+            }
+        };
+        // Next
+        if (BUTTON_RIGHT != advdata[1]){
+            semantic = 1;
+            BUTTON_RIGHT = advdata[1];
+            if (advdata[1] == 0){
+                // button released
+                pressed = 0;
+            }
+            else{
+                // button pressed
+                pressed = 1;
+            }
+        };
+        // Tigger
+        if (BUTTON_TRIGGER != advdata[2]){
+            semantic = 2;
+            BUTTON_TRIGGER = advdata[2];
+            if (advdata[2] == 0){
+                // button released
+                pressed = 0;
+            }
+            else{
+                // button pressed
+                pressed = 1;
+            }
+        };
+        // Slider
+        if (SLIDER_TOUCH != getByteValues(advdata[3])[0]){
+            semantic = 3;
+            SLIDER_TOUCH = getByteValues(advdata[3])[0];//获得前四位值
+            SLIDER_VALUE = getByteValues(advdata[3])[1];//获得后四位值
+            if (SLIDER_TOUCH == 0){
+                // slider released
+                pressed = 0;
+            }
+            else{
+                // slider pressed
+                pressed = 1;
+            }
+        };
+
+        if (abs(SLIDER_VALUE-getByteValues(advdata[3])[1])>2){  // deal with noises
+            semantic = 3;
+            SLIDER_VALUE = getByteValues(advdata[3])[1];//获得后四位值
+            // slider pressed
+            pressed = 2;
+        };
+
+        return new int[] {semantic, pressed};
+    }
     /**Get first four bits and last four bits values*/
     public static byte[] getByteValues(byte b) {
         byte[] array = new byte[2];
@@ -268,16 +478,6 @@ public class MainActivity extends FragmentActivity
 
     private void scanLeDevice(final boolean enable) {
         if (enable) {
-            // Stops scanning after a pre-defined scan period.
-            handler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    mScanning = false;
-//                    bluetoothAdapter.stopLeScan(leScanCallback);
-                    lescanner.stopScan(scanCallback);
-                }
-            }, SCAN_PERIOD);
-
             mScanning = true;
             lescanner.startScan(filters, settings, scanCallback);
             //lescanner.startScan(scanCallback);
@@ -299,204 +499,202 @@ public class MainActivity extends FragmentActivity
     }
 
     /**ubiTouch feedback*/
-    private void ubiTouchStatus() throws IOException, JSONException {
-        // get current task
-        // if semantic matches task semantic
-        // start selection
-        // if type 1 interface
-        //    start function selection
-        // if type 2 interface
-        //    if slider, start function selection
-        //    if trigger/prev/next buttons, wait for 2s, then start function selection
-        // if not
-        // no feedback
-        /**Study 1: 2 sessions, 4 tasks, 9 blocks*/
-        if(block ==9){
-            block =0;
-            Collections.shuffle(randomBlocks_StudyOne);
-            if(task <4)
-                task++;
-            else{
-                task =1;
-                if(session<2)
-                    session++;
-                else{
-                    session=1;
-                    //实验完成
-                    setText("实验结束！");
-                }
-            }
-        }
-        functionOrder= randomBlocks_StudyOne.get(block).get(1);
-        functionTime = randomBlocks_StudyOne.get(block).get(0);
-        //写入log文件，当前参数
-        Log.d("currentSettings", functionOrder+" "+ functionTime +" "+ task +" "+session);
-
-        List<function> b1s1 = functionList(0, 1, 4);
-        for (function item:b1s1
-             ) {
-            Log.d("function_validation",item.get_id().toString());
-        }
-
-        /**Left button pressed or released*/
-        switch (BUTTON_LEFT){
-            case 0:
-                if(PREVIOUS_BUTTON_LEFT==-1){
-                    stopTimer();
-                    block++;
-                    //显示选中的功能
-                    //setupGestureViews("Result:\n"+functionList(0, 0,0).get(0).get_device()[/*mPager.getCurrentItem()*/0]);
-                    //写入Log文件，任务完成时间
-                    Log.d("finishTime",String.valueOf(System.currentTimeMillis()));
-                }
-                PREVIOUS_BUTTON_LEFT=0;
-                break;
-            case -1:
-                if(PREVIOUS_BUTTON_LEFT==0){
-                    if(session==1){
-                        //显示滚动功能列表
-                        //List<function> functionlist=functionList(0, 0,0);
-                        //setupScrollViews(functionlist.get(0).get_device()[0],functionlist.get(0).get_device()[0],functionlist.get(0).get_device()[0]);
-                        //写入Log文件，任务开始时间
-                        Log.d("startTime",String.valueOf(System.currentTimeMillis()));
-                    }else{
-                        waitTimer = new Timer();
-                        /**Timer: execute after 2s*/
-                        waitTask = new TimerTask() {
-                            @Override
-                            public void run() {
-                                // TODO Auto-generated method stub
-                                runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        //显示滚动功能列表
+//    private void ubiTouchStatus() throws IOException, JSONException {
+//        // get current task
+//        // if semantic matches task semantic
+//        // start selection
+//        // if type 1 interface
+//        //    start function selection
+//        // if type 2 interface
+//        //    if slider, start function selection
+//        //    if trigger/prev/next buttons, wait for 2s, then start function selection
+//        // if not
+//        // no feedback
+//        /**Study 1: 2 sessions, 4 tasks, 9 blocks*/
+//        if(block ==9){
+//            block =0;
+//            Collections.shuffle(randomBlocks_StudyOne);
+//            if(task <4)
+//                task++;
+//            else{
+//                task =1;
+//                if(session<2)
+//                    session++;
+//                else{
+//                    session=1;
+//                    //实验完成
+//                    setText("实验结束！");
+//                }
+//            }
+//        }
+//        functionOrder= randomBlocks_StudyOne.get(block).get(1);
+//        functionTime = randomBlocks_StudyOne.get(block).get(0);
+//        //写入log文件，当前参数
+//        Log.d("currentSettings", functionOrder+" "+ functionTime +" "+ task +" "+session);
+//
+//        List<function> b1s1 = functionList(0, 1, 4);
+//        for (function item:b1s1
+//             ) {
+//            Log.d("function_validation",item.get_id().toString());
+//        }
+//
+//        /**Left button pressed or released*/
+//        switch (BUTTON_LEFT){
+//            case 0:
+//                if(PREVIOUS_BUTTON_LEFT==-1){
+//                    stopTimer();
+//                    block++;
+//                    //显示选中的功能
+//                    setupGestureViews("Result:\n"+functionList(0, 0,0).get(0).get_device()[/*mPager.getCurrentItem()*/0]);
+//                    //写入Log文件，任务完成时间
+//                    Log.d("finishTime",String.valueOf(System.currentTimeMillis()));
+//                }
+//                PREVIOUS_BUTTON_LEFT=0;
+//                break;
+//            case -1:
+//                if(PREVIOUS_BUTTON_LEFT==0){
+//                    if(session==1){
+//                        //显示滚动功能列表
+//                        List<function> functionlist=functionList(0, 0,0);
+//                        setupScrollViews(functionlist.get(0).get_device()[0],functionlist.get(0).get_device()[0],functionlist.get(0).get_device()[0]);
+//                        //写入Log文件，任务开始时间
+//                        Log.d("startTime",String.valueOf(System.currentTimeMillis()));
+//                    }else{
+//                        waitTimer = new Timer();
+//                        /**Timer: execute after 2s*/
+//                        waitTask = new TimerTask() {
+//                            @Override
+//                            public void run() {
+//                                // TODO Auto-generated method stub
+//                                runOnUiThread(new Runnable() {
+//                                    @Override
+//                                    public void run() {
+//                                        //显示滚动功能列表
 //                                        List<function> functionlist= null;
 //                                        try {
 //                                            functionlist = functionList(0,0,0);
-//                                        } catch (IOException e) {
-//                                            e.printStackTrace();
-//                                        } catch (JSONException e) {
+//                                        } catch (IOException | JSONException e) {
 //                                            e.printStackTrace();
 //                                        }
 //                                        setupScrollViews(functionlist.get(0).get_device()[0],functionlist.get(0).get_device()[0],functionlist.get(0).get_device()[0]);
-                                        //写入Log文件，任务开始时间
-                                        Log.d("startTime",String.valueOf(System.currentTimeMillis()));
-                                    }});}
-                        };
-                        waitTimer.schedule(waitTask, 2000);
-                    }
-                }
-                PREVIOUS_BUTTON_LEFT=-1;
-                break;
-        }
-        /**Right button pressed or released*/
-        switch(BUTTON_RIGHT){
-            case 0:
-                if(PREVIOUS_BUTTON_RIGHT==-1){
-                    stopTimer();
-                    block++;
-                    //显示选中的功能
-                    //setupGestureViews("Result:\n"+functionList(1,0,0).get(0).get_device()[/*mPager.getCurrentItem()*/0]);
-                    //写入Log文件，任务完成时间
-                    Log.d("finishTime",String.valueOf(System.currentTimeMillis()));
-                }
-                PREVIOUS_BUTTON_RIGHT=0;
-                break;
-            case -1:
-                if(PREVIOUS_BUTTON_RIGHT==0){
-                    if(session==1){
-                        //显示滚动功能列表
-                        //List<function> functionlist=functionList(1,0,0);
-                        //setupScrollViews(functionlist.get(0).get_device()[0],functionlist.get(0).get_device()[0],functionlist.get(0).get_device()[0]);
-                        //写入Log文件，任务开始时间
-                        Log.d("startTime",String.valueOf(System.currentTimeMillis()));
-                    }else{
-                        waitTimer = new Timer();
-                        /**Timer: execute after 2s*/
-                        waitTask = new TimerTask() {
-                            @Override
-                            public void run() {
-                                // TODO Auto-generated method stub
-                                runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        //显示滚动功能列表
-//                                        List<function> functionlist= null;
-//                                        try {
-//                                            functionlist = functionList(1,0,0);
-//                                        } catch (IOException e) {
-//                                            e.printStackTrace();
-//                                        } catch (JSONException e) {
-//                                            e.printStackTrace();
-//                                        }
-//                                        setupScrollViews(functionlist.get(0).get_device()[0],functionlist.get(0).get_device()[0],functionlist.get(0).get_device()[0]);
-                                        //写入Log文件，任务开始时间
-                                        Log.d("startTime",String.valueOf(System.currentTimeMillis()));
-                                    }});}
-                        };
-                        waitTimer.schedule(waitTask, 2000);
-                    }
-                }
-                PREVIOUS_BUTTON_RIGHT=-1;
-                break;
-        }
-        /**Toggle button pressed or released*/
-        switch(TOGGLE){
-            case 0:
-                if(PREVIOUS_TOGGLE==-1){
-                    block++;
-                    //显示选中的功能
-                    //setupGestureViews("Result:\n"+functionList(2,0,0).get(0).get_device()[/*mPager.getCurrentItem()*/0]);
-                    //写入Log文件，任务完成时间
-                    Log.d("finishTime",String.valueOf(System.currentTimeMillis()));
-                }
-                PREVIOUS_TOGGLE=0;
-                break;
-            case -1:
-                if(PREVIOUS_TOGGLE==0){
-                    //显示滚动功能列表
-                    //List<function> functionlist=functionList(2,0,0);
-                    //setupScrollViews(functionlist.get(0).get_device()[0],functionlist.get(0).get_device()[0],functionlist.get(0).get_device()[0]);
-                    //写入Log文件，任务开始时间
-                    Log.d("startTime",String.valueOf(System.currentTimeMillis()));
-                }
-                PREVIOUS_TOGGLE=-1;
-                break;
-        }
-        /**Slider pressed, released or dragged*/
-        switch(SLIDER_TOUCH){
-            case 0:
-                if(PREVIOUS_SLIDER_TOUCH==15){
-                    block++;
-                    //显示选中的数值
-                    //setupGestureViews("Result:\n"+PREVIOUS_SLIDER_VALUE);
-                }
-                PREVIOUS_SLIDER_TOUCH=0;
-                break;
-            case 15:
-                if(PREVIOUS_SLIDER_TOUCH==0){
-                    //显示滚动功能列表
-                    //List<function> functionlist=functionList(3,0,0);
-                    //setupScrollViews(functionlist.get(0).get_device()[0],functionlist.get(0).get_device()[0],functionlist.get(0).get_device()[0]);
-                    //写入Log文件，任务开始时间
-                    Log.d("startTime",String.valueOf(System.currentTimeMillis()));
-                }else{
-                    if(SLIDER_VALUE!=PREVIOUS_SLIDER_VALUE){
-                        //写入Log文件，任务完成时间
-                        Log.d("finishedTime",String.valueOf(System.currentTimeMillis()));
-                        //显示选中的功能和实时的连续值
-                        if(scrollTimer!=null){
-                            //setupGestureViews(functionList(3,0,0).get(0).get_device()[/*mPager.getCurrentItem()*/0]+"\n"+SLIDER_VALUE);
-                        }else{
-                            //setText(functionList(3,0,0).get(0).get_device()[/*mPager.getCurrentItem()*/0]+"\n"+SLIDER_VALUE);
-                        }
-                    }
-                }
-                PREVIOUS_SLIDER_VALUE=SLIDER_VALUE;
-                PREVIOUS_SLIDER_TOUCH=15;
-                break;
-        }
-    }
+//                                        //写入Log文件，任务开始时间
+//                                        Log.d("startTime",String.valueOf(System.currentTimeMillis()));
+//                                    }});}
+//                        };
+//                        waitTimer.schedule(waitTask, 2000);
+//                    }
+//                }
+//                PREVIOUS_BUTTON_LEFT=-1;
+//                break;
+//        }
+//        /**Right button pressed or released*/
+//        switch(BUTTON_RIGHT){
+//            case 0:
+//                if(PREVIOUS_BUTTON_RIGHT==-1){
+//                    stopTimer();
+//                    block++;
+//                    //显示选中的功能
+//                    setupGestureViews("Result:\n"+functionList(1,0,0).get(0).get_device()[/*mPager.getCurrentItem()*/0]);
+//                    //写入Log文件，任务完成时间
+//                    Log.d("finishTime",String.valueOf(System.currentTimeMillis()));
+//                }
+//                PREVIOUS_BUTTON_RIGHT=0;
+//                break;
+//            case -1:
+//                if(PREVIOUS_BUTTON_RIGHT==0){
+//                    if(session==1){
+//                        //显示滚动功能列表
+//                        List<function> functionlist=functionList(1,0,0);
+//                        setupScrollViews(functionlist.get(0).get_device()[0],functionlist.get(0).get_device()[0],functionlist.get(0).get_device()[0]);
+//                        //写入Log文件，任务开始时间
+//                        Log.d("startTime",String.valueOf(System.currentTimeMillis()));
+//                    }else{
+//                        waitTimer = new Timer();
+//                        /**Timer: execute after 2s*/
+//                        waitTask = new TimerTask() {
+//                            @Override
+//                            public void run() {
+//                                // TODO Auto-generated method stub
+//                                runOnUiThread(new Runnable() {
+//                                    @Override
+//                                    public void run() {
+//                                        //显示滚动功能列表
+////                                        List<function> functionlist= null;
+////                                        try {
+////                                            functionlist = functionList(1,0,0);
+////                                        } catch (IOException e) {
+////                                            e.printStackTrace();
+////                                        } catch (JSONException e) {
+////                                            e.printStackTrace();
+////                                        }
+////                                        setupScrollViews(functionlist.get(0).get_device()[0],functionlist.get(0).get_device()[0],functionlist.get(0).get_device()[0]);
+//                                        //写入Log文件，任务开始时间
+//                                        Log.d("startTime",String.valueOf(System.currentTimeMillis()));
+//                                    }});}
+//                        };
+//                        waitTimer.schedule(waitTask, 2000);
+//                    }
+//                }
+//                PREVIOUS_BUTTON_RIGHT=-1;
+//                break;
+//        }
+//        /**Toggle button pressed or released*/
+//        switch(TOGGLE){
+//            case 0:
+//                if(PREVIOUS_TOGGLE==-1){
+//                    block++;
+//                    //显示选中的功能
+//                    setupGestureViews("Result:\n"+functionList(2,0,0).get(0).get_device()[/*mPager.getCurrentItem()*/0]);
+//                    //写入Log文件，任务完成时间
+//                    Log.d("finishTime",String.valueOf(System.currentTimeMillis()));
+//                }
+//                PREVIOUS_TOGGLE=0;
+//                break;
+//            case -1:
+//                if(PREVIOUS_TOGGLE==0){
+//                    //显示滚动功能列表
+//                    List<function> functionlist=functionList(2,0,0);
+//                    setupScrollViews(functionlist.get(0).get_device()[0],functionlist.get(0).get_device()[0],functionlist.get(0).get_device()[0]);
+//                    //写入Log文件，任务开始时间
+//                    Log.d("startTime",String.valueOf(System.currentTimeMillis()));
+//                }
+//                PREVIOUS_TOGGLE=-1;
+//                break;
+//        }
+//        /**Slider pressed, released or dragged*/
+//        switch(SLIDER_TOUCH){
+//            case 0:
+//                if(PREVIOUS_SLIDER_TOUCH==15){
+//                    block++;
+//                    //显示选中的数值
+//                    setupGestureViews("Result:\n"+PREVIOUS_SLIDER_VALUE);
+//                }
+//                PREVIOUS_SLIDER_TOUCH=0;
+//                break;
+//            case 15:
+//                if(PREVIOUS_SLIDER_TOUCH==0){
+//                    //显示滚动功能列表
+//                    List<function> functionlist=functionList(3,0,0);
+//                    setupScrollViews(functionlist.get(0).get_device()[0],functionlist.get(0).get_device()[0],functionlist.get(0).get_device()[0]);
+//                    //写入Log文件，任务开始时间
+//                    Log.d("startTime",String.valueOf(System.currentTimeMillis()));
+//                }else{
+//                    if(SLIDER_VALUE!=PREVIOUS_SLIDER_VALUE){
+//                        //写入Log文件，任务完成时间
+//                        Log.d("finishedTime",String.valueOf(System.currentTimeMillis()));
+//                        //显示选中的功能和实时的连续值
+//                        if(scrollTimer!=null){
+//                            setupGestureViews(functionList(3,0,0).get(0).get_device()[/*mPager.getCurrentItem()*/0]+"\n"+SLIDER_VALUE);
+//                        }else{
+//                            setText(functionList(3,0,0).get(0).get_device()[/*mPager.getCurrentItem()*/0]+"\n"+SLIDER_VALUE);
+//                        }
+//                    }
+//                }
+//                PREVIOUS_SLIDER_VALUE=SLIDER_VALUE;
+//                PREVIOUS_SLIDER_TOUCH=15;
+//                break;
+//        }
+//    }
 
     /**Redefined function list*/
     private List<function> assembly_functions(int study, int session, int block, int semantic) throws IOException, JSONException {
@@ -534,8 +732,7 @@ public class MainActivity extends FragmentActivity
 
 
     /**Predefined function list*/
-    private List<function> functionList(int semantic,int block, int functionOrder) throws IOException, JSONException {
-        List<function> all_functions = assembly_functions(1, 0, block, 0);
+    private List<function> functionList(int semantic,int block, int functionOrder){
         List<function> semantic_functions = extract_semantic_functions(all_functions, semantic);
         Collections.shuffle(semantic_functions);
         function target_function = new function();
@@ -550,158 +747,153 @@ public class MainActivity extends FragmentActivity
         return semantic_functions;
     }
 
-    /**Real-time gesture display*/
-    private void setupGestureViews(String initialText){
-        setContentView(R.layout.gesture_detection_layout);
-
-        gestureText = findViewById(R.id.gesture);
-        gestureText.setText(initialText);
-
-        counterText=  findViewById(R.id.counter);
-        counterText.setText("第"+(block==9?1:(block+1))+"次");
-
-        if (scrollTimer != null) {
-            scrollTimer.cancel();
-            scrollTimer = null;
-        }
-        if (scrollTask != null) {
-            scrollTask.cancel();
-            scrollTask = null;
-        }
-
-        Button remove = (Button) this.findViewById(R.id.removeButton);
-        remove.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //TODO Auto-generated method stub
-                if(block >0)
-                    block--;
-                counterText.setText("第"+(block==9?1:(block+1))+"次");
-                Log.i("buttonEvent", "removeButton被用户点击了。");
-            }
-        });
-    }
-
-    /**Scroll function list*/
-    private void setupScrollViews(String function1, String function2, String function3) {
-        setContentView(R.layout.jumping_jack_layout);
-        mPager = findViewById(R.id.pager);
-        mFirstIndicator = findViewById(R.id.indicator_0);
-        mSecondIndicator = findViewById(R.id.indicator_1);
-        mThirdIndicator=findViewById(R.id.indicator_2);
-
-        adapter = new PagerAdapter(getSupportFragmentManager());
-
-        mCounterPage = new FunctionOneFragment(function1);
-        mSettingPage = new FunctionTwoFragment(function2);
-        mLeftSwipeCounterPage=new FunctionThreeFragment(function3);
-
-        adapter.addFragment(mCounterPage);
-        adapter.addFragment(mSettingPage);
-        adapter.addFragment(mLeftSwipeCounterPage);
-
-        setIndicator(0);
-        mPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int i, float v, int i2) {
-                // No-op.
-                Log.d(TAG, String.valueOf(i));
-            }
-
-            @Override
-            public void onPageSelected(int i) {
-
-                setIndicator(i);
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int i) {
-                // No-op.
-            }
-        });
-
-        circularProgress = (CircularProgressLayout) findViewById(R.id.circular_progress);
-//        circularProgress.setwidt(50);
-        circularProgress.setOnTimerFinishedListener(this);
-
-        circularProgress.setTotalTime(functionTime *1000);
-        // Start the timer
-        circularProgress.startTimer();
-
-        scrollTimer = new Timer();
-
-        /**Timer: page scroll every 2s*/
-        scrollTask = new TimerTask() {
-            @Override
-            public void run() {
-                // TODO Auto-generated method stub
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        circularProgress.stopTimer();
-                        mPager.setCurrentItem(mPager.getCurrentItem()==2?0:mPager.getCurrentItem()+1);
-                        //写入Log文件，每个选项出现时间
-                        Log.d("everyFunctionTime",String.valueOf(System.currentTimeMillis()));
-                        // Start the timer
-                        circularProgress.startTimer();
-                    }});}
-        };
-
-        scrollTimer.schedule(scrollTask, functionTime *1000, functionTime *1000);//every 2 seconds
-
-        mPager.setAdapter(adapter);
-    }
-
-    private void setText(String text)
-    {
-        if(gestureText!=null)
-        {
-            gestureText.setText(text);
-        }
-    }
-
-    private void stopTimer(){
-        if (waitTimer != null) {
-            waitTimer.cancel();
-            waitTimer = null;
-        }
-        if (waitTask != null) {
-            waitTask.cancel();
-            waitTask = null;
-        }
-    }
-
-    /**Sets the page indicator for the ViewPager.*/
-    private void setIndicator(int i) {
-        switch (i) {
-            case 0:
-                mFirstIndicator.setImageResource(R.drawable.full_10);
-                mSecondIndicator.setImageResource(R.drawable.empty_10);
-                mThirdIndicator.setImageResource(R.drawable.empty_10);
-                break;
-            case 1:
-                mFirstIndicator.setImageResource(R.drawable.empty_10);
-                mSecondIndicator.setImageResource(R.drawable.full_10);
-                mThirdIndicator.setImageResource(R.drawable.empty_10);
-                break;
-            case 2:
-                mFirstIndicator.setImageResource(R.drawable.empty_10);
-                mSecondIndicator.setImageResource(R.drawable.empty_10);
-                mThirdIndicator.setImageResource(R.drawable.full_10);
-                break;
-        }
-    }
+//    /**Real-time gesture display*/
+//    private void function_display(List<function> functions){
+//        setContentView(R.layout.circular_timer);
+//
+//        gestureText = findViewById(R.id.gesture);
+//        gestureText.setText(initialText);
+//
+//        counterText=  findViewById(R.id.counter);
+//        counterText.setText("第"+(block==9?1:(block+1))+"次");
+//
+//        if (scrollTimer != null) {
+//            scrollTimer.cancel();
+//            scrollTimer = null;
+//        }
+//        if (scrollTask != null) {
+//            scrollTask.cancel();
+//            scrollTask = null;
+//        }
+//
+//        Button remove = (Button) this.findViewById(R.id.removeButton);
+//        remove.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                //TODO Auto-generated method stub
+//                if(block >0)
+//                    block--;
+//                counterText.setText("第"+(block==9?1:(block+1))+"次");
+//                Log.i("buttonEvent", "removeButton被用户点击了。");
+//            }
+//        });
+//    }
+//
+//    /**Scroll function list*/
+//    private void setupScrollViews(String function1, String function2, String function3) {
+//        setContentView(R.layout.jumping_jack_layout);
+//        mPager = findViewById(R.id.pager);
+//        mFirstIndicator = findViewById(R.id.indicator_0);
+//        mSecondIndicator = findViewById(R.id.indicator_1);
+//        mThirdIndicator=findViewById(R.id.indicator_2);
+//
+//        adapter = new PagerAdapter(getSupportFragmentManager());
+//
+//        mCounterPage = new FunctionOneFragment(function1);
+//        mSettingPage = new FunctionTwoFragment(function2);
+//        mLeftSwipeCounterPage=new FunctionThreeFragment(function3);
+//
+//        adapter.addFragment(mCounterPage);
+//        adapter.addFragment(mSettingPage);
+//        adapter.addFragment(mLeftSwipeCounterPage);
+//
+//        setIndicator(0);
+//        mPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+//            @Override
+//            public void onPageScrolled(int i, float v, int i2) {
+//                // No-op.
+//                Log.d(TAG, String.valueOf(i));
+//            }
+//
+//            @Override
+//            public void onPageSelected(int i) {
+//
+//                setIndicator(i);
+//            }
+//
+//            @Override
+//            public void onPageScrollStateChanged(int i) {
+//                // No-op.
+//            }
+//        });
+//
+//        circularProgress = (CircularProgressLayout) findViewById(R.id.circular_progress);
+////        circularProgress.setwidt(50);
+//        circularProgress.setOnTimerFinishedListener(this);
+//
+//        circularProgress.setTotalTime(functionTime *1000);
+//        // Start the timer
+//        circularProgress.startTimer();
+//
+//        scrollTimer = new Timer();
+//
+//        /**Timer: page scroll every 2s*/
+//        scrollTask = new TimerTask() {
+//            @Override
+//            public void run() {
+//                // TODO Auto-generated method stub
+//                runOnUiThread(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        circularProgress.stopTimer();
+//                        mPager.setCurrentItem(mPager.getCurrentItem()==2?0:mPager.getCurrentItem()+1);
+//                        //写入Log文件，每个选项出现时间
+//                        Log.d("everyFunctionTime",String.valueOf(System.currentTimeMillis()));
+//                        // Start the timer
+//                        circularProgress.startTimer();
+//                    }});}
+//        };
+//
+//        scrollTimer.schedule(scrollTask, functionTime *1000, functionTime *1000);//every 2 seconds
+//
+//        mPager.setAdapter(adapter);
+//    }
+//
+//    private void setText(String text)
+//    {
+//        if(gestureText!=null)
+//        {
+//            gestureText.setText(text);
+//        }
+//    }
+//
+//    private void stopTimer(){
+//        if (waitTimer != null) {
+//            waitTimer.cancel();
+//            waitTimer = null;
+//        }
+//        if (waitTask != null) {
+//            waitTask.cancel();
+//            waitTask = null;
+//        }
+//    }
+//
+//    /**Sets the page indicator for the ViewPager.*/
+//    private void setIndicator(int i) {
+//        switch (i) {
+//            case 0:
+//                mFirstIndicator.setImageResource(R.drawable.full_10);
+//                mSecondIndicator.setImageResource(R.drawable.empty_10);
+//                mThirdIndicator.setImageResource(R.drawable.empty_10);
+//                break;
+//            case 1:
+//                mFirstIndicator.setImageResource(R.drawable.empty_10);
+//                mSecondIndicator.setImageResource(R.drawable.full_10);
+//                mThirdIndicator.setImageResource(R.drawable.empty_10);
+//                break;
+//            case 2:
+//                mFirstIndicator.setImageResource(R.drawable.empty_10);
+//                mSecondIndicator.setImageResource(R.drawable.empty_10);
+//                mThirdIndicator.setImageResource(R.drawable.full_10);
+//                break;
+//        }
+//    }
 
     @Override
     public AmbientModeSupport.AmbientCallback getAmbientCallback() {
         return new MyAmbientCallback();
     }
 
-
-    @Override
-    public void onTimerFinished(CircularProgressLayout layout) {
-
-    }
 
     /** Customizes appearance for Ambient mode. (We don't do anything minus default.) */
     private class MyAmbientCallback extends AmbientModeSupport.AmbientCallback {
@@ -726,64 +918,6 @@ public class MainActivity extends FragmentActivity
         @Override
         public void onExitAmbient() {
             super.onExitAmbient();
-        }
-    }
-
-
-
-    // Adapter for holding devices found through scanning.
-    private class LeDeviceListAdapter extends BaseAdapter {
-        private ArrayList<BluetoothDevice> mLeDevices;
-        private LayoutInflater mInflator;
-        public LeDeviceListAdapter() {
-            super();
-            mLeDevices = new ArrayList<BluetoothDevice>();
-            mInflator = MainActivity.this.getLayoutInflater();
-        }
-        public void addDevice(BluetoothDevice device) {
-            if(!mLeDevices.contains(device)) {
-                mLeDevices.add(device);
-            }
-        }
-        public BluetoothDevice getDevice(int position) {
-            return mLeDevices.get(position);
-        }
-        public void clear() {
-            mLeDevices.clear();
-        }
-        @Override
-        public int getCount() {
-            return mLeDevices.size();
-        }
-        @Override
-        public Object getItem(int i) {
-            return mLeDevices.get(i);
-        }
-        @Override
-        public long getItemId(int i) {
-            return i;
-        }
-        @Override
-        public View getView(int i, View view, ViewGroup viewGroup) {
-//            DeviceScanActivity.ViewHolder viewHolder;
-//            // General ListView optimization code.
-//            if (view == null) {
-//                view = mInflator.inflate(R.layout.listitem_device, null);
-//                viewHolder = new DeviceScanActivity.ViewHolder();
-//                viewHolder.deviceAddress = (TextView) view.findViewById(R.id.device_address);
-//                viewHolder.deviceName = (TextView) view.findViewById(R.id.device_name);
-//                view.setTag(viewHolder);
-//            } else {
-//                viewHolder = (DeviceScanActivity.ViewHolder) view.getTag();
-//            }
-//            BluetoothDevice device = mLeDevices.get(i);
-//            final String deviceName = device.getName();
-//            if (deviceName != null && deviceName.length() > 0)
-//                viewHolder.deviceName.setText(deviceName);
-//            else
-//                viewHolder.deviceName.setText(R.string.unknown_device);
-//            viewHolder.deviceAddress.setText(device.getAddress());
-            return view;
         }
     }
 

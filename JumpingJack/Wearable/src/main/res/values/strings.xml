@@ -19,5 +19,7 @@
     <string name="reset_counter">Reset Counter</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="block_num">Block 0</string>
+    <string name="task_num">Task 0</string>
 
 </resources>
