@@ -172,6 +172,7 @@ public class MainActivity extends FragmentActivity
     private function current_function;
     private boolean stopfunction = false;
     List<function> all_functions = new ArrayList<>();
+    int[] device_states;
 
 
     @Override
@@ -190,6 +191,9 @@ public class MainActivity extends FragmentActivity
         } catch (IOException | JSONException e) {
             e.printStackTrace();
         }
+
+        device_states = new int[all_functions.size()];
+
 
         handler= new Handler();
         final BluetoothManager bluetoothManager =
@@ -240,7 +244,12 @@ public class MainActivity extends FragmentActivity
         setContentView(R.layout.session_start);
         TextView block_textview = findViewById(R.id.block_num);
         TextView session_textview = findViewById(R.id.session_num);
-
+        // reinitialize states of all devices
+        for (function f:all_functions
+        ) {
+            device_states[f.get_id()] = 0;
+        }
+        // display block number
         if (block_num < 4) {
             block_textview.setText("Block" + block_num);
         }
@@ -249,7 +258,7 @@ public class MainActivity extends FragmentActivity
             block = 0;
             session = session + 1;
         }
-
+        // display session number
         if (session < 2){
             session_textview.setText("Session "+session);
         }
@@ -282,7 +291,7 @@ public class MainActivity extends FragmentActivity
     }
 
     private void setupfunctionview(int trial_num, int semantic, int pressed, int slider_value){
-       if (pressed == 1 && layoutId == R.layout.block_layout) {
+        if (pressed == 1 && layoutId == R.layout.block_layout) {
             setContentView(R.layout.circular_timer);
 
             int functionOrder= randomBlocks_StudyOne.get(trial_num).get(1);
@@ -310,6 +319,24 @@ public class MainActivity extends FragmentActivity
             circularProgress.stopTimer();
             circularProgress.setVisibility(View.INVISIBLE);
             stopfunction = true;
+            // deal with state display
+            int functionid = current_function.get_id();
+            if (semantic == 0){
+                device_states[functionid] -= 1;
+                if (device_states[functionid] < 0){
+                    device_states[functionid] = current_function.get_state().length - 1;
+                }
+            }
+
+            if (semantic == 1 || semantic == 2){
+                device_states[functionid] += 1;
+                if (device_states[functionid] > current_function.get_state().length - 1){
+                    device_states[functionid] = 0;
+                }
+            }
+
+            TextView state = findViewById(R.id.state);
+            state.setText(current_function.get_state()[device_states[functionid]]);
             // make buttons visible
             Button redo = findViewById(R.id.redo);
             Button nextTrial = findViewById(R.id.nextTrial);
@@ -347,7 +374,7 @@ public class MainActivity extends FragmentActivity
             circularProgress.setVisibility(View.INVISIBLE);
             stopfunction = true;
             // make buttons visible
-            TextView svalue = findViewById(R.id.slider_value);
+            TextView svalue = findViewById(R.id.state);
             String[] scale = current_function.get_state();
 
             int min  = Integer.parseInt(scale[0], 10);
@@ -370,6 +397,9 @@ public class MainActivity extends FragmentActivity
 
             TextView nameFunction = findViewById(R.id.function);
             nameFunction.setText(functions.get(index).get_name());
+
+            TextView state = findViewById(R.id.state);
+            state.setText(current_function.get_state()[device_states[current_function.get_id()]]);
 
             layout.setOnTimerFinishedListener(new CircularProgressLayout.OnTimerFinishedListener() {
                 @Override
