@@ -376,10 +376,12 @@ public class MainActivity extends FragmentActivity
             // make buttons visible
             TextView svalue = findViewById(R.id.state);
             String[] scale = current_function.get_state();
-
+            
             int min  = Integer.parseInt(scale[0], 10);
             int max = Integer.parseInt(scale[scale.length-1], 10);
             int scaled_value = min + (max-min) * (SLIDER_VALUE-0)/ 15;
+
+            device_states[current_function.get_id()] = scaled_value - min;
             //Log.d("scale", scale[0]+"-"+scale[scale.length-1]+"-"+min+"-"+max+"-"+scaled_value);
             svalue.setText(Integer.toString(scaled_value));
         }
