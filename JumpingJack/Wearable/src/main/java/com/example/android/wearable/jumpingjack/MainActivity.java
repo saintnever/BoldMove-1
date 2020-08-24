@@ -70,12 +70,14 @@ import java.util.Observable;
 import java.util.Observer;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.TimeUnit;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import static java.lang.Math.abs;
+import static java.lang.Math.log;
 
 /**
  * The main activity for the Jumping Jack application. This activity registers itself to receive
@@ -189,6 +191,8 @@ public class MainActivity extends FragmentActivity
     boolean listening;
     String tmp_s;
     String ip = "192.168.1.101";
+    log_data log_trial = new log_data();
+
 
 
     @Override
@@ -216,8 +220,8 @@ public class MainActivity extends FragmentActivity
                 (BluetoothManager) getSystemService(Context.BLUETOOTH_SERVICE);
         bluetoothAdapter = bluetoothManager.getAdapter();
 
-        new NetworkAsyncTask().execute(ip);
-
+       // new NetworkAsyncTask().execute(ip);
+        send("New Experiment\n");
         setupstartview(block);
 
     }
@@ -286,14 +290,17 @@ public class MainActivity extends FragmentActivity
         }
         else{
             session_textview.setText("Experiment Finished");
+            send("Experiment Finished!\n");
+            disconnect();
         }
 
         Button start_button = findViewById(R.id.button_start);
         start_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                send("hello");
-
+                if (socket == null) {
+                    new NetworkAsyncTask().execute(ip);
+                }
                 setupTrialview(block, trial);
             }
         });
@@ -316,15 +323,24 @@ public class MainActivity extends FragmentActivity
 
     private void setupfunctionview(int trial_num, int semantic, int pressed, int slider_value){
         if (pressed == 1 && layoutId == R.layout.block_layout) {
+            log_trial.timestamp_pressed = System.currentTimeMillis();
+
             setContentView(R.layout.circular_timer);
 
             int functionOrder= randomBlocks_StudyOne.get(trial_num).get(1);
             int functionTime = randomBlocks_StudyOne.get(trial_num).get(0);
+
+            log_trial.configure = new int[]{functionOrder, functionTime};
             int index = 0;
 //            //写入log文件，当前参数
 //            Log.d("currentSettings", functionOrder+" "+ functionTime +" "+ task +" "+session);
 
             final List<function> functions = functionList(semantic, trial_num, functionOrder);
+            for (int j = 0; j < functions.size(); j++) {
+                log_trial.func_id[j] = functions.get(j).get_id();
+            }
+            log_trial.funcid_target = log_trial.func_id[functionOrder];
+
             circularProgress = (CircularProgressLayout) findViewById(R.id.circular_progress);
             circularProgress.setTotalTime(functionTime * 1000);
             stopfunction = false;
@@ -340,6 +356,8 @@ public class MainActivity extends FragmentActivity
         }
 
         if (pressed == 0 && layoutId == R.layout.circular_timer){
+            log_trial.timestamp_selected = System.currentTimeMillis();
+            log_trial.funcid_selected = current_function.get_id();
             circularProgress.stopTimer();
             circularProgress.setVisibility(View.INVISIBLE);
             stopfunction = true;
@@ -370,6 +388,7 @@ public class MainActivity extends FragmentActivity
             redo.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    log_trial = new log_data();
                     setupTrialview(block, trial);
                 }
             });
@@ -377,6 +396,12 @@ public class MainActivity extends FragmentActivity
             nextTrial.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    log_trial.session = session;
+                    log_trial.block = block;
+                    log_trial.trial = trial;
+                    send(log_trial.assemby_send_string());
+                    log_trial = new log_data();
+
                     trial = trial + 1;
                     if (trial == randomBlocks_StudyOne.size()){
                         block = block + 1;
@@ -388,12 +413,11 @@ public class MainActivity extends FragmentActivity
                     }
                 }
             });
-            // TODO update result or slider value
-            // resultview()
         }
 
         // for slider selection
         if (pressed == 2 && layoutId == R.layout.circular_timer){
+            log_trial.timestamp_selected = System.currentTimeMillis();
             circularProgress.stopTimer();
             circularProgress.setVisibility(View.INVISIBLE);
             stopfunction = true;
@@ -438,6 +462,7 @@ public class MainActivity extends FragmentActivity
                 }
             });
             layout.startTimer();
+            log_trial.timestamp_func_start[index] = System.currentTimeMillis();
         }
         else{
             layout.stopTimer();
@@ -459,9 +484,9 @@ public class MainActivity extends FragmentActivity
 //            Log.d("blescan", scanRecord.toString());
             manudata = scanRecord.getManufacturerSpecificData(0x0059);
             //Log.d("manudata", Arrays.toString(manudata));
-            if (manudata != null) {
-                send("ble scan results" + manudata[0] + manudata[1] + manudata[2] + manudata[3]);
-            }
+//            if (manudata != null) {
+//                send("ble scan results" + manudata[0] + manudata[1] + manudata[2] + manudata[3]);
+//            }
             int[] inputs = getTouchInput(manudata);
             if (inputs[0] > -1 && inputs[1] > -1) {
                 Log.d("manudata",Integer.toString(inputs[0])+Integer.toString(inputs[1]));
