@@ -16,6 +16,7 @@
 
 package com.example.android.wearable.jumpingjack;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothManager;
@@ -32,6 +33,7 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -53,8 +55,13 @@ import com.example.android.wearable.jumpingjack.fragments.FunctionOneFragment;
 import com.example.android.wearable.jumpingjack.fragments.FunctionThreeFragment;
 import com.example.android.wearable.jumpingjack.fragments.FunctionTwoFragment;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -174,6 +181,15 @@ public class MainActivity extends FragmentActivity
     List<function> all_functions = new ArrayList<>();
     int[] device_states;
 
+    // wifi
+    static int PORT = 11121;
+    Socket socket = null;
+    BufferedReader reader;
+    PrintWriter writer;
+    boolean listening;
+    String tmp_s;
+    String ip = "192.168.1.101";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -200,6 +216,8 @@ public class MainActivity extends FragmentActivity
                 (BluetoothManager) getSystemService(Context.BLUETOOTH_SERVICE);
         bluetoothAdapter = bluetoothManager.getAdapter();
 
+        new NetworkAsyncTask().execute(ip);
+
         setupstartview(block);
 
     }
@@ -220,7 +238,9 @@ public class MainActivity extends FragmentActivity
                            .setScanMode(ScanSettings.SCAN_MODE_LOW_LATENCY)//
                            .setCallbackType(ScanSettings.CALLBACK_TYPE_ALL_MATCHES)//
                            .build();
-            ScanFilter namefilter = new ScanFilter.Builder().setDeviceName("BoldMove1").build();
+//            ScanFilter namefilter = new ScanFilter.Builder().setManufacturerData(0x0059, new byte[]{0x00, 0x59}, new byte[]{(byte) 0xFF, (byte) 0xFF}).build();
+            ScanFilter namefilter = new ScanFilter.Builder().setDeviceName("BoldMove").build();
+
             filters.add(namefilter);
             scanLeDevice(true);
 
@@ -244,6 +264,8 @@ public class MainActivity extends FragmentActivity
         setContentView(R.layout.session_start);
         TextView block_textview = findViewById(R.id.block_num);
         TextView session_textview = findViewById(R.id.session_num);
+
+
         // reinitialize states of all devices
         for (function f:all_functions
         ) {
@@ -270,6 +292,8 @@ public class MainActivity extends FragmentActivity
         start_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                send("hello");
+
                 setupTrialview(block, trial);
             }
         });
@@ -376,7 +400,7 @@ public class MainActivity extends FragmentActivity
             // make buttons visible
             TextView svalue = findViewById(R.id.state);
             String[] scale = current_function.get_state();
-            
+
             int min  = Integer.parseInt(scale[0], 10);
             int max = Integer.parseInt(scale[scale.length-1], 10);
             int scaled_value = min + (max-min) * (SLIDER_VALUE-0)/ 15;
@@ -435,7 +459,9 @@ public class MainActivity extends FragmentActivity
 //            Log.d("blescan", scanRecord.toString());
             manudata = scanRecord.getManufacturerSpecificData(0x0059);
             //Log.d("manudata", Arrays.toString(manudata));
-
+            if (manudata != null) {
+                send("ble scan results" + manudata[0] + manudata[1] + manudata[2] + manudata[3]);
+            }
             int[] inputs = getTouchInput(manudata);
             if (inputs[0] > -1 && inputs[1] > -1) {
                 Log.d("manudata",Integer.toString(inputs[0])+Integer.toString(inputs[1]));
@@ -947,7 +973,7 @@ public class MainActivity extends FragmentActivity
 
 
     /** Customizes appearance for Ambient mode. (We don't do anything minus default.) */
-    private class MyAmbientCallback extends AmbientModeSupport.AmbientCallback {
+    private static class MyAmbientCallback extends AmbientModeSupport.AmbientCallback {
         /** Prepares the UI for ambient mode. */
         @Override
         public void onEnterAmbient(Bundle ambientDetails) {
@@ -969,6 +995,100 @@ public class MainActivity extends FragmentActivity
         @Override
         public void onExitAmbient() {
             super.onExitAmbient();
+        }
+    }
+
+    void disconnect() {
+        try {
+            //if (reader != null) reader.close();
+            //if (writer != null) writer.close();
+            socket.close();
+            socket = null;
+            //text_connect_info.setText("disconnected");
+        } catch (Exception e) {
+            //text_connect_info.setText(e.toString());
+        }
+    }
+
+    void send(String s) {
+        tmp_s = s;
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                if (socket != null) {
+                    writer.write(tmp_s);
+                    writer.flush();
+                }
+            }
+        }).start();
+    }
+//
+//    void recv(String s) {
+//        Log.d("b2wdebug", "receive: " + s);
+//        tmp_s = s;
+//        activity_uithread.runOnUiThread(new Runnable() {
+//            @Override
+//            public void run() {
+//                //text_0.setText(tmp_s);
+//            }
+//        });
+//    }
+
+    public static String bytesToHex(byte[] in) {
+        final StringBuilder builder = new StringBuilder();
+        for(byte b : in) {
+            builder.append(String.format("%02x", b));
+        }
+        return builder.toString();
+    }
+
+
+    @SuppressLint("StaticFieldLeak")
+    class NetworkAsyncTask extends AsyncTask<String, Integer, String> {
+
+        protected String doInBackground(String... params) {
+            try {
+                socket = new Socket(params[0], PORT);
+                reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+                writer = new PrintWriter(new OutputStreamWriter(socket.getOutputStream()));
+                Thread.sleep(300);
+                writer.print("Client Send!");
+                writer.flush();
+                listening = false;
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Log.d("b2wdebug", "listening");
+                        while (listening) {
+                            try {
+                                String s = reader.readLine();
+                                if (s == null) listening = false;
+//                                recv(s);
+                            } catch (Exception e) {
+                                Log.d("b2wdebug", "listen thread error: " + e.toString());
+                                listening = false;
+                                break;
+                            }
+                        }
+//                        activity_uithread.runOnUiThread(new Runnable() {
+//                            @Override
+//                            public void run() {
+//                                disconnect();
+//                            }
+//                        }
+//                        );
+                    }
+                }).start();
+                return socket.toString();
+            } catch (Exception e) {
+                socket = null;
+                return e.toString();
+            }
+        }
+
+        protected void onPostExecute(String string) {
+            Log.d("b2wdebug", "connect info: " + string);
+            //text_connect_info.setText(string);
         }
     }
 
