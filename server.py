@@ -3,19 +3,20 @@ import socket
 import socketserver
 import threading
 import pandas as pd
+import datetime
 
 PORT = 11121
-ip = socket.gethostbyname(socket.gethostname())
-ip = "192.168.1.101"
+#ip = socket.gethostbyname(socket.gethostname())
+ip = input("Input IP: ")
 print('[     ip     ]:', ip)
 
-col_names = ['session', 'block', 'trial', 'func_selected', 'func_target', 'configure', 'timestamp_pressed', 'timestamp_selected', 'func_id', 'timestamp_func_start']
+col_names = ['session', 'block', 'trial', 'func_selected', 'func_target', 'configure', 'timestamp_pressed', 'timestamp_selected', 'func_id', 'timestamp_func_start', 'mental','physical','overall']
 df = pd.DataFrame(columns=col_names)
 
 
 user = 'ztx'
 age = '31'
-filename = "./study1_data/"+user+'_'+age+'.csv'
+filename = "./study1_data/"+user+'_'+age
 
 '''
 # socketserver
@@ -41,19 +42,38 @@ server.bind((ip, PORT))
 server.listen(5)
 clients = []
 
+def rating_input(session, block, trial):
+	rating_raw = input("Mental, Physical, Overal Rating for Session"+session+" Block"+block+" Trial"+trial+" :")
+	n = 10
+	while n > 0:
+		try:
+			rating = rating_raw.split(' ')
+			if len(rating) == 3:
+				return rating
+			else:
+				raise Exception("Input Error!")
+		except:
+			rating_raw = input("Reenter rating:")
+		n = n - 1
+
 def send(client, s):
 	client.sendall(bytes(s + '\n', encoding='utf-8'))
 
 def recv(client, address, s):
 	global df
 	print('[%s:%d]: %s' % (address[0], address[1], s))
-	if len(s.split(";")) == len(col_names):
+	if len(s.split(";")) == len(col_names) - 3:
 		#print(s.split(";"))
-		df.loc[len(df)] = s.split(";")
+		s_array = s.split(";")
+		session = s_array[0]
+		block = s_array[1]
+		trial = s_array[2]
+		df.loc[len(df)] = s_array + rating_input(session, block, trial)
+		print("Done")
 		#row = pd.DataFrame(s.split(";"), columns=col_names, ignore_index=True)
 		#df = df.append(row, ignore_index=True)
 	elif s == "Experiment Finished":
-		df.to_csv(filename)
+		df.to_csv(filename+'.csv')
 
 def recv_thread(client, address):
 	while True:
@@ -82,9 +102,11 @@ t.start()
 
 try:
 	while True:
-		s = input()
-		print('[ broadcast  ] %d clients: "%s"' % (len(clients), s))
+		x = 1
+		#s = input()
+		#print('[ broadcast  ] %d clients: "%s"' % (len(clients), s))
 	#for client in clients:
 	#	send(client, s)
-except KeyboardInterrupt:
-	df.to_csv(filename)
+except:
+	dt = str(datetime.datetime.now()).split(' ')
+	df.to_csv(filename+'_'+dt[0]+'_'+dt[1].replace(':','_')+".csv")

@@ -190,10 +190,8 @@ public class MainActivity extends FragmentActivity
     PrintWriter writer;
     boolean listening;
     String tmp_s;
-    String ip = "192.168.1.101";
+    String ip = "192.168.1.100";
     log_data log_trial = new log_data();
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -231,6 +229,9 @@ public class MainActivity extends FragmentActivity
     protected void onResume() {
         super.onResume();
         Log.i("resume", "resume");
+        if (socket == null){
+            new NetworkAsyncTask().execute(ip);
+        }
         // Ensures Bluetooth is available on the device and it is enabled. If not,
         // displays a dialog requesting user permission to enable Bluetooth.
         if (bluetoothAdapter == null || !bluetoothAdapter.isEnabled()) {
@@ -256,6 +257,7 @@ public class MainActivity extends FragmentActivity
     protected void onPause() {
         super.onPause();
         scanLeDevice(false);
+        disconnect();
     }
 
     @Override
@@ -298,9 +300,19 @@ public class MainActivity extends FragmentActivity
         start_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (socket == null) {
+                int cnt = 10;
+                if (socket == null){
                     new NetworkAsyncTask().execute(ip);
                 }
+//                while (socket == null && cnt > 0) {
+//                    new NetworkAsyncTask().execute(ip);
+//                    if (socket.isConnected()){
+//                        break;
+//                    }
+//                    Log.e("wifi", "socket not connected!");
+//                    cnt -= 1;
+//                }
+
                 setupTrialview(block, trial);
             }
         });
@@ -399,6 +411,12 @@ public class MainActivity extends FragmentActivity
                     log_trial.session = session;
                     log_trial.block = block;
                     log_trial.trial = trial;
+                    if (socket == null){
+                        new NetworkAsyncTask().execute(ip);
+                    }
+                    else{
+                        Log.d("socket", String.valueOf(socket.isConnected()));
+                    }
                     send(log_trial.assemby_send_string());
                     log_trial = new log_data();
 
