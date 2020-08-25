@@ -6,7 +6,7 @@ import pandas as pd
 import datetime
 
 PORT = 11121
-#ip = socket.gethostbyname(socket.gethostname())
+# ip = socket.gethostbyname(socket.gethostname())
 ip = input("Input IP: ")
 print('[     ip     ]:', ip)
 
@@ -37,7 +37,7 @@ server.serve_forever()
 '''
 
 # 
-server = socket.socket()
+server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 server.bind((ip, PORT))
 server.listen(5)
 clients = []

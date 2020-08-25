@@ -2,7 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white">
+    android:background="@color/white"
+    android:id="@+id/func_select">
 
     <TextView
         android:id="@+id/function"
@@ -24,23 +25,23 @@
 
     <Button
         android:id="@+id/redo"
-        android:layout_width="55dp"
-        android:layout_height="40dp"
-        android:layout_marginStart="45dp"
+        android:layout_width="65dp"
+        android:layout_height="45dp"
+        android:layout_centerHorizontal="true"
         android:layout_marginTop="160dp"
         android:text="Redo"
-        android:textSize="12sp"
+        android:textSize="14sp"
         android:visibility="invisible"/>
 
-    <Button
-        android:id="@+id/nextTrial"
-        android:layout_width="55dp"
-        android:layout_height="40dp"
-        android:layout_marginStart="110dp"
-        android:layout_marginTop="160dp"
-        android:text="Next"
-        android:textSize="12sp"
-        android:visibility="invisible"/>
+<!--    <Button-->
+<!--        android:id="@+id/nextTrial"-->
+<!--        android:layout_width="55dp"-->
+<!--        android:layout_height="40dp"-->
+<!--        android:layout_marginStart="110dp"-->
+<!--        android:layout_marginTop="160dp"-->
+<!--        android:text="Next"-->
+<!--        android:textSize="12sp"-->
+<!--        android:visibility="invisible"/>-->
 
 
     <ImageView
