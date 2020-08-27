@@ -3,7 +3,7 @@
         {"id":"0", "function": "power", "device": ["TV"], "semantic": ["toggle"], "state": ["ON", "OFF"], "image": "power"},
         {"id":"1", "function": "channel", "device": ["TV"], "semantic": ["previous", "next"], "state": ["1-20"], "image": "channel"},
         {"id":"2", "function": "volume", "device": ["TV"], "semantic": ["adjust"], "state": ["0-30"], "image": "volume"},
-        {"id":"3", "function": "dim_mode", "device": ["curtain","light1", "light2"], "semantic": ["toggle"], "state": ["ON","OFF"], "image": "curtain"},
+        {"id":"3", "function": "lights", "device": ["All Lights"], "semantic": ["toggle"], "state": ["ON","OFF"], "image": "curtain"},
         {"id":"4", "function": "power", "device": ["AC"], "semantic": ["toggle"], "state": ["ON","OFF"], "image": "AC"},
         {"id":"5", "function": "fan", "device": ["AC"], "semantic": ["previous","next"], "state": ["1-3"], "image": "AC"},
         {"id":"6", "function": "temperature", "device": ["AC"], "semantic": ["adjust"], "state": ["15-30"], "image": "AC"},

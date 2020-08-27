@@ -11,10 +11,10 @@
         android:id="@+id/device2"
         android:layout_marginTop="25dp"
         android:layout_centerHorizontal="true"
-        android:textAlignment="center"
+        android:gravity="center"
         android:textSize="25sp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_width="120dp"
+        android:layout_height="40dp" />
 
     <TextView
         android:id="@+id/state_text2"

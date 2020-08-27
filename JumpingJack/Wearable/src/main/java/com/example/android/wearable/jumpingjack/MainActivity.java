@@ -197,7 +197,8 @@ public class MainActivity extends FragmentActivity
     boolean listening;
     String tmp_s;
 //    String ip = "192.168.43.224";
-    String ip = "192.168.1.100";
+ //   String ip = "192.168.1.100";
+    String ip = "10.127.44.126";
     log_data log_trial = new log_data();
     Context context;
 
@@ -255,7 +256,7 @@ public class MainActivity extends FragmentActivity
                            .setCallbackType(ScanSettings.CALLBACK_TYPE_ALL_MATCHES)//
                            .build();
 //            ScanFilter namefilter = new ScanFilter.Builder().setManufacturerData(0x0059, new byte[]{0x00, 0x59}, new byte[]{(byte) 0xFF, (byte) 0xFF}).build();
-            ScanFilter namefilter = new ScanFilter.Builder().setDeviceName("BoldMove").build();
+            ScanFilter namefilter = new ScanFilter.Builder().setDeviceName("BoldMove1").build();
 
             filters.add(namefilter);
             scanLeDevice(true);
@@ -286,7 +287,7 @@ public class MainActivity extends FragmentActivity
         // reinitialize states of all devices
         for (function f:all_functions
         ) {
-            device_states[f.get_id()] = 0;
+            device_states[f.get_id()] = 1;
         }
         // display block number
         if (block_num < 4) {
@@ -340,6 +341,11 @@ public class MainActivity extends FragmentActivity
 
         block_textview.setText(blocktext);
         task_textview.setText(tasktext);
+
+        for (function f:all_functions
+        ) {
+            device_states[f.get_id()] = 1;
+        }
 
         Log.d("view", Integer.toString(layoutId));
     }
@@ -418,6 +424,7 @@ public class MainActivity extends FragmentActivity
             log_trial.funcid_selected = current_function.get_id();
             circularProgress.stopTimer();
             circularProgress.setVisibility(View.INVISIBLE);
+
             stopfunction = true;
             // deal with state display
             final int functionid = current_function.get_id();
@@ -448,6 +455,12 @@ public class MainActivity extends FragmentActivity
                 TextView state_text = findViewById(R.id.state_text1);
                 state_text.setText(current_function.get_state()[temp_stateid]);
             }
+
+            if (semantic == 3){
+                SeekBar slider = findViewById(R.id.seekBar3);
+                slider.setEnabled(false);
+            }
+
 
 //            TextView state = findViewById(stateid);
 //            state.setText(current_function.get_state()[temp_stateid]);
@@ -534,28 +547,28 @@ public class MainActivity extends FragmentActivity
 
         // for slider selection
         if (pressed == 2 && layoutId == view_func_select){
-            log_trial.timestamp_selected = System.currentTimeMillis();
-            circularProgress.stopTimer();
-            circularProgress.setVisibility(View.INVISIBLE);
-            stopfunction = true;
-            // make buttons visible
-            TextView svalue = findViewById(R.id.state3_text);
-            String[] scale = current_function.get_state();
+            SeekBar slider = findViewById(R.id.seekBar3);
+            if (slider.isEnabled()) {
+                log_trial.timestamp_selected = System.currentTimeMillis();
+                circularProgress.stopTimer();
+                circularProgress.setVisibility(View.INVISIBLE);
+                stopfunction = true;
+                // make buttons visible
+                TextView svalue = findViewById(R.id.state3_text);
+                String[] scale = current_function.get_state();
 
-            int min  = Integer.parseInt(scale[0], 10);
-            int max = Integer.parseInt(scale[scale.length-1], 10);
-            int scaled_value = min + (max-min) * (SLIDER_VALUE)/ 15;
+                int min = Integer.parseInt(scale[0], 10);
+                int max = Integer.parseInt(scale[scale.length - 1], 10);
+                int scaled_value = min + (max - min) * (SLIDER_VALUE) / 15;
 
-            device_states[current_function.get_id()] = scaled_value - min;
-            //Log.d("scale", scale[0]+"-"+scale[scale.length-1]+"-"+min+"-"+max+"-"+scaled_value);
-            svalue.setText(Integer.toString(scaled_value));
+                device_states[current_function.get_id()] = scaled_value - min;
+                //Log.d("scale", scale[0]+"-"+scale[scale.length-1]+"-"+min+"-"+max+"-"+scaled_value);
+                svalue.setText(Integer.toString(scaled_value));
 
-            SeekBar slider = findViewById(R.id.seekBar);
-            slider.setEnabled(false);
-            slider.setMax(max);
-            slider.setMin(min);
-            slider.setProgress(scaled_value);
-
+                slider.setMax(max);
+                slider.setMin(min);
+                slider.setProgress(scaled_value);
+            }
         }
     }
 
@@ -611,23 +624,24 @@ public class MainActivity extends FragmentActivity
             if (sem == 2) {
                 Switch toggle = findViewById(R.id.switch2);
                 toggle.setChecked(current_state == 0);
+                toggle.jumpDrawablesToCurrentState();
                 TextView state_text = findViewById(R.id.state_text2);
                 state_text.setText(current_function.get_state()[current_state]);
             }
 
             if (sem == 3) {
-                SeekBar slider = findViewById(R.id.seekBar);
-                slider.setEnabled(false);
+                SeekBar slider = findViewById(R.id.seekBar3);
+                //slider.setEnabled(false);
                 String[] scale = current_function.get_state();
                 int min  = Integer.parseInt(scale[0], 10);
                 int max = Integer.parseInt(scale[scale.length-1], 10);
-                int scaled_value = min + (max-min) * (SLIDER_VALUE)/ 15;
+                //int scaled_value = min + (max-min) * (SLIDER_VALUE)/ 15;
                 slider.setMax(max);
                 slider.setMin(min);
-                slider.setProgress(scaled_value);
+                slider.setProgress(Integer.parseInt(scale[current_state]));
 
                 TextView slider_value = findViewById(R.id.state3_text);
-                slider_value.setText(Integer.toString(current_state));
+                slider_value.setText(scale[current_state]);
 
             }
 
@@ -744,7 +758,7 @@ public class MainActivity extends FragmentActivity
             }
         };
 
-        if (abs(SLIDER_VALUE-getByteValues(advdata[3])[1])>5){  // deal with noises
+        if (abs(SLIDER_VALUE-getByteValues(advdata[3])[1])>2){  // deal with noises
             semantic = 3;
             SLIDER_VALUE = getByteValues(advdata[3])[1];//获得后四位值
             // slider pressed
