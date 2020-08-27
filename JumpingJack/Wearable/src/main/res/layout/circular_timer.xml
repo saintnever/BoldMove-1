@@ -3,10 +3,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    android:id="@+id/func_select">
+    android:id="@+id/circular_timer">
 
     <TextView
-        android:id="@+id/function"
+        android:id="@+id/device"
         android:layout_marginTop="80dp"
         android:layout_centerHorizontal="true"
         android:textAlignment="center"
@@ -45,7 +45,7 @@
 
 
     <ImageView
-        android:id="@+id/device"
+        android:id="@+id/function"
         android:src="@drawable/ac"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
