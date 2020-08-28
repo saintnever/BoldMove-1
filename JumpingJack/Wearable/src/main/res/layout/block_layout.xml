@@ -14,11 +14,20 @@
         android:text="@string/block_num" />
 
     <TextView
+        android:id="@+id/trial"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="140dp"
+        android:textSize="30sp"
+        android:text="@string/task_num" />
+
+    <TextView
         android:id="@+id/task"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="120dp"
+        android:layout_marginTop="90dp"
         android:textSize="30sp"
         android:text="@string/task_num" />
 

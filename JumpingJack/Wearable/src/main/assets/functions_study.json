@@ -1,18 +1,18 @@
 {
     "functions_study1":[
         {"id":"0", "function": "power", "device": ["TV"], "semantic": ["toggle"], "state": ["ON", "OFF"], "image": "power"},
-        {"id":"1", "function": "channel", "device": ["TV"], "semantic": ["previous", "next"], "state": ["1-20"], "image": "channel"},
+        {"id":"1", "function": "channel", "device": ["TV"], "semantic": ["previous", "next"], "state": ["CH1", "CH2", "CH3", "CH4", "CH5"], "image": "channel"},
         {"id":"2", "function": "volume", "device": ["TV"], "semantic": ["adjust"], "state": ["0-30"], "image": "volume"},
         {"id":"3", "function": "lights", "device": ["All Lights"], "semantic": ["toggle"], "state": ["ON","OFF"], "image": "curtain"},
         {"id":"4", "function": "power", "device": ["AC"], "semantic": ["toggle"], "state": ["ON","OFF"], "image": "AC"},
-        {"id":"5", "function": "fan", "device": ["AC"], "semantic": ["previous","next"], "state": ["1-3"], "image": "AC"},
+        {"id":"5", "function": "fan", "device": ["AC"], "semantic": ["previous","next"], "state": ["LOW", "MEDIUM", "HIGH"], "image": "AC"},
         {"id":"6", "function": "temperature", "device": ["AC"], "semantic": ["adjust"], "state": ["15-30"], "image": "AC"},
         {"id":"7", "function": "play", "device": ["Speaker"], "semantic": ["toggle"], "state": ["PLAYING","PAUSED"], "image": "Speaker"},
         {"id":"8", "function": "song", "device": ["Speaker"], "semantic": ["previous","next"], "state": ["Beat It", "We Are The World", "Billie Jean"], "image": "Speaker"},
         {"id":"9", "function": "volume", "device": ["Speaker"], "semantic": ["adjust"], "state": ["0-30"], "image": "Speaker"},
         {"id":"10", "function": "mute", "device": ["Laptop"], "semantic": ["toggle"], "state": ["MUTED", "UNMUTED"], "image": "Laptop"},
         {"id":"11", "function": "page", "device": ["Laptop"], "semantic": ["previous","next"], "state": ["1-20"], "image": "Laptop"},
-        {"id":"12", "function": "display", "device": ["Laptop"], "semantic": ["previous","next"], "state": ["1","2"], "image": "Laptop"},
+        {"id":"12", "function": "display", "device": ["Laptop"], "semantic": ["previous","next"], "state": ["Monitor1","Monitor2"], "image": "Laptop"},
         {"id":"13", "function": "volume", "device": ["Laptop"], "semantic": ["adjust"], "state": ["0-30"], "image": "Laptop"},
         {"id":"14", "function": "brightness", "device": ["Laptop"], "semantic": ["adjust"], "state": ["0-100"], "image": "Laptop"}
     ],

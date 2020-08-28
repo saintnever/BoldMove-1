@@ -10,11 +10,11 @@ PORT = 11121
 ip = input("Input IP: ")
 print('[     ip     ]:', ip)
 
-col_names = ['session', 'block', 'trial', 'func_selected', 'func_target', 'configure', 'timestamp_pressed', 'timestamp_selected', 'func_id', 'timestamp_func_start', 'mental','physical','overall']
+col_names = ['session', 'block', 'trial', 'func_selected', 'func_target', 'configure', 'timestamp_pressed', 'timestamp_selected', 'func_id', 'timestamp_func_start','overall', 'mental','physical']
 df = pd.DataFrame(columns=col_names)
 
 
-user = 'ztx'
+user = input("Input User: ")
 age = '31'
 filename = "./study1_data/"+user+'_'+age
 
@@ -43,7 +43,7 @@ server.listen(5)
 clients = []
 
 def rating_input(session, block, trial):
-	rating_raw = input("Mental, Physical, Overal Rating for Session"+session+" Block"+block+" Trial"+trial+" :")
+	rating_raw = input("Overal, Mental, Physical Rating for Session"+session+" Block"+block+" Trial"+trial+" :")
 	n = 10
 	while n > 0:
 		try:
@@ -88,7 +88,7 @@ def recv_thread(client, address):
 def listen_thread():
 	global clients
 	print('[ listening  ] ...')
-	while True:
+	if len(clients) == 0:
 		client, address = server.accept()
 		clients.append(client)
 		print('[ connected  ]: %s:%d (%d)' % (address[0], address[1], len(clients)))

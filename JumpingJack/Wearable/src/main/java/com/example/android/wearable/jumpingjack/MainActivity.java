@@ -68,6 +68,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.net.SocketException;
 import java.text.BreakIterator;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -197,10 +198,11 @@ public class MainActivity extends FragmentActivity
     boolean listening;
     String tmp_s;
 //    String ip = "192.168.43.224";
- //   String ip = "192.168.1.100";
-    String ip = "10.127.44.126";
+    String ip = "192.168.1.100";
+ //   String ip = "10.127.44.126";
     log_data log_trial = new log_data();
     Context context;
+    List<Integer> tasks = new ArrayList<Integer>(Arrays.<Integer>asList(0,1,2,3));
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -222,6 +224,7 @@ public class MainActivity extends FragmentActivity
 
         device_states = new int[all_functions.size()];
 
+        Collections.shuffle(tasks);
 
         handler= new Handler();
         final BluetoothManager bluetoothManager =
@@ -230,6 +233,12 @@ public class MainActivity extends FragmentActivity
 
         if(socket == null) {
             new NetworkAsyncTask().execute(ip);
+        }
+        else {
+            if (!socket.isConnected()){
+                disconnect();
+                new NetworkAsyncTask().execute(ip);
+            }
         }
         send("New Experiment\n");
         setupstartview(block);
@@ -241,9 +250,15 @@ public class MainActivity extends FragmentActivity
     protected void onResume() {
         super.onResume();
         Log.i("resume", "resume");
-        if (socket == null){
-            new NetworkAsyncTask().execute(ip);
-        }
+//        if (socket == null){
+//            new NetworkAsyncTask().execute(ip);
+//        }
+//        else {
+//            if (!socket.isConnected()){
+//                disconnect();
+//                new NetworkAsyncTask().execute(ip);
+//            }
+//        }
         // Ensures Bluetooth is available on the device and it is enabled. If not,
         // displays a dialog requesting user permission to enable Bluetooth.
         if (bluetoothAdapter == null || !bluetoothAdapter.isEnabled()) {
@@ -269,7 +284,6 @@ public class MainActivity extends FragmentActivity
     protected void onPause() {
         super.onPause();
         scanLeDevice(false);
-        disconnect();
     }
 
     @Override
@@ -305,7 +319,6 @@ public class MainActivity extends FragmentActivity
         else{
             session_textview.setText("Experiment Finished");
             send("Experiment Finished!\n");
-            disconnect();
         }
 
         Button start_button = findViewById(R.id.button_start);
@@ -315,6 +328,12 @@ public class MainActivity extends FragmentActivity
                 int cnt = 10;
                 if (socket == null){
                     new NetworkAsyncTask().execute(ip);
+                }
+                else {
+                   if (!socket.isConnected()){
+                       disconnect();
+                       new NetworkAsyncTask().execute(ip);
+                   }
                 }
 //                while (socket == null && cnt > 0) {
 //                    new NetworkAsyncTask().execute(ip);
@@ -335,13 +354,32 @@ public class MainActivity extends FragmentActivity
     private void setupTrialview(int block_num, int trial_num){
         setContentView(R.layout.block_layout);
         TextView block_textview = findViewById(R.id.block);
+        TextView trial_textview = findViewById(R.id.trial);
         TextView task_textview = findViewById(R.id.task);
         String blocktext = "Block "+ block_num;
-        String tasktext = "Trial "+ trial_num;
+        String trialtext = "Trial "+ trial_num;
+        String tasktext;
+        switch (tasks.get(block_num)){
+            case 0:
+                tasktext = "Turn On TV";
+                break;
+            case 1:
+                tasktext = "Next TV Channel";
+                break;
+            case 2:
+                tasktext = "Adjust TV Volume";
+                break;
+            case 3:
+                tasktext = "Turn All Lights Off";
+                break;
+            default:
+                tasktext = "error";
+                break;
+        }
 
         block_textview.setText(blocktext);
+        trial_textview.setText(trialtext);
         task_textview.setText(tasktext);
-
         for (function f:all_functions
         ) {
             device_states[f.get_id()] = 1;
@@ -397,30 +435,30 @@ public class MainActivity extends FragmentActivity
 //            //写入log文件，当前参数
 //            Log.d("currentSettings", functionOrder+" "+ functionTime +" "+ task +" "+session);
 
-            final List<function> functions = functionList(semantic, trial_num, functionOrder);
+            final List<function> functions = functionList(semantic, block, functionOrder);
             for (int j = 0; j < functions.size(); j++) {
                 log_trial.func_id[j] = functions.get(j).get_id();
             }
-            log_trial.funcid_target = log_trial.func_id[functionOrder];
+            log_trial.funcid_target = tasks.get(block);
 
             circularProgress = (CircularProgressLayout) findViewById(cp);
             Log.e("display", Integer.toString(circularProgress.getId()));
 
             circularProgress.setTotalTime(functionTime * 1000);
             stopfunction = false;
-            if (session == 1) {
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException ex) {
-                    Thread.currentThread().interrupt();
-                }
-            }
+//            if (session == 1) {
+//                try {
+//                    Thread.sleep(1000);
+//                } catch (InterruptedException ex) {
+//                    Thread.currentThread().interrupt();
+//                }
+//            }
             updatefunctionview(index, functions, circularProgress, semantic, funcid, deviceid);
 
         }
 
         if (pressed == 0 && layoutId == view_func_select){
-            log_trial.timestamp_selected = System.currentTimeMillis();
+            log_trial.timestamp_selected = System.currentTimeMillis()-log_trial.timestamp_pressed;
             log_trial.funcid_selected = current_function.get_id();
             circularProgress.stopTimer();
             circularProgress.setVisibility(View.INVISIBLE);
@@ -461,6 +499,10 @@ public class MainActivity extends FragmentActivity
                 slider.setEnabled(false);
             }
 
+            log_trial.session = session;
+            log_trial.block = block;
+            log_trial.trial = trial;
+            send(log_trial.assemby_send_string());
 
 //            TextView state = findViewById(stateid);
 //            state.setText(current_function.get_state()[temp_stateid]);
@@ -476,16 +518,12 @@ public class MainActivity extends FragmentActivity
                 @Override
                 public void onClick(View v) {
                     device_states[functionid] = finalTemp_stateid;
-                    log_trial.session = session;
-                    log_trial.block = block;
-                    log_trial.trial = trial;
-                    if (socket == null){
-                        new NetworkAsyncTask().execute(ip);
-                    }
-                    else{
-                        Log.d("socket", String.valueOf(socket.isConnected()));
-                    }
-                    send(log_trial.assemby_send_string());
+//                    if (socket == null){
+//                        new NetworkAsyncTask().execute(ip);
+//                    }
+//                    else{
+//                        Log.d("socket", String.valueOf(socket.isConnected()));
+//                    }
                     log_trial = new log_data();
 
                     trial = trial + 1;
@@ -840,7 +878,7 @@ public class MainActivity extends FragmentActivity
         Collections.shuffle(semantic_functions);
         function target_function = new function();
         for (function item:semantic_functions) {
-            if (item.get_id() < 4){
+            if (item.get_id().equals(tasks.get(block))){
                 target_function = item;
                 semantic_functions.remove(item);
                 break;
@@ -1077,7 +1115,7 @@ public class MainActivity extends FragmentActivity
                 socket = new Socket(params[0], PORT);
                 reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
                 writer = new PrintWriter(new OutputStreamWriter(socket.getOutputStream()));
-                Thread.sleep(300);
+                Thread.sleep(500);
                 writer.print("Client Send!");
                 writer.flush();
                 listening = false;
