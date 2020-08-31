@@ -311,6 +311,7 @@ public class MainActivity extends FragmentActivity
             block_textview.setText("Session "+session+"Finished!");
             block = 0;
             session = session + 1;
+            Collections.shuffle(tasks);
         }
         // display session number
         if (session < 2){
@@ -458,7 +459,7 @@ public class MainActivity extends FragmentActivity
         }
 
         if (pressed == 0 && layoutId == view_func_select){
-            log_trial.timestamp_selected = System.currentTimeMillis()-log_trial.timestamp_pressed;
+            log_trial.timestamp_selected = System.currentTimeMillis();
             log_trial.funcid_selected = current_function.get_id();
             circularProgress.stopTimer();
             circularProgress.setVisibility(View.INVISIBLE);
