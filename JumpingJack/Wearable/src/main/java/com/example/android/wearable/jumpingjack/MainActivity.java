@@ -43,6 +43,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -197,9 +198,9 @@ public class MainActivity extends FragmentActivity
     PrintWriter writer;
     boolean listening;
     String tmp_s;
-//    String ip = "192.168.43.224";
+    // String ip = "192.168.43.224";
     String ip = "192.168.1.100";
- //   String ip = "10.127.44.126";
+   // String ip = "10.127.44.124";
     log_data log_trial = new log_data();
     Context context;
     List<Integer> tasks = new ArrayList<Integer>(Arrays.<Integer>asList(0,1,2,3));
@@ -209,6 +210,7 @@ public class MainActivity extends FragmentActivity
         super.onCreate(savedInstanceState);
         AmbientModeSupport.attach(this);
         context = getApplicationContext();
+       // getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
         blocks_StudyOne = new Integer[][]{{1, 0}, {1, 2}, {1, 4},{2,0},{2,2},{2,4},{3,0},{3,2},{3,4}};
         randomBlocks_StudyOne = new ArrayList<>();
@@ -270,8 +272,8 @@ public class MainActivity extends FragmentActivity
                            .setScanMode(ScanSettings.SCAN_MODE_LOW_LATENCY)//
                            .setCallbackType(ScanSettings.CALLBACK_TYPE_ALL_MATCHES)//
                            .build();
-//            ScanFilter namefilter = new ScanFilter.Builder().setManufacturerData(0x0059, new byte[]{0x00, 0x59}, new byte[]{(byte) 0xFF, (byte) 0xFF}).build();
-            ScanFilter namefilter = new ScanFilter.Builder().setDeviceName("BoldMove1").build();
+            ScanFilter namefilter = new ScanFilter.Builder().setManufacturerData(0x0059, new byte[]{0x00, 0x00, 0x00, 0x00}, new byte[]{(byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00}).build();
+ //           ScanFilter namefilter = new ScanFilter.Builder().setDeviceName("BoldMove1").build();
 
             filters.add(namefilter);
             scanLeDevice(true);
@@ -304,7 +306,7 @@ public class MainActivity extends FragmentActivity
             device_states[f.get_id()] = 1;
         }
         // display block number
-        if (block_num < 4) {
+        if (block_num < tasks.size()) {
             block_textview.setText("Block" + block_num);
         }
         else{
@@ -381,12 +383,24 @@ public class MainActivity extends FragmentActivity
         block_textview.setText(blocktext);
         trial_textview.setText(trialtext);
         task_textview.setText(tasktext);
+
         for (function f:all_functions
         ) {
             device_states[f.get_id()] = 1;
         }
 
         Log.d("view", Integer.toString(layoutId));
+
+        View trial_view = findViewById(R.id.trial_layout);
+        trial_view.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                log_trial = new log_data();
+                trial = trial - 1;
+                setupTrialview(block, trial);
+                return true;
+            }
+        });
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -459,7 +473,9 @@ public class MainActivity extends FragmentActivity
         }
 
         if (pressed == 0 && layoutId == view_func_select){
-            log_trial.timestamp_selected = System.currentTimeMillis();
+            if (semantic != 3) {
+                log_trial.timestamp_selected = System.currentTimeMillis();
+            }
             log_trial.funcid_selected = current_function.get_id();
             circularProgress.stopTimer();
             circularProgress.setVisibility(View.INVISIBLE);
@@ -548,40 +564,6 @@ public class MainActivity extends FragmentActivity
                 }
             });
 
-//            redo.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    log_trial = new log_data();
-//                    setupTrialview(block, trial);
-//                }
-//            });
-
-//            nextTrial.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    log_trial.session = session;
-//                    log_trial.block = block;
-//                    log_trial.trial = trial;
-//                    if (socket == null){
-//                        new NetworkAsyncTask().execute(ip);
-//                    }
-//                    else{
-//                        Log.d("socket", String.valueOf(socket.isConnected()));
-//                    }
-//                    send(log_trial.assemby_send_string());
-//                    log_trial = new log_data();
-//
-//                    trial = trial + 1;
-//                    if (trial == randomBlocks_StudyOne.size()){
-//                        block = block + 1;
-//                        trial = 0;
-//                        setupstartview(block);
-//                    }
-//                    else{
-//                        setupTrialview(block, trial);
-//                    }
-//                }
-//            });
         }
 
         // for slider selection
@@ -1067,22 +1049,36 @@ public class MainActivity extends FragmentActivity
         try {
             //if (reader != null) reader.close();
             //if (writer != null) writer.close();
+            //assert socket!= null;
             socket.close();
             socket = null;
+            if (writer != null) {
+                writer.close();
+            }
             //text_connect_info.setText("disconnected");
         } catch (Exception e) {
             //text_connect_info.setText(e.toString());
+            socket = null;
         }
     }
 
     void send(String s) {
         tmp_s = s;
         new Thread(new Runnable() {
+            //volatile boolean running = true;
             @Override
             public void run() {
+                //if (!running) return;
+
                 if (socket != null) {
                     writer.write(tmp_s);
+
                     writer.flush();
+                    try {
+                        Thread.sleep(5);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         }).start();
@@ -1114,27 +1110,27 @@ public class MainActivity extends FragmentActivity
         protected String doInBackground(String... params) {
             try {
                 socket = new Socket(params[0], PORT);
-                reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+                //reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
                 writer = new PrintWriter(new OutputStreamWriter(socket.getOutputStream()));
                 Thread.sleep(500);
                 writer.print("Client Send!");
                 writer.flush();
                 listening = false;
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Log.d("b2wdebug", "listening");
-                        while (listening) {
-                            try {
-                                String s = reader.readLine();
-                                if (s == null) listening = false;
-//                                recv(s);
-                            } catch (Exception e) {
-                                Log.d("b2wdebug", "listen thread error: " + e.toString());
-                                listening = false;
-                                break;
-                            }
-                        }
+//                new Thread(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        Log.d("b2wdebug", "listening");
+//                        while (listening) {
+//                            try {
+//                                String s = reader.readLine();
+//                                if (s == null) listening = false;
+////                                recv(s);
+//                            } catch (Exception e) {
+//                                Log.d("b2wdebug", "listen thread error: " + e.toString());
+//                                listening = false;
+//                                break;
+//                            }
+//                        }
 //                        activity_uithread.runOnUiThread(new Runnable() {
 //                            @Override
 //                            public void run() {
@@ -1142,11 +1138,16 @@ public class MainActivity extends FragmentActivity
 //                            }
 //                        }
 //                        );
-                    }
-                }).start();
+//                    }
+//                }).start();
                 return socket.toString();
             } catch (Exception e) {
+                   // assert socket != null;
+                   // socket.close();
                 socket = null;
+                if (writer != null){
+                    writer.close();
+                }
                 return e.toString();
             }
         }

@@ -77,7 +77,7 @@ def recv(client, address, s):
 
 def recv_thread(client, address):
 	while True:
-		b = client.recv(1024)
+		b = client.recv(256)
 		if len(b) <= 0:
 			clients.remove(client)
 			print('[disconnected]: %s:%d (%d)' % (address[0], address[1], len(clients)))
@@ -87,8 +87,8 @@ def recv_thread(client, address):
 
 def listen_thread():
 	global clients
-	print('[ listening  ] ...')
-	if len(clients) == 0:
+	if len(clients) < 2:
+		print('[ listening  ] ...')
 		client, address = server.accept()
 		clients.append(client)
 		print('[ connected  ]: %s:%d (%d)' % (address[0], address[1], len(clients)))
